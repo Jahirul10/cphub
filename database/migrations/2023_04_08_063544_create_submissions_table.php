@@ -15,14 +15,13 @@ return new class extends Migration
             $table->bigInteger('id')->unique();
             $table->string('problem_id');
             $table->string('language');
-            $table->string('oj');
             $table->timestamp('submissiontime')->nullable();
             $table->string('verdict');
-            $table->string('handle');
+            $table->string('student_id');
 
         });
-        
-        
+
+
     }
 
     /**

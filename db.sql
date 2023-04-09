@@ -4,9 +4,9 @@ VALUES ('1810876192','John Doe', '555-1234', '2017-18'),
 ('1810876194','John Doe', '555-1234', '2017-18');
 
 INSERT INTO problems (id, title, url, oj)
-VALUES ('1791e','Negatives and Positives', 'https://codeforces.com/contest/1791/problem/E'),
-('1454c','Sequence Transformation', 'https://codeforces.com/contest/1454/problem/C'),
-('580b','Kefa and Company', 'https://codeforces.com/contest/580/problem/B');
+VALUES ('1791e','Negatives and Positives', 'https://codeforces.com/contest/1791/problem/E', 'codeforces'),
+('1454c','Sequence Transformation', 'https://codeforces.com/contest/1454/problem/C', 'codeforces'),
+('580b','Kefa and Company', 'https://codeforces.com/contest/580/problem/B', 'codeforces');
 
 INSERT INTO submissions (id, problem_id, language, submissiontime, verdict, student_id)
 VALUES ('191959605','1791e', 'c++', '2023-02-27 15:35:20.311', 'accepted', '1810876192'),
