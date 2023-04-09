@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\student;
 use App\Models\submissions;
 use App\Models\problem;
+use Illuminate\Support\Facades\Log;
+
 
 class StudentController extends Controller
 {
@@ -21,6 +23,7 @@ class StudentController extends Controller
     {
         $student = student::findOrFail($id); // Retrieve the student by their ID
         $submissions = submissions::with('problem')->where('student_id', $id)->get(); // Retrieve all submissions by this student and eager load the associated problem
+
         return view('studentDashboard', compact('student', 'submissions')); // Pass the student and their submissions to the view
     }
 }
