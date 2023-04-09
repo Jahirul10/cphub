@@ -21,9 +21,13 @@ class StudentController extends Controller
 
     public function showSubmissionHistory($id)
     {
-        $student = student::findOrFail($id); // Retrieve the student by their ID
-        $submissions = submissions::with('problem')->where('student_id', $id)->get(); // Retrieve all submissions by this student and eager load the associated problem
+        // Retrieve the student by their ID
+        $student = student::findOrFail($id);
 
-        return view('studentDashboard', compact('student', 'submissions')); // Pass the student and their submissions to the view
+        // Retrieve all submissions by this student and eager load the associated problem
+        $submissions = submissions::with('problem')->where('student_id', $id)->get();
+
+        // Pass the student and their submissions to the view
+        return view('studentDashboard', compact('student', 'submissions'));
     }
 }
