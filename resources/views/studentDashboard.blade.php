@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -17,9 +16,7 @@
             <a class="navbar-brand" href="#">
                 <h4>CSERU</h4>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,8 +28,7 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -74,23 +70,19 @@
                     <div class="col">
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" value=""
-                                    aria-label="Checkbox for following text input">
+                                <input class="form-check-input" checked type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="basic-url" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value=""
-                                    aria-label="Checkbox for following text input">
+                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="basic-url" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value=""
-                                    aria-label="Checkbox for following text input">
+                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="basic-url" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value=""
-                                    aria-label="Checkbox for following text input">
+                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="basic-url" class="form-label">Spoj</label>
                             </div>
                         </div>
@@ -142,7 +134,7 @@
                                         options: {
                                             tooltips: {
                                                 callbacks: {
-                                                    label: function (tooltipItem, data) {
+                                                    label: function(tooltipItem, data) {
                                                         var label = data.labels[tooltipItem.index] || '';
                                                         if (label) {
                                                             label += ': ';
@@ -171,7 +163,7 @@
                                         options: {
                                             tooltips: {
                                                 callbacks: {
-                                                    label: function (tooltipItem, data) {
+                                                    label: function(tooltipItem, data) {
                                                         var label = data.labels[tooltipItem.index] || '';
                                                         if (label) {
                                                             label += ': ';
@@ -203,13 +195,21 @@
 
                                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                 <script type="text/javascript">
-                                    google.charts.load("current", { packages: ["calendar"] });
+                                    google.charts.load("current", {
+                                        packages: ["calendar"]
+                                    });
                                     google.charts.setOnLoadCallback(drawChart);
 
                                     function drawChart() {
                                         var dataTable = new google.visualization.DataTable();
-                                        dataTable.addColumn({ type: 'date', id: 'Date' });
-                                        dataTable.addColumn({ type: 'number', id: 'Won/Loss' });
+                                        dataTable.addColumn({
+                                            type: 'date',
+                                            id: 'Date'
+                                        });
+                                        dataTable.addColumn({
+                                            type: 'number',
+                                            id: 'Won/Loss'
+                                        });
                                         dataTable.addRows([
                                             [new Date(2012, 3, 13), 5],
                                             [new Date(2012, 3, 14), 1],
@@ -236,7 +236,11 @@
                                                 backgroundColor: '#f1f1f1',
                                                 color: '#fefefe'
                                             },
-                                            colorAxis: { minValue: 0, maxValue: 5, colors: ['#e2fcd3', '#006b05'] },
+                                            colorAxis: {
+                                                minValue: 0,
+                                                maxValue: 5,
+                                                colors: ['#e2fcd3', '#006b05']
+                                            },
                                             width: 1000
                                         };
 
@@ -258,16 +262,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($submissions as $submission)
                                         <tr>
-                                            <th scope="row">101</th>
-                                            <td>Mark</td>
-                                            <td>56</td>
-                                            <td>32</td>
-                                            <td>64</td>
-                                            <td>64</td>
+                                            <td>{{ $submission->id }}</td>
+                                            <td>{{ optional($submission->problem)->id }}</td>
+                                            <td>oj name</td>
+                                            <td>{{ $submission->verdict }}</td>
+                                            <td>{{ $submission->language }}</td>
+                                            <td>{{ $submission->submissiontime }}</td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
+                                @foreach ($submissions as $submission)
+                                @dd($submission)
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
@@ -315,16 +325,42 @@
 
 
     </div>
-    @foreach ($problemsubmissions as $problemsubmission)
-    <p>OJ: {{ $problemsubmission->oj }}</p>
-    <p>Problem title: {{ $problemsubmission->problemId }}</p>
-    @endforeach
+
+    <h1>{{ $student->name }}'s Submission History</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Problem ID</th>
+                <th>Language</th>
+                <th>Submission Time</th>
+                <th>Verdict</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($submissions as $submission)
+            <tr>
+                <td>{{ $submission->problem_id }}</td>
+                <td>{{ $submission->language }}</td>
+                <td>{{ $submission->submissiontime }}</td>
+                <td>{{ $submission->verdict }}</td>
+            </tr>
+            @endforeach
+            @foreach ($submissions as $submission)
+            <tr>
+                <td>{{ $submission->problem_id }}</td>
+                <td>{{ $submission->language }}</td>
+                <td>{{ $submission->submissiontime }}</td>
+                <td>{{ $submission->verdict }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
