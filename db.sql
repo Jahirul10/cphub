@@ -3,7 +3,7 @@ VALUES ('1810876192','John Doe', '555-1234', '2017-18'),
 ('1810876193','John Doe', '555-1234', '2017-18'),
 ('1810876194','John Doe', '555-1234', '2017-18');
 
-INSERT INTO problems (id, title, url)
+INSERT INTO problems (id, title, url, oj)
 VALUES ('1791e','Negatives and Positives', 'https://codeforces.com/contest/1791/problem/E'),
 ('1454c','Sequence Transformation', 'https://codeforces.com/contest/1454/problem/C'),
 ('580b','Kefa and Company', 'https://codeforces.com/contest/580/problem/B');
