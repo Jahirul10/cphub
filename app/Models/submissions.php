@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class submissions extends Model
 {
@@ -17,6 +19,7 @@ class submissions extends Model
 
     public function problem(): BelongsTo
     {
-        return $this->belongsTo(problem::class);
+        Log::info('Retrieving problem for submission ' . $this->id);
+        return $this->belongsTo(Problem::class);
     }
 }

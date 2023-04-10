@@ -265,19 +265,17 @@
                                         @foreach ($submissions as $submission)
                                         <tr>
                                             <td>{{ $submission->id }}</td>
-                                            <td>{{ optional($submission->problem)->id }}</td>
-                                            <td>oj name</td>
+                                            <td>{{ optional($submission->problem)->title }}</td>
+                                            <td>{{ optional($submission->problem)->oj }}</td>
                                             <td>{{ $submission->verdict }}</td>
                                             <td>{{ $submission->language }}</td>
                                             <td>{{ $submission->submissiontime }}</td>
                                         </tr>
+                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged
+                                        ?>
                                         @endforeach
                                     </tbody>
                                 </table>
-                                @foreach ($submissions as $submission)
-                                @dd($submission)
-                                @endforeach
-
                             </div>
                         </div>
                     </div>
@@ -323,40 +321,11 @@
             </div>
         </div>
 
+        @foreach ($submissions as $submission)
+        @dd($submission)
+        @endforeach
 
     </div>
-
-    <h1>{{ $student->name }}'s Submission History</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Problem ID</th>
-                <th>Language</th>
-                <th>Submission Time</th>
-                <th>Verdict</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($submissions as $submission)
-            <tr>
-                <td>{{ $submission->problem_id }}</td>
-                <td>{{ $submission->language }}</td>
-                <td>{{ $submission->submissiontime }}</td>
-                <td>{{ $submission->verdict }}</td>
-            </tr>
-            @endforeach
-            @foreach ($submissions as $submission)
-            <tr>
-                <td>{{ $submission->problem_id }}</td>
-                <td>{{ $submission->language }}</td>
-                <td>{{ $submission->submissiontime }}</td>
-                <td>{{ $submission->verdict }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
