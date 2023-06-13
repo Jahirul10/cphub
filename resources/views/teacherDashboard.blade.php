@@ -87,152 +87,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($students as $student)
+                                @foreach ($students as $student)
                                 <tr>
-                                    <td>{{$student->id}}</td>
-                                    <td>{{$student->name}}</td>
+                                    <th scope="row">{{ $student->id }}</th>
+                                    <td>{{ $student->name }}</td>
+                                    @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
+                                    <td>{{ $count }}</td>
+                                    @endforeach
+                                    @if (!isset($platformCounts[$student->id]))
+                                    <td>0</td>
+                                    @endif
                                 </tr>
                                 @endforeach
-                                @foreach ($submissionIds as $studentId => $submissions)
-                                @foreach ($submissions as $submissionId)
-                                <tr>
-                                    <td>{{ $submissionId }}</td>
-                                </tr>
-                                @endforeach
-                                @endforeach
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>

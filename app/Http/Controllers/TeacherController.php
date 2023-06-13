@@ -26,10 +26,24 @@ class TeacherController extends Controller
                 return $submissions->pluck('id')->toArray();
             })->toArray();
 
-        
 
+        $platformCounts = [];
+        foreach ($submissionIds as $studentId => $submissions) {
+            foreach ($submissions as $submissionId) {
+                $submission = Submissions::find($submissionId);
+                $platform = $submission->problem->oj;
 
+                if (!isset($platformCounts[$studentId][$platform])) {
+                    $platformCounts[$studentId][$platform] = 0;
+                }
 
-        return view('teacherDashboard', compact('students', 'submissionIds'));
+                if ($submission->verdict === 'accepted') {
+                    $platformCounts[$studentId][$platform]++;
+                }
+            }
+        }
+
+        return view('teacherDashboard', compact('students', 'submissionIds', 'platformCounts'));
+
     }
 }
