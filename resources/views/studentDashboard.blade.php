@@ -55,7 +55,10 @@
                         <div class="col ps-5">
                             <ul class=" mt-5">
                                 <ul class="">
-                                    <h4>Md. Jahirul Islam</h4>
+                                    <h4>{{$student->name}}</h4>
+                                    <h4>{{$student->id}}</h4>
+                                    <h4>{{$student->phone}}</h4>
+                                    <h4>{{$student->session}}</h4>
                                 </ul>
                                 <ul class="">
                                 </ul>
