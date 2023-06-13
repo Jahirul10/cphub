@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Teacher Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -17,9 +16,7 @@
             <a class="navbar-brand" href="#">
                 <h4>CSERU</h4>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,8 +28,7 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -54,10 +50,8 @@
                     <div class="input-group input-group-lg m-auto p-3 pb-1">
                         <input class="form-control" type="search" placeholder="Search" aria-label="search">
                         <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                                class="bi bi-search" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                             </svg>
                         </button>
                     </div>
@@ -65,10 +59,22 @@
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
                         <h4 class="card-title mb-2">Sessions</h4>
-                        <button type="button" class="btn btn-primary me-3">2015-16</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2015-16</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2015-16</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2015-16</button>
+                        <button type="button" class="btn btn-outline-primary me-3 active">2017-18</button>
+                        <button type="button" class="btn btn-outline-primary me-3">2018-19</button>
+                        <button type="button" class="btn btn-outline-primary me-3">2019-20</button>
+                        <button type="button" class="btn btn-outline-primary me-3">2020-21</button>
+
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $('.btn').click(function() {
+                                    $('.btn').removeClass('active');
+                                    $(this).addClass('active');
+                                });
+
+                            });
+                        </script>
+
                         <hr>
                         <table class="table table-hover">
                             <thead>
@@ -81,139 +87,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($students as $student)
                                 <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
+                                    <th scope="row">{{ $student->id }}</th>
+                                    <td>{{ $student->name }}</td>
+                                    @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
+                                    <td>{{ $count }}</td>
+                                    @endforeach
+                                    @if (!isset($platformCounts[$student->id]))
+                                    <td>0</td>
+                                    @endif
                                 </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">101</th>
-                                    <td>Mark</td>
-                                    <td>56</td>
-                                    <td>32</td>
-                                    <td>64</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -234,48 +119,33 @@
                     <div class="member-card pb-2">
                         <div class="float-right">
                             <button class="btn btn-outline border-0 float-end">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-x-lg" viewBox="0 0 16 16">
-                                    <path
-                                        d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                                 </svg>
                             </button>
                             <div class="thumb-lg member-thumb m-3 pt-5">
-                                <img src="asset/jahirul.png"
-                                    class="rounded-circle img-thumbnail" alt="profile-image" width="120">
+                                <img src="asset/jahirul.png" class="rounded-circle img-thumbnail" alt="profile-image" width="120">
                             </div>
                             <div class="">
                                 <h4>Md. Jahirul Islam</h4>
                                 <p class="text-muted">1610676145</p>
                             </div>
                             <ul class="social-links list-inline">
-                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip"
-                                        class="tooltips" href="" data-original-title="Facebook">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                                            <path
-                                                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
                                         </svg>
                                     </a>
                                 </li>
-                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip"
-                                        class="tooltips" href="" data-original-title="Twitter"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
-                                            <path
-                                                d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
                                         </svg></a></li>
-                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip"
-                                        class="tooltips" href="" data-original-title="Skype"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                                            <path
-                                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
                                         </svg></a>
                                 </li>
                             </ul>
-                            <button type="button"
-                                class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light" onclick="window.location.href='newStudent.html';">View
+                            <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light" onclick="window.location.href='newStudent.html';">View
                                 Profile</button>
                             <div class="row mt-5 ms-1 me-1">
                                 <div class="p-0" style="display:inline-block; width:50%;">
@@ -319,7 +189,7 @@
                                         options: {
                                             tooltips: {
                                                 callbacks: {
-                                                    label: function (tooltipItem, data) {
+                                                    label: function(tooltipItem, data) {
                                                         var label = data.labels[tooltipItem.index] || '';
                                                         if (label) {
                                                             label += ': ';
@@ -344,7 +214,7 @@
                                         options: {
                                             tooltips: {
                                                 callbacks: {
-                                                    label: function (tooltipItem, data) {
+                                                    label: function(tooltipItem, data) {
                                                         var label = data.labels[tooltipItem.index] || '';
                                                         if (label) {
                                                             label += ': ';
@@ -439,9 +309,8 @@
         </div>
     </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
