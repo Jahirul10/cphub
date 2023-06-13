@@ -19,7 +19,6 @@ class submissions extends Model
 
     public function problem(): BelongsTo
     {
-        Log::info('Retrieving problem for submission ' . $this->id);
         return $this->belongsTo(Problem::class);
     }
 }
