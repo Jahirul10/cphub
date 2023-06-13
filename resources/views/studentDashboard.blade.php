@@ -70,23 +70,54 @@
                     <div class="col">
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
-                                <input class="form-check-input" checked type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <label for="basic-url" class="form-label">All</label>
+                                <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <label for="all-checkbox" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <label for="basic-url" class="form-label">Codeforces</label>
+                                <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <label for="codeforces-checkbox" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <label for="basic-url" class="form-label">Vjudge</label>
+                                <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <label for="vjudge-checkbox" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <label for="basic-url" class="form-label">Spoj</label>
+                                <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <label for="spoj-checkbox" class="form-label">Spoj</label>
                             </div>
                         </div>
                     </div>
+
+                    <script>
+                        function handleCheckboxChange() {
+                            const allCheckbox = document.querySelector('#all-checkbox');
+                            const codeforcesCheckbox = document.querySelector('#codeforces-checkbox');
+                            const vjudgeCheckbox = document.querySelector('#vjudge-checkbox');
+                            const spojCheckbox = document.querySelector('#spoj-checkbox');
+
+                            var selectedJudgesCount = allCheckbox.checked + codeforcesCheckbox.checked + vjudgeCheckbox.checked + spojCheckbox.checked;
+                            console.log(selectedJudgesCount);
+
+                            if (selectedJudgesCount > 0 && selectedJudgesCount < 4) {
+
+                            } else if (!allCheckbox.checked) {
+                                codeforcesCheckbox.checked = false;
+                                vjudgeCheckbox.checked = false;
+                                spojCheckbox.checked = false;
+                                selectedJudgesCount = 0;
+                            } else if (allCheckbox.checked) {
+                                codeforcesCheckbox.checked = true;
+                                vjudgeCheckbox.checked = true;
+                                spojCheckbox.checked = true;
+                            }
+                        }
+
+                        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                        checkboxes.forEach((checkbox) => {
+                            checkbox.addEventListener('change', handleCheckboxChange);
+                        });
+                    </script>
+
                 </div>
 
                 <div class="row">
@@ -189,9 +220,8 @@
 
                             </div>
                             <hr>
-
                             <div class="row mt-3 ms-2">
-                                <div id="calendar_basic" style="width: 1000px; height: 175px;"></div>
+                                <div id="calendar_basic" style="width: auto; height: auto;"></div>
 
                                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                 <script type="text/javascript">
@@ -215,23 +245,13 @@
                                             [new Date(2012, 3, 14), 1],
                                             [new Date(2012, 3, 15), 9],
                                             [new Date(2012, 3, 16), 3],
-                                            [new Date(2012, 3, 17), 4],
-                                            // Many rows omitted for brevity.
-                                            // [new Date(2013, 9, 4), 38177],
-                                            // [new Date(2013, 9, 5), 38705],
-                                            // [new Date(2013, 9, 12), 38210],
-                                            // [new Date(2013, 9, 13), 38029],
-                                            // [new Date(2013, 9, 19), 38823],
-                                            // [new Date(2013, 9, 23), 38345],
-                                            // [new Date(2013, 9, 24), 38436],
-                                            // [new Date(2013, 9, 30), 38447]
+                                            [new Date(2012, 3, 17), 4]
                                         ]);
 
                                         var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
 
                                         var options = {
                                             title: "Daily Submission Heatmap",
-                                            height: 350,
                                             noDataPattern: {
                                                 backgroundColor: '#f1f1f1',
                                                 color: '#fefefe'
@@ -250,6 +270,7 @@
                             </div>
                             <hr>
                             <div class="mt-3">
+                                <h2 class="p-2">Submission Records</h2>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
