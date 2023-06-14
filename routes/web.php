@@ -21,3 +21,17 @@ use App\Http\Controllers\TeacherController;
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
+
+Route::get('images/{filename}', function ($filename) {
+    $path = public_path('images/' . $filename);
+    echo $path;
+    $permissions = fileperms($path);
+
+    // Output the file permissions
+    echo $permissions;
+    if (file_exists($path)) {
+        return response()->file($path);
+    } else {
+        abort(404);
+    }
+})->where('filename', '.*');
