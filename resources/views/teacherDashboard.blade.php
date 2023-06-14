@@ -88,7 +88,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($students as $student)
-                                <tr>
+                                <tr onclick="showStudentDetails('{{ $student->id }}', '{{ $student->name }}')">
                                     <th scope="row">{{ $student->id }}</th>
                                     <td>{{ $student->name }}</td>
                                     @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
@@ -104,16 +104,18 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-3"> -->
-            <!-- <div class="card"> -->
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
-            <!-- <div class="card-body"> -->
-            <!-- <h5 class="card-title">Card title</h5> -->
-            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk -->
-            <!-- of the card's content.</p> -->
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-            <!-- </div> -->
-            <!-- </div> -->
+
+            <script>
+                function showStudentDetails(studentId, studentName) {
+                    // Find the student details section
+                    var studentDetails = document.getElementById('student-details');
+
+                    // Update the student ID in the section
+                    studentDetails.innerHTML = `<h4>${studentName}</h4>
+                            <p>${studentId}</p>`;
+                }
+            </script>
+
             <div class="col-3">
                 <div class="text-center card">
                     <div class="member-card pb-2">
@@ -124,11 +126,9 @@
                                 </svg>
                             </button>
                             <div class="thumb-lg member-thumb m-3 pt-5">
-                                <img src="asset/jahirul.png" class="rounded-circle img-thumbnail" alt="profile-image" width="120">
+                                <img src="{{ asset('images/42.png') }}" class="rounded-circle img-thumbnail" alt="profile-image" width="120">
                             </div>
-                            <div class="">
-                                <h4>Md. Jahirul Islam</h4>
-                                <p class="text-muted">1610676145</p>
+                            <div id="student-details" class="">
                             </div>
                             <ul class="social-links list-inline">
                                 <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook">
