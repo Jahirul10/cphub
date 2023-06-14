@@ -1,7 +1,8 @@
-INSERT INTO students (id, name, phone, session)
-VALUES ('1810876192','John Doe', '555-1234', '2017-18'),
-('1810876193','John Doe', '555-1234', '2017-18'),
-('1810876194','John Doe', '555-1234', '2017-18');
+INSERT INTO students (id, name, phone, session, profilepic)
+VALUES ('1810876192','John Doe', '555-1234', '2017-18','storage\app\profileimage\1.jpg'),
+('1810876193','John Doe', '555-1234', '2017-18','storage\app\profileimage\2.jpg'),
+('1810876194','John Doe', '555-1234', '2017-18','storage\app\profileimage\3.jpeg'),
+('1810876177','John Doe', '555-1234', '2017-18','storage\app\profileimage\4.png');
 
 INSERT INTO problems (id, title, url, oj)
 VALUES ('1791e','Negatives and Positives', 'https://codeforces.com/contest/1791/problem/E', 'codeforces'),
