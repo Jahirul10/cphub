@@ -50,7 +50,7 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-2">
-                            <img class="rounded-circle shadow ms-4 mt-4 mb-4" alt="avatar2" src="asset/jahirul.png" />
+                        <img class="rounded-circle shadow ms-4 mt-4 mb-4" alt="avatar2" src="{{ asset('storage/app/profileimage/4.png') }}" />
                         </div>
                         <div class="col ps-5">
                             <ul class=" mt-5">
