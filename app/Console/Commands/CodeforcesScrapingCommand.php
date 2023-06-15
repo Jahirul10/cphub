@@ -34,8 +34,13 @@ class CodeforcesScrapingCommand extends Command
             $cfHandle = $handle->cfhandle;
             $studentId = $handle->id;
             
-            $command = 'php "' . base_path('app\scraping\codeforces.php"') . ' ' . $cfHandle . ' ' . $studentId;
-            exec('php "c:\Users\Jahirul Islam\Desktop\cph\cphub\app\scraping\codeforces.php"');
+            
+            $command = 'php "' . base_path('app/scraping/codeforces.php') . '" "' . $cfHandle . '" "' . $studentId . '"';
+            
+            // Execute the command and capture the output
+            shell_exec($command);
+            
+            // Print the output
             // echo $command;
 
         }
