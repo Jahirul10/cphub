@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('phone');
             $table->string('name');
             $table->string('session');
-            $table->binary('profilePic')->nullable();
 
         });
     }
