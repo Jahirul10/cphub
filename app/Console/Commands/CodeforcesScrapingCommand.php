@@ -27,15 +27,16 @@ class CodeforcesScrapingCommand extends Command
     public function handle()
     {
         // Retrieve all student IDs and Codeforces handles
-        $handles = Handle::select('id', 'cfhandle')->get();
+        $handles = Handle::select('id', 'cfhandle', 'cf_last_submission')->get();
 
         // Loop through the handles and execute codeforces.php with the parameters
         foreach ($handles as $handle) {
             $cfHandle = $handle->cfhandle;
             $studentId = $handle->id;
+            $cfLast=$handle->cf_last_submission;
             
             
-            $command = 'php "' . base_path('app/scraping/codeforces.php') . '" "' . $cfHandle . '" "' . $studentId . '"';
+            $command = 'php "' . base_path('app/scraping/codeforces.php') . '" "' . $cfHandle . '" "' . $studentId . '" "' . $cfLast . '"';
             
             // Execute the command and capture the output
             shell_exec($command);

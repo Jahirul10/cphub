@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('cfhandle');
             $table->string('vjhandle');
             $table->string('spojhandle');
+            $table->bigInteger('cf_last_submission');
+            $table->bigInteger('vj_last_submission');
+            $table->bigInteger('spoj_last_submission');
 
         });
     }
