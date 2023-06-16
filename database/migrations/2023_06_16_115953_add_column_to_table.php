@@ -11,18 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('submissions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('problem_id');
-            $table->string('language');
-            $table->timestamp('submissiontime')->nullable();
-            $table->string('verdict');
-            $table->string('student_id');
+        Schema::table('submissions', function (Blueprint $table) {
             $table->bigInteger('submission_id');
-
         });
-
-
     }
 
     /**
@@ -30,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submissions');
+        Schema::table('submissions', function (Blueprint $table) {
+            //
+        });
     }
 };
