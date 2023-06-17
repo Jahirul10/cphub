@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('codeforces:scraping')->everyMinute();
+
+        $schedule->command('app:vjudge-scraping-command')->everyMinute();
+
         $schedule->command('spoj:scraping')->everyMinute();
     }
 
