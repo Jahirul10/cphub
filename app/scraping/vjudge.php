@@ -35,17 +35,28 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
         $unixToDatetime = date('Y-m-d H:i:s', $x['time'] / 1000);
         // var_dump($x['oj']);
         if($lastSubmission<$x['runId']){
-            if($x['oj']=='CodeForces'){
-                $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-            }
-            elseif($x['oj']=='SPOJ'){
-                $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-            }
-            else {
-                $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-            }
+
             $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
-            $index = array($x['probNum'], $x['oj'] . $x['probNum'], $x['oj'],$url);
+
+            if($x['oj']!='CodeForces' || $x['oj']=='SPOJ'){
+                $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'Vjugde',$url);
+            }
+            else{
+                $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+                $index = array($x['probNum'], $x['oj'] . $x['probNum'], $x['oj'],$url);
+            }
+            // if($x['oj']=='CodeForces'){
+            //     $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+            // }
+            // elseif($x['oj']=='SPOJ'){
+            //     $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+            // }
+            // else {
+            //     $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+            // }
+            // $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
+            // $index = array($x['probNum'], $x['oj'] . $x['probNum'], $x['oj'],$url);
             if (!in_array($index, $uniqueIndexSet)) {
                 // Insert the index into the set
                 $uniqueIndexSet[] = $index;
