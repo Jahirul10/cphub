@@ -7,7 +7,7 @@ if (count($argv) < 4) {
 $handle = $argv[1];
 $studentId = $argv[2];
 $lastSubmission=$argv[3];
-$url = 'https://codeforces.com/api/user.status?handle=' . $handle . '&from=1&count=10';
+$url = 'https://codeforces.com/api/user.status?handle=' . $handle . '&from=1&count=10000';
 $options = array(
     'http' => array(
         'header' => 'Content-type: application/json',
@@ -32,7 +32,7 @@ foreach ($myjson['result'] as $x) {
     }
     if($lastSubmission<$x['id']){
         $listing = array($x['id'], $x['contestId'].$x['problem']['index'], $x['programmingLanguage'], $date, $x['verdict']);
-        
+
         $index = array($x['contestId'] . $x['problem']['index'], $x['problem']['name'], 'codeforces', $x['contestId'], $x['problem']['index']);
         if (!in_array($index, $uniqueIndexSet)) {
             // Insert the index into the set

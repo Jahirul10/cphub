@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Submissions;
+use App\Models\Problem;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,11 +17,11 @@ class TeacherController extends Controller
 
         $submissionIds = Submissions::whereIn('student_id', $students->pluck('id'))
             ->where('verdict', 'accepted')
-            ->select('student_id', 'id')
+            ->select('student_id', 'submission_id')
             ->get()
             ->groupBy('student_id')
             ->map(function ($submissions) {
-                return $submissions->pluck('id')->toArray();
+                return $submissions->pluck('submission_id')->toArray();
             })->toArray();
 
 
@@ -33,15 +34,16 @@ class TeacherController extends Controller
 
         foreach ($submissionIds as $studentId => $submissions) {
             foreach ($submissions as $submissionId) {
-                $submission = Submissions::find($submissionId);
-                $platform = $submission->problem->oj;
+                
+                $submission = Submissions::where('submission_id', $submissionId)->get();
 
-                if ($submission->verdict === 'accepted') {
+                $platform = Problem::where('id', $submission->pluck('problem_id'))->first()->oj;
+
+                if ($submission->pluck('verdict')->first() === 'ACCEPTED') {
                     $platformCounts[$studentId][$platform]++;
                 }
             }
         }
-
 
         return view('teacherDashboard', compact('students', 'submissionIds', 'platformCounts'));
 
