@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('codeforces:scraping')->everyMinute();
+        $schedule->command('spoj:scraping')->everyMinute();
     }
 
     /**
