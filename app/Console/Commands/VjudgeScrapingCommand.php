@@ -12,7 +12,7 @@ class VjudgeScrapingCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:vjudge-scraping-command';
+    protected $signature = 'vjudge:scraping';
 
     /**
      * The console command description.

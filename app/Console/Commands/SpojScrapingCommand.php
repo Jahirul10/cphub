@@ -40,9 +40,8 @@ class SpojScrapingCommand extends Command
 
             // Execute the command and capture the output
             shell_exec($command);
-
             // Print the output
-            echo $command;
+            // echo $command;
         }
     }
 }
