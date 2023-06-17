@@ -92,7 +92,7 @@
                                     <th scope="row">{{ $student->id }}</th>
                                     <td>{{ $student->name }}</td>
                                     @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
-                                    <td>{{ $count }}</td>
+                                    <td>{{ $count }} + {{$platform}}</td>
                                     @endforeach
                                     @if (!isset($platformCounts[$student->id]))
                                     <td>0</td>

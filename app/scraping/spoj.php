@@ -19,13 +19,14 @@ function scrapeSubmissions($handle, $studentId, $lastSubmission)
         die("Database connection failed: " . $e->getMessage());
     }
 
-    $stmt = $pdo->prepare("INSERT IGNORE INTO submissions (submission_id, submissiontime, problem_id, language, verdict, student_id) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT IGNORE INTO submissions (submission_id, submissiontime, problem_id, verdict, language, student_id) VALUES (?, ?, ?, ?, ?, ?)");
 
     $problemMap = array();
 
     // Prepare and execute the query
     $stmtToGetProblem = $pdo->prepare("SELECT id, title FROM problems");
     $stmtToGetProblem->execute();
+    // print_r($stmtToGetProblem);
 
     $existingSubmissions = array();
     $queryToInsertProblem = $pdo->prepare("INSERT IGNORE INTO problems (id, title, url, oj) Values(?, ?, ?, ?)");
@@ -104,7 +105,7 @@ function scrapeSubmissions($handle, $studentId, $lastSubmission)
                             $uniqueProblems[] = 'spoj';
                             $queryToInsertProblem->execute($uniqueProblems);
 
-                            print_r($uniqueProblems);
+                            // print_r($uniqueProblems);
                         }
                     }
                 }
