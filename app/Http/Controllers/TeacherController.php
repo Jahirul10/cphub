@@ -34,12 +34,26 @@ class TeacherController extends Controller
 
         foreach ($submissionIds as $studentId => $submissions) {
             foreach ($submissions as $submissionId) {
-                
+
                 $submission = Submissions::where('submission_id', $submissionId)->get();
 
-                $platform = Problem::where('id', $submission->pluck('problem_id'))->first()->oj;
+                $problemId = Submissions::where('submission_id', $submissionId)->value('problem_id');
+                // echo "\n";
+                // print_r($studentId);
 
-                if ($submission->pluck('verdict')->first() === 'ACCEPTED') {
+
+                $platform = Problem::where('id', $problemId)->value('oj');
+                // echo "\n";
+
+                $verdict = $submission->pluck('verdict')->first();
+                if (strcasecmp($verdict, 'ACCEPTED') == 0) {
+                    // print_r($platformCounts['1810876124']['spoj']);
+                    // print_r($verdict);
+
+                    if (!isset($platformCounts[$studentId][$platform])) {
+                        $platformCounts[$studentId][$platform] = 0;
+                    }
+
                     $platformCounts[$studentId][$platform]++;
                 }
             }
