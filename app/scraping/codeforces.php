@@ -38,14 +38,14 @@ foreach ($myjson['result'] as $x) {
             // Insert the index into the set
             $uniqueIndexSet[] = $index;
         }
+        // print_r($index);
 
         array_push($ourdata, $listing);
     }
     $temp=max($x['id'], $temp);
 }
 $lastSubmission=$temp;
-print_r($uniqueIndexSet);
-
+// print_r($uniqueIndexSet);
 $host = 'localhost';
 $dbname = 'db';
 $username = 'root';
@@ -87,7 +87,7 @@ try {
         }
     }
 
-    print_r($problemMap);
+    // print_r($problemMap);
 
     foreach($uniqueIndexSet as $unique)
     {
