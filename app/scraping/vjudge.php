@@ -38,13 +38,17 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
 
             $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
 
-            if($x['oj']!='CodeForces' || $x['oj']!='SPOJ'){
-                $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'vjudge',$url);
-            }
-            else{
+            // echo $x['oj'];
+            if($x['oj']=== 'CodeForces' || $x['oj'] === 'SPOJ'){
+                // echo $x['oj'];
                 $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
                 $index = array($x['probNum'], $x['oj'] . $x['probNum'], strtolower($x['oj']),$url);
+            }
+            else{
+                // echo 'hello';
+                $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'vjudge',$url);
+                
             }
             // if($x['oj']=='CodeForces'){
             //     $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);

@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Problem;
 use App\Models\Student;
 use App\Models\Submissions;
-use App\Models\Problem;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
     public function dashboard()
     {
-        $students = Student::where('session', '2020-21')->get();
+        $students = Student::where('session', '2019-20')->get();
 
         $submissionIds = Submissions::whereIn('student_id', $students->pluck('id'))
             ->where('verdict', 'accepted')
