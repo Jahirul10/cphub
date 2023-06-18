@@ -40,7 +40,7 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
 
             if($x['oj']!='CodeForces' || $x['oj']=='SPOJ'){
                 $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'Vjugde',$url);
+                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'Vjudge',$url);
             }
             else{
                 $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
