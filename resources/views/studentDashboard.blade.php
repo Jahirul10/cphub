@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -17,7 +18,9 @@
             <a class="navbar-brand" href="#">
                 <h4>CSERU</h4>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -29,7 +32,8 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -56,10 +60,10 @@
                         <div class="col ps-5">
                             <ul class=" mt-5">
                                 <ul class="">
-                                    <h4>{{$student->name}}</h4>
-                                    <h4>{{$student->id}}</h4>
-                                    <h4>{{$student->phone}}</h4>
-                                    <h4>{{$student->session}}</h4>
+                                    <h4>{{ $student->name }}</h4>
+                                    <h4>{{ $student->id }}</h4>
+                                    <h4>{{ $student->phone }}</h4>
+                                    <h4>{{ $student->session }}</h4>
                                 </ul>
                                 <ul class="">
                                 </ul>
@@ -75,21 +79,25 @@
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
                                 <!-- <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <input class="form-check-input checkbox-filter" id="all-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="all-checkbox" type="checkbox"
+                                    value="" aria-label="Checkbox for following text input">
                                 <label for="all-checkbox" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" type="checkbox"
+                                    value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="codeforces-checkbox" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" type="checkbox"
+                                    value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="vjudge-checkbox" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="spoj-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" type="checkbox"
+                                    value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="spoj-checkbox" class="form-label">Spoj</label>
                             </div>
@@ -106,7 +114,8 @@
                             const vjudgeCheckbox = document.querySelector('#vjudge-checkbox');
                             const spojCheckbox = document.querySelector('#spoj-checkbox');
 
-                            var selectedJudgesCount = allCheckbox.checked + codeforcesCheckbox.checked + vjudgeCheckbox.checked + spojCheckbox.checked;
+                            var selectedJudgesCount = allCheckbox.checked + codeforcesCheckbox.checked + vjudgeCheckbox.checked +
+                                spojCheckbox.checked;
                             console.log(selectedJudgesCount);
 
                             if (selectedJudgesCount > 0 && selectedJudgesCount < 4) {
@@ -120,9 +129,8 @@
                                 codeforcesCheckbox.checked = true;
                                 vjudgeCheckbox.checked = true;
                                 spojCheckbox.checked = true;
-                            }
-                            else if(codeforcesCheckbox.checked && vjudgeCheckbox.checked && spojCheckbox.checked) {
-                                allCheckbox.checked=true;
+                            } else if (codeforcesCheckbox.checked && vjudgeCheckbox.checked && spojCheckbox.checked) {
+                                allCheckbox.checked = true;
                             }
                         }
 
@@ -135,26 +143,26 @@
                         $(document).ready(function() {
                             // Function to update the checkbox states
                             function updateCheckboxStates() {
-                            var codeforcesChecked = $('#codeforces-checkbox').prop('checked');
-                            var vjudgeChecked = $('#vjudge-checkbox').prop('checked');
-                            var spojChecked = $('#spoj-checkbox').prop('checked');
+                                var codeforcesChecked = $('#codeforces-checkbox').prop('checked');
+                                var vjudgeChecked = $('#vjudge-checkbox').prop('checked');
+                                var spojChecked = $('#spoj-checkbox').prop('checked');
 
-                            if (codeforcesChecked && vjudgeChecked && spojChecked) {
-                                $('#all-checkbox').prop('checked', true);
-                            } else {
-                                $('#all-checkbox').prop('checked', false);
-                            }
+                                if (codeforcesChecked && vjudgeChecked && spojChecked) {
+                                    $('#all-checkbox').prop('checked', true);
+                                } else {
+                                    $('#all-checkbox').prop('checked', false);
+                                }
                             }
 
                             // Event handler for 'All' checkbox
                             $('#all-checkbox').change(function() {
-                            var allChecked = $(this).prop('checked');
-                            $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').prop('checked', allChecked);
+                                var allChecked = $(this).prop('checked');
+                                $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').prop('checked', allChecked);
                             });
 
                             // Event handlers for other checkboxes
                             $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').change(function() {
-                            updateCheckboxStates();
+                                updateCheckboxStates();
                             });
                         });
                     </script>
@@ -172,19 +180,44 @@
                             const spoj_checked_button = document.getElementById('spoj-checkbox');
 
                             // check for query params and set checkbox values
-                            const checkboxValuesChange = ()=>{
+                            const checkboxValuesChange = () => {
                                 const secondPartOfUrl = window.location.href.split('?')[1];
-                                const params = secondPartOfUrl.split('&');
+                                params = secondPartOfUrl && secondPartOfUrl.split('&');
                                 // console.log(params);
-                                var platform =params.filter(function(item){
-                                    if(item.includes('platform')) return true;
+                                var platform = params && params.filter(function(item) {
+                                    if (item.includes('platform')) return true;
                                 })
-                                platform = platform[0]
+                                platform = platform && platform[0]
                                 
-                                console.log(platform);
+
+                                    if (platform) {
+
+                                    platform = platform.split('=')[1];
+                                    // console.log(platform);
+                                    if (platform.includes('codeforces')) {
+                                        cf_checked_button.checked = true;
+                                    }
+                                    if (platform.includes('vjudge')) {
+                                        vj_checked_button.checked = true;
+                                    }
+                                    if (platform.includes('spoj')) {
+                                        spoj_checked_button.checked = true;
+                                    }
+                                    if (platform.includes('all')) {
+                                        allChecked_button.checked = true;
+                                    }
+                                    if (platform.includes('codeforces') && platform.includes('vjudge') && platform.includes(
+                                            'spoj')) {
+                                        allChecked_button.checked = true;
+                                    }
+                                }
                             }
 
                             checkboxValuesChange();
+
+
+
+
                             // Filter submissions based on checkbox states
                             function filterSubmissions() {
                                 var allChecked = $('#all-checkbox').is(':checked');
@@ -203,16 +236,16 @@
                                 // }
                                 // });
 
-                                platform= generateQueryString();
+                                platform = generateQueryString();
 
                                 // add the platforms as a query string of the current url and change the href attribute
                                 // console.log(typeof url)
                                 // console.log(url);
-                                
+
 
                                 // console.log(url);
                                 // if(allChecked){
-                                    // }
+                                // }
                                 //     if(allChecked || codeforcesChecked || vjudgeChecked || spojChecked){
                                 //         console.log(url);
                                 //         // window.location.href = url;
@@ -226,57 +259,55 @@
                             // Initial filtering on page load
                             filterSubmissions();
 
-                             // filter button listerner
+                            // filter button listerner
 
-                            document.getElementById('filter_button').addEventListener('click', function(){
+                            document.getElementById('filter_button').addEventListener('click', function() {
                                 // console.log(platform);
                                 var url = window.location.href;
                                 // split url by ? and take the first
                                 url = url.split('?')[0];
                                 // console.log(url);
-                                if(platform !=''){
-                                    url = url+'?platform='+platform
-                                    window.location.href=url;
+                                if (platform != '') {
+                                    url = url + '?platform=' + platform
+                                    window.location.href = url;
                                 }
                             })
-                    });
+                        });
 
-                    const generateQueryString= ()=>{
-                        var allChecked = $('#all-checkbox').is(':checked');
-                        var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
-                        var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
-                        var spojChecked = $('#spoj-checkbox').is(':checked');
+                        const generateQueryString = () => {
+                            var allChecked = $('#all-checkbox').is(':checked');
+                            var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
+                            var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
+                            var spojChecked = $('#spoj-checkbox').is(':checked');
 
-                        var q = '';
-                        if(allChecked){
-                            q= 'codeforces*vjudge*spoj'
+                            var q = '';
+                            if (allChecked) {
+                                q = 'codeforces*vjudge*spoj'
+                            } else {
+                                if (codeforcesChecked) {
+                                    if (q != '') {
+                                        q = q + '*codeforces';
+                                    } else {
+                                        q = 'codeforces';
+                                    }
+                                }
+                                if (vjudgeChecked) {
+                                    if (q != '') {
+                                        q = q + '*vjudge';
+                                    } else {
+                                        q = 'vjudge';
+                                    }
+                                }
+                                if (spojChecked) {
+                                    if (q != '') {
+                                        q = q + '*spoj';
+                                    } else {
+                                        q = 'spoj';
+                                    }
+                                }
+                            }
+                            return q;
                         }
-                        else {
-                            if(codeforcesChecked){
-                                if(q!=''){
-                                    q=q+'*codeforces';
-                                }else {
-                                    q = 'codeforces';
-                                }
-                            }
-                            if(vjudgeChecked){
-                                if(q!=''){
-                                    q=q+'*vjudge';
-                                }else {
-                                    q = 'vjudge';
-                                }
-                            }
-                            if(spojChecked){
-                                if(q!=''){
-                                    q=q+'*spoj';
-                                }else {
-                                    q = 'spoj';
-                                }
-                            }
-                        }
-                        return q;
-                    }
-
                     </script>
                 </div>
 
@@ -446,15 +477,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($submissions as $submission)
-                                        <tr class="submission-row" data-oj="{{ optional($submission->problem)->oj }}">
-                                            <td>{{ $submission->submission_id }}</td>
-                                            <td>{{ optional($submission->problem)->title }}</td>
-                                            <td>{{ optional($submission->problem)->oj }}</td>
-                                            <td>{{ $submission->verdict }}</td>
-                                            <td>{{ $submission->language }}</td>
-                                            <td>{{ $submission->submissiontime }}</td>
-                                        </tr>
-                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged ?>
+                                            <tr class="submission-row"
+                                                data-oj="{{ optional($submission->problem)->oj }}">
+                                                <td>{{ $submission->submission_id }}</td>
+                                                <td>{{ optional($submission->problem)->title }}</td>
+                                                <td>{{ optional($submission->problem)->oj }}</td>
+                                                <td>{{ $submission->verdict }}</td>
+                                                <td>{{ $submission->language }}</td>
+                                                <td>{{ $submission->submissiontime }}</td>
+                                            </tr>
+                                            <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged ?>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -506,7 +538,8 @@
     </div>
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 </body>
 

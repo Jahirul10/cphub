@@ -1,5 +1,4 @@
 <?php
-
 if (count($argv) < 4) {
     echo "Usage: php codeforces.php <codeforces_handle> <student_id>\n";
     exit(1);

@@ -26,12 +26,37 @@ class StudentController extends Controller
 
         // Retrieve all submissions by this student and eager load the associated problem
         // $submissions = submissions::with('problem')->where('student_id', $id)->get();
-        $submissions = submissions::with('problem')
+
+        // get the query param named platform
+        $platform = request()->query('platform');
+
+        if($platform){
+            $platforms = explode('*', $platform);
+
+            $submissions = submissions::with('problem')
+            // search for the platforms under problem table and oj field
+            ->where('student_id', $id)
+            ->whereHas('problem', function($query) use ($platforms){
+                $query->whereIn('oj', $platforms);
+            })
+            ->orderBy('submissiontime', 'desc')
+            ->paginate(20)->withQueryString();
+            // dd($submissions);
+
+        }
+        else{
+            $submissions = submissions::with('problem')
             ->where('student_id', $id)
             ->orderBy('submissiontime', 'desc')
-            ->paginate(20);
+            ->paginate(20)->withQueryString();
 
-        // Pass the student and their submissions to the view
+        }
+        // dd($platform);
+
+        // Pass the student and their submissions to the view with query param platform
         return view('studentDashboard', compact('student', 'submissions'));
+
+
+        // return view('studentDashboard', compact('student', 'submissions'));
     }
 }
