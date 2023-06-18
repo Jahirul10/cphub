@@ -25,7 +25,12 @@ class StudentController extends Controller
         $student = student::findOrFail($id);
 
         // Retrieve all submissions by this student and eager load the associated problem
-        $submissions = submissions::with('problem')->where('student_id', $id)->get();
+        // $submissions = submissions::with('problem')->where('student_id', $id)->get();
+        $submissions = submissions::with('problem')
+            ->where('student_id', $id)
+            ->orderBy('submissiontime', 'desc')
+            ->get();
+
 
         // Pass the student and their submissions to the view
         return view('studentDashboard', compact('student', 'submissions'));

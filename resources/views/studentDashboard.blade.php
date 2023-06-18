@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -73,25 +74,29 @@
                     <div class="col">
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
-                                <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <!-- <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
+                                <input class="form-check-input checkbox-filter" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="all-checkbox" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <!-- <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="codeforces-checkbox" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <!-- <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="vjudge-checkbox" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <!-- <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="spoj-checkbox" class="form-label">Spoj</label>
                             </div>
                         </div>
                     </div>
 
-                    <script>
+                    <!-- <script>
                         function handleCheckboxChange() {
                             const allCheckbox = document.querySelector('#all-checkbox');
                             const codeforcesCheckbox = document.querySelector('#codeforces-checkbox');
@@ -113,14 +118,73 @@
                                 vjudgeCheckbox.checked = true;
                                 spojCheckbox.checked = true;
                             }
+                            else if(codeforcesCheckbox.checked && vjudgeCheckbox.checked && spojCheckbox.checked) {
+                                allCheckbox.checked=true;
+                            }
                         }
 
                         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
                         checkboxes.forEach((checkbox) => {
                             checkbox.addEventListener('change', handleCheckboxChange);
                         });
-                    </script>
+                    </script> -->
+                    <script>
+                        $(document).ready(function() {
+                            // Function to update the checkbox states
+                            function updateCheckboxStates() {
+                            var codeforcesChecked = $('#codeforces-checkbox').prop('checked');
+                            var vjudgeChecked = $('#vjudge-checkbox').prop('checked');
+                            var spojChecked = $('#spoj-checkbox').prop('checked');
 
+                            if (codeforcesChecked && vjudgeChecked && spojChecked) {
+                                $('#all-checkbox').prop('checked', true);
+                            } else {
+                                $('#all-checkbox').prop('checked', false);
+                            }
+                            }
+
+                            // Event handler for 'All' checkbox
+                            $('#all-checkbox').change(function() {
+                            var allChecked = $(this).prop('checked');
+                            $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').prop('checked', allChecked);
+                            });
+
+                            // Event handlers for other checkboxes
+                            $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').change(function() {
+                            updateCheckboxStates();
+                            });
+                        });
+                    </script>
+                    <script>
+                        $(document).ready(function() {
+                        // Handle checkbox interactions
+                        $('.checkbox-filter').change(function() {
+                            filterSubmissions();
+                        });
+
+                        // Filter submissions based on checkbox states
+                        function filterSubmissions() {
+                            var allChecked = $('#all-checkbox').is(':checked');
+                            var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
+                            var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
+                            var spojChecked = $('#spoj-checkbox').is(':checked');
+
+                            // Show/hide submissions based on checkbox states
+                            $('.submission-row').each(function() {
+                            var submissionOJ = $(this).data('oj');
+
+                            if (allChecked || (codeforcesChecked && submissionOJ === 'codeforces') || (vjudgeChecked && submissionOJ === 'Vjudge') || (spojChecked && submissionOJ === 'spoj')) {
+                                $(this).show();
+                            } else {
+                                $(this).hide();
+                            }
+                            });
+                        }
+
+                        // Initial filtering on page load
+                        filterSubmissions();
+                    });
+                    </script>
                 </div>
 
                 <div class="row">
@@ -287,16 +351,15 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($submissions as $submission)
-                                        <tr>
-                                            <td>{{ $submission->id }}</td>
+                                        <tr class="submission-row" data-oj="{{ optional($submission->problem)->oj }}">
+                                            <td>{{ $submission->submission_id }}</td>
                                             <td>{{ optional($submission->problem)->title }}</td>
                                             <td>{{ optional($submission->problem)->oj }}</td>
                                             <td>{{ $submission->verdict }}</td>
                                             <td>{{ $submission->language }}</td>
                                             <td>{{ $submission->submissiontime }}</td>
                                         </tr>
-                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged
-                                        ?>
+                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged ?>
                                         @endforeach
                                     </tbody>
                                 </table>
