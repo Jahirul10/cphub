@@ -29,8 +29,7 @@ class StudentController extends Controller
         $submissions = submissions::with('problem')
             ->where('student_id', $id)
             ->orderBy('submissiontime', 'desc')
-            ->get();
-
+            ->paginate(20);
 
         // Pass the student and their submissions to the view
         return view('studentDashboard', compact('student', 'submissions'));

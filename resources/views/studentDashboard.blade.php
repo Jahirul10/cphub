@@ -312,7 +312,9 @@
                                             [new Date(2012, 3, 14), 1],
                                             [new Date(2012, 3, 15), 9],
                                             [new Date(2012, 3, 16), 3],
-                                            [new Date(2012, 3, 17), 4]
+                                            [new Date(2012, 3, 17), 4],
+                                            [new Date(2012, 3, 20), 4],
+                                            [new Date(2012, 3, 21), 4],
                                         ]);
 
                                         var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
@@ -363,6 +365,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="pagination justify-content-center">
+                                    {{ $submissions->links('pagination::bootstrap-5') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -402,16 +407,9 @@
                     <h1>Computer</h1>
                     <h1>Computer</h1>
                     <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
                 </div>
             </div>
         </div>
-
-        @foreach ($submissions as $submission)
-        @dd($submission)
-        @endforeach
-
     </div>
 
     </div>

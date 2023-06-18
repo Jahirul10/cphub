@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Problem;
 use App\Models\Student;
 use App\Models\Submissions;
-use App\Models\Problem;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
