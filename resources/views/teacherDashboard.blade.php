@@ -81,12 +81,47 @@
 
                                     var session = $(this).data('session');
                                     // console.log(session);
-                                    $.post('/teacher-table-update/' + session, function(response) {
-                                        var updatedView = response.view;
+                                    // $.post('/teacher-table-update/' + session, function(response) {
+                                    //     var students = response.students;
+                                    //     var submissionIds = response.submissionIds;
+                                    //     var platformCounts = response.platformCounts;
 
-                                        // Update the table container with the updated view content
-                                        $('#table-container').html(updatedView);
-                                        console.log(updatedView);
+                                    //     // Update the table container with the updated view content
+                                    //     // $('#table-container').html(updatedView);
+                                    //     console.log(submissionIds);
+                                    // });
+                                    $.post('/teacher-table-update/' + session, function(response) {
+                                        var students = response.students;
+                                        var platformCounts = response.platformCounts;
+
+                                        var tableBody = $('#updatedSessionData');
+                                        tableBody.empty(); // Clear existing table body
+
+                                        // Iterate over the students and update the table rows
+                                        students.forEach(function(student) {
+                                            var row = $('<tr></tr>');
+                                            row.on('click', function() {
+                                                showStudentDetails(student.id, student.name);
+                                            });
+
+                                            row.append('<th scope="row">' + student.id + '</th>');
+                                            row.append('<td>' + student.name + '</td>');
+
+                                            // Check if platformCounts for the student exists
+                                            if (platformCounts.hasOwnProperty(student.id)) {
+                                                var counts = platformCounts[student.id];
+
+                                                // Iterate over platformCounts and add <td> for each platform
+                                                Object.values(counts).forEach(function(count) {
+                                                    row.append('<td>' + count + '</td>');
+                                                });
+                                            } else {
+                                                // Add <td> with 0 if platformCounts doesn't exist for the student
+                                                row.append('<td>0</td>');
+                                            }
+
+                                            tableBody.append(row);
+                                        });
                                     });
                                 });
                             });
@@ -106,7 +141,7 @@
                                         <th scope="col">Spoj</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="updatedSessionData">
                                     @foreach ($students as $student)
                                     <tr onclick="showStudentDetails('{{ $student->id }}', '{{ $student->name }}')">
                                         <th scope="row">{{ $student->id }}</th>

@@ -21,8 +21,12 @@ use App\Http\Controllers\VisitorController;
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
+// Route::post('/teacher-table-update/{session}', function($session) {
+//     print_r($session);
+// });
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
+
 Route::get('images/{filename}', function ($filename) {
     $path = public_path('images/' . $filename);
     echo $path;

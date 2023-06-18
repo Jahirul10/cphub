@@ -119,7 +119,16 @@ class TeacherController extends Controller
                 }
             }
         }
+        // print_r($platformCounts);
 
-        return view('teacherDashboard', compact('students', 'submissionIds', 'platformCounts'));
+        // return view('teacherDashboard', compact('students', 'submissionIds', 'platformCounts'));
+
+        $responseData = [
+            'students' => $students,
+            'submissionIds' => $submissionIds,
+            'platformCounts' => $platformCounts
+        ];
+
+        return response()->json($responseData);
     }
 }
