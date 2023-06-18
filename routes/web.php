@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\VisitorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use App\Http\Controllers\TeacherController;
 // Route::get('/student-dashboard', [StudentController::class, 'showStudent']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
-Route::post('/teacher-dashboard', [TeacherController::class, 'dashboard']);
+Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
 
@@ -36,3 +37,6 @@ Route::get('images/{filename}', function ($filename) {
         abort(404);
     }
 })->where('filename', '.*');
+
+Route::get('/login', [VisitorController::class, 'login']);
+Route::get('/search-page', [VisitorController::class, 'publicSearch']);

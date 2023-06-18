@@ -38,6 +38,7 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
 
             $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
 
+            print_r($x['oj']);
             if($x['oj']!='CodeForces' || $x['oj']!='SPOJ'){
                 $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
                 $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'vjudge',$url);
@@ -128,5 +129,3 @@ try {
 }catch (PDOException $e) {
     echo 'Database connection failed: ' . $e->getMessage();
 }
-
-?>
