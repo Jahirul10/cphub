@@ -75,23 +75,26 @@
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
                                 <!-- <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <input class="form-check-input checkbox-filter" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="all-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="all-checkbox" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="codeforces-checkbox" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="vjudge-checkbox" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="spoj-checkbox"  type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="spoj-checkbox" class="form-label">Spoj</label>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-success" id="filter_button">Filter</button>
                             </div>
                         </div>
                     </div>
@@ -157,33 +160,123 @@
                     </script>
                     <script>
                         $(document).ready(function() {
-                        // Handle checkbox interactions
-                        $('.checkbox-filter').change(function() {
-                            filterSubmissions();
-                        });
-
-                        // Filter submissions based on checkbox states
-                        function filterSubmissions() {
-                            var allChecked = $('#all-checkbox').is(':checked');
-                            var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
-                            var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
-                            var spojChecked = $('#spoj-checkbox').is(':checked');
-
-                            // Show/hide submissions based on checkbox states
-                            $('.submission-row').each(function() {
-                            var submissionOJ = $(this).data('oj');
-
-                            if (allChecked || (codeforcesChecked && submissionOJ === 'codeforces') || (vjudgeChecked && submissionOJ === 'Vjudge') || (spojChecked && submissionOJ === 'spoj')) {
-                                $(this).show();
-                            } else {
-                                $(this).hide();
-                            }
+                            var platform;
+                            // Handle checkbox interactions
+                            $('.checkbox-filter').change(function() {
+                                // console.log('checked')
+                                filterSubmissions();
                             });
-                        }
+                            const allChecked_button = document.getElementById('all-checkbox');
+                            const cf_checked_button = document.getElementById('codeforces-checkbox');
+                            const vj_checked_button = document.getElementById('vjudge-checkbox');
+                            const spoj_checked_button = document.getElementById('spoj-checkbox');
 
-                        // Initial filtering on page load
-                        filterSubmissions();
+                            // check for query params and set checkbox values
+                            const checkboxValuesChange = ()=>{
+                                const secondPartOfUrl = window.location.href.split('?')[1];
+                                const params = secondPartOfUrl.split('&');
+                                // console.log(params);
+                                var platform =params.filter(function(item){
+                                    if(item.includes('platform')) return true;
+                                })
+                                platform = platform[0]
+                                
+                                console.log(platform);
+                            }
+
+                            checkboxValuesChange();
+                            // Filter submissions based on checkbox states
+                            function filterSubmissions() {
+                                var allChecked = $('#all-checkbox').is(':checked');
+                                var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
+                                var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
+                                var spojChecked = $('#spoj-checkbox').is(':checked');
+
+                                // Show/hide submissions based on checkbox states
+                                // $('.submission-row').each(function() {
+                                // var submissionOJ = $(this).data('oj');
+
+                                // if (allChecked || (codeforcesChecked && submissionOJ === 'codeforces') || (vjudgeChecked && submissionOJ === 'Vjudge') || (spojChecked && submissionOJ === 'spoj')) {
+                                //     $(this).show();
+                                // } else {
+                                //     $(this).hide();
+                                // }
+                                // });
+
+                                platform= generateQueryString();
+
+                                // add the platforms as a query string of the current url and change the href attribute
+                                // console.log(typeof url)
+                                // console.log(url);
+                                
+
+                                // console.log(url);
+                                // if(allChecked){
+                                    // }
+                                //     if(allChecked || codeforcesChecked || vjudgeChecked || spojChecked){
+                                //         console.log(url);
+                                //         // window.location.href = url;
+                                // }
+
+
+                                // console.log(platforms);
+                                // console.log(codeforcesChecked,vjudgeChecked,spojChecked);
+                            }
+
+                            // Initial filtering on page load
+                            filterSubmissions();
+
+                             // filter button listerner
+
+                            document.getElementById('filter_button').addEventListener('click', function(){
+                                // console.log(platform);
+                                var url = window.location.href;
+                                // split url by ? and take the first
+                                url = url.split('?')[0];
+                                // console.log(url);
+                                if(platform !=''){
+                                    url = url+'?platform='+platform
+                                    window.location.href=url;
+                                }
+                            })
                     });
+
+                    const generateQueryString= ()=>{
+                        var allChecked = $('#all-checkbox').is(':checked');
+                        var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
+                        var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
+                        var spojChecked = $('#spoj-checkbox').is(':checked');
+
+                        var q = '';
+                        if(allChecked){
+                            q= 'codeforces*vjudge*spoj'
+                        }
+                        else {
+                            if(codeforcesChecked){
+                                if(q!=''){
+                                    q=q+'*codeforces';
+                                }else {
+                                    q = 'codeforces';
+                                }
+                            }
+                            if(vjudgeChecked){
+                                if(q!=''){
+                                    q=q+'*vjudge';
+                                }else {
+                                    q = 'vjudge';
+                                }
+                            }
+                            if(spojChecked){
+                                if(q!=''){
+                                    q=q+'*spoj';
+                                }else {
+                                    q = 'spoj';
+                                }
+                            }
+                        }
+                        return q;
+                    }
+
                     </script>
                 </div>
 
