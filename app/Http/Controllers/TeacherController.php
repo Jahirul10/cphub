@@ -13,7 +13,7 @@ class TeacherController extends Controller
 {
     public function dashboard()
     {
-        $students = Student::where('session', '2017-18')->get();
+        $students = Student::where('session', '2020-21')->get();
 
         $submissionIds = Submissions::whereIn('student_id', $students->pluck('id'))
             ->where('verdict', 'accepted')
@@ -33,9 +33,13 @@ class TeacherController extends Controller
         }
 
         foreach ($submissionIds as $studentId => $submissions) {
+            $uniqueProblems = array();
             foreach ($submissions as $submissionId) {
 
                 $submission = Submissions::where('submission_id', $submissionId)->get();
+                // print_r($submissionId);
+                // print_r($submission);
+                // echo "\n";
 
                 $problemId = Submissions::where('submission_id', $submissionId)->value('problem_id');
                 // echo "\n";
@@ -46,9 +50,10 @@ class TeacherController extends Controller
                 // echo "\n";
 
                 $verdict = $submission->pluck('verdict')->first();
-                if (strcasecmp($verdict, 'ACCEPTED') == 0) {
+                if (strcasecmp($verdict, 'ACCEPTED') == 0 && !in_array($problemId, $uniqueProblems)) {
                     // print_r($platformCounts['1810876124']['spoj']);
                     // print_r($verdict);
+                    $uniqueProblems[] = $problemId;
 
                     if (!isset($platformCounts[$studentId][$platform])) {
                         $platformCounts[$studentId][$platform] = 0;

@@ -59,10 +59,10 @@
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
                         <h4 class="card-title mb-2">Sessions</h4>
-                        <button type="button" class="btn btn-outline-primary me-3 active">2017-18</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2018-19</button>
+                        <button type="button" class="btn btn-outline-primary me-3 active">2020-21</button>
                         <button type="button" class="btn btn-outline-primary me-3">2019-20</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2020-21</button>
+                        <button type="button" class="btn btn-outline-primary me-3">2018-19</button>
+                        <button type="button" class="btn btn-outline-primary me-3">2017-18</button>
 
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
@@ -83,7 +83,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Codefores</th>
                                     <th scope="col">Vjudge</th>
-                                    <th scope="col">Leetcode</th>
+                                    <th scope="col">Spoj</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,7 +92,7 @@
                                     <th scope="row">{{ $student->id }}</th>
                                     <td>{{ $student->name }}</td>
                                     @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
-                                    <td>{{ $count }} + {{$platform}}</td>
+                                    <td>{{ $count }}</td>
                                     @endforeach
                                     @if (!isset($platformCounts[$student->id]))
                                     <td>0</td>
@@ -110,9 +110,28 @@
                     // Find the student details section
                     var studentDetails = document.getElementById('student-details');
 
+                    // Update the image path with the studentId variable
+                    var imagePath = "{{ asset('images/') }}" + "/pp" + studentId + ".png";
+
                     // Update the student ID in the section
-                    studentDetails.innerHTML = `<h4>${studentName}</h4>
-                            <p>${studentId}</p>`;
+                    studentDetails.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="thumb-lg member-thumb m-3 pt-2">
+                                <img src="${imagePath}" class="rounded-circle img-thumbnail" alt="profile-image" width="80">
+                            </div>
+                        </div>
+                        <div class="col-md-6 pt-4">
+                            <div class="text-start">
+                                <a href="/students/${studentId}"  style="color: black;">
+                                    <h5>${studentName}</h5>
+                                </a>
+                                <p>${studentId}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    `;
                 }
             </script>
 
@@ -125,9 +144,6 @@
                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                                 </svg>
                             </button>
-                            <div class="thumb-lg member-thumb m-3 pt-5">
-                                <img src="{{ asset('images/42.png') }}" class="rounded-circle img-thumbnail" alt="profile-image" width="120">
-                            </div>
                             <div id="student-details" class="">
                             </div>
                             <ul class="social-links list-inline">
@@ -145,8 +161,7 @@
                                         </svg></a>
                                 </li>
                             </ul>
-                            <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light" onclick="window.location.href='newStudent.html';">View
-                                Profile</button>
+
                             <div class="row mt-5 ms-1 me-1">
                                 <div class="p-0" style="display:inline-block; width:50%;">
                                     <canvas id="pie-chart-1"></canvas>
@@ -233,53 +248,6 @@
                                     });
                                 </script>
 
-
-                            </div>
-                            <div class="mt-4">
-                                <!-- <div class="row container-fluid">
-                                    <div class="chartBox">
-                                        <canvas id="myChart"></canvas>
-                                    </div>
-
-                                    <script>
-                                        const ctx = document.getElementById('myChart');
-
-                                        new Chart(ctx, {
-                                            type: 'pie',
-                                            data: {
-                                                labels: ['Accepted', 'Wrong Answer', 'Time Limit Error', 'Run Limit Error', 'Compile Error', 'Memory Limit Error'],
-                                                datasets: [{
-                                                    // label: '# of Votes',
-                                                    data: [172, 102, 37, 7, 9, 13],
-                                                    borderWidth: 1
-                                                }]
-                                            },
-                                            options: {}
-                                        });
-                                    </script>
-
-                                </div>
-                                <div class="row container-fluid text-align-end">
-                                    <div class="chartBox">
-                                        <canvas id="myChart"></canvas>
-                                    </div>
-
-                                    <script>
-                                        const cty = document.getElementById('myChart');
-
-                                        new Chart(cty, {
-                                            type: 'pie',
-                                            data: {
-                                                labels: ['Codeforces', 'LightOJ', 'Leetcode'],
-                                                datasets: [{
-                                                    // label: '# of Votes',
-                                                    data: [172, 102, 37],
-                                                    borderWidth: 1
-                                                }]
-                                            },
-                                            options: {}
-                                        });
-                                    </script> -->
 
                             </div>
                             <div class="row">

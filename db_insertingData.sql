@@ -1,3 +1,7 @@
+DELETE FROM problems;
+DELETE FROM submissions;
+UPDATE handles SET cf_last_submission = 0, vj_last_submission = 0, spoj_last_submission=0;
+
 INSERT INTO students (id, name, phone, session)
 VALUES ('1810876192','John Doe', '555-1234', '2017-18'),
 ('1810876193','John Doe', '555-1234', '2017-18'),
@@ -15,4 +19,6 @@ VALUES ('191959605','1791e', 'c++', '2023-02-27 15:35:20.311', 'accepted', '1810
 ('191941537','580b', 'python', '2023-02-27 15:35:20.311', 'wrong_answer', '1810876194');
 
 INSERT INTO handles (id, cfhandle, vjhandle, spojhandle, cf_last_submission, spoj_last_submission, vj_last_submission)
-VALUES ('1810876124','hasibulfor', 'hasibulfor', 'hasibulfor', 0, 0, 0)
+VALUES ('1810876124','hasibulfor', 'hasibulfor', 'hasibulfor', 0, 0, 0),
+ ('1810876141','ABIR', 'MD_ABIR', 'abuhanif', 0, 0, 0),
+ ('1810876145','jahirul', 'jahirul_islam1', 'true_false_0', 0, 0, 0)
