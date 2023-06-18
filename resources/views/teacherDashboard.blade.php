@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Teacher Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -59,48 +60,68 @@
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
                         <h4 class="card-title mb-2">Sessions</h4>
-                        <button type="button" class="btn btn-outline-primary me-3 active">2020-21</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2019-20</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2018-19</button>
-                        <button type="button" class="btn btn-outline-primary me-3">2017-18</button>
+                        <button type="button" class="btn btn-outline-primary me-3 active" data-session="2020-21">2020-21</button>
+                        <button type="button" class="btn btn-outline-primary me-3" data-session="2019-20">2019-20</button>
+                        <button type="button" class="btn btn-outline-primary me-3" data-session="2018-19">2018-19</button>
+                        <button type="button" class="btn btn-outline-primary me-3" data-session="2017-18">2017-18</button>
 
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
                             $(document).ready(function() {
+                                // Add a CSRF token to the request headers
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+
                                 $('.btn').click(function() {
                                     $('.btn').removeClass('active');
                                     $(this).addClass('active');
-                                });
 
+                                    var session = $(this).data('session');
+                                    // console.log(session);
+                                    $.post('/teacher-table-update/' + session, function(response) {
+                                        var updatedView = response.view;
+
+                                        // Update the table container with the updated view content
+                                        $('#table-container').html(updatedView);
+                                        console.log(updatedView);
+                                    });
+                                });
                             });
                         </script>
 
+
+
                         <hr>
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Codefores</th>
-                                    <th scope="col">Vjudge</th>
-                                    <th scope="col">Spoj</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($students as $student)
-                                <tr onclick="showStudentDetails('{{ $student->id }}', '{{ $student->name }}')">
-                                    <th scope="row">{{ $student->id }}</th>
-                                    <td>{{ $student->name }}</td>
-                                    @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
-                                    <td>{{ $count }}</td>
+                        <div id="table-container">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Codefores</th>
+                                        <th scope="col">Vjudge</th>
+                                        <th scope="col">Spoj</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($students as $student)
+                                    <tr onclick="showStudentDetails('{{ $student->id }}', '{{ $student->name }}')">
+                                        <th scope="row">{{ $student->id }}</th>
+                                        <td>{{ $student->name }}</td>
+                                        @foreach ($platformCounts[$student->id] ?? [] as $platform => $count)
+                                        <td>{{ $count }}</td>
+                                        @endforeach
+                                        @if (!isset($platformCounts[$student->id]))
+                                        <td>0</td>
+                                        @endif
+                                    </tr>
                                     @endforeach
-                                    @if (!isset($platformCounts[$student->id]))
-                                    <td>0</td>
-                                    @endif
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
