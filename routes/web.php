@@ -19,6 +19,7 @@ use App\Http\Controllers\TeacherController;
 // Route::get('/student-dashboard', [StudentController::class, 'showStudent']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
+Route::post('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
 

@@ -7,7 +7,7 @@ if (count($argv) < 4) {
 $handle = $argv[1];
 $studentId = $argv[2];
 $lastSubmission=$argv[3];
-$uniqueIndexSet = array(); 
+$uniqueIndexSet = array();
 $temp=$lastSubmission;
 // Make a GET request to the VJudge API to retrieve the user's submissions
 $base_url = 'https://vjudge.net/status/data?draw=1&start=';
@@ -18,7 +18,7 @@ $ourdata = array();
 
 for ($start = 0; $start < $total_entries; $start += $batch_size) {
     $url = $base_url . $start . '&length=' . $batch_size . '&un=' . $handle;
-    
+
     $options = array(
         'http' => array(
             'header' => 'Content-type: application/json',
@@ -30,7 +30,7 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
 
     // Parse the JSON response and extract the relevant data
     $myjson = json_decode($response, true);
-    
+
     foreach ($myjson['data'] as $x) {
         $unixToDatetime = date('Y-m-d H:i:s', $x['time'] / 1000);
         // var_dump($x['oj']);
@@ -38,13 +38,13 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
 
             $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
 
-            if($x['oj']!='CodeForces' || $x['oj']=='SPOJ'){
+            if($x['oj']!='CodeForces' || $x['oj']!='SPOJ'){
                 $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'Vjudge',$url);
+                $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'vjudge',$url);
             }
             else{
                 $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
-                $index = array($x['probNum'], $x['oj'] . $x['probNum'], $x['oj'],$url);
+                $index = array($x['probNum'], $x['oj'] . $x['probNum'], strtolower($x['oj']),$url);
             }
             // if($x['oj']=='CodeForces'){
             //     $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
