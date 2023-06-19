@@ -80,19 +80,13 @@
                                     $(this).addClass('active');
 
                                     var session = $(this).data('session');
-                                    // console.log(session);
-                                    // $.post('/teacher-table-update/' + session, function(response) {
-                                    //     var students = response.students;
-                                    //     var submissionIds = response.submissionIds;
-                                    //     var platformCounts = response.platformCounts;
 
-                                    //     // Update the table container with the updated view content
-                                    //     // $('#table-container').html(updatedView);
-                                    //     console.log(submissionIds);
-                                    // });
+                                    console.log(session);
                                     $.post('/teacher-table-update/' + session, function(response) {
                                         var students = response.students;
                                         var platformCounts = response.platformCounts;
+                                        // console.log(students);
+                                        // console.log(platformCounts);
 
                                         var tableBody = $('#updatedSessionData');
                                         tableBody.empty(); // Clear existing table body
