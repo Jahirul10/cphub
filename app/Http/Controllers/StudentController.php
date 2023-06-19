@@ -7,7 +7,7 @@ use App\Models\student;
 use App\Models\submissions;
 use App\Models\problem;
 use Illuminate\Support\Facades\Log;
-
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -52,11 +52,32 @@ class StudentController extends Controller
 
         }
         // dd($platform);
+        // Get the current year
+        $currentYear = Carbon::now()->year;
+
+        //heatmap  value counting
+        // $submissionsCount = submissions::selectRaw('DATE(submissiontime) as date, COUNT(*) as count')
+        //     ->where('student_id', $id)
+        //     ->whereYear('submissiontime', $currentYear)
+        //     ->groupBy('date')
+        //     ->get();
+        $submissionsCount = submissions::where('student_id', $id)
+            ->whereYear('submissiontime', $currentYear)
+            ->groupBy('date')
+            ->selectRaw('DATE(submissiontime) as date, COUNT(*) as count')
+            ->get();
+
+
+    // Prepare the data for the heatmap graph
+        $dailycount = [];
+        foreach ($submissionsCount as $item) {
+            $date = $item->date;
+            $count = $item->count;
+            $dailycount[] = [(int)date('Y', strtotime($date)), (int)date('n', strtotime($date)) - 1, (int)date('j', strtotime($date)), $count];
+        }
+        // dd($dailycount);
 
         // Pass the student and their submissions to the view with query param platform
-        return view('studentDashboard', compact('student', 'submissions'));
-
-
-        // return view('studentDashboard', compact('student', 'submissions'));
+        return view('studentDashboard', compact('student', 'submissions', 'dailycount'));
     }
 }

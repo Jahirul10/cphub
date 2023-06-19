@@ -415,12 +415,12 @@
                                 <div id="calendar_basic" style="width: auto; height: auto;"></div>
 
                                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                <div id="dailyCountData" data-dailycount="{{ json_encode($dailycount) }}"></div>
                                 <script type="text/javascript">
                                     google.charts.load("current", {
                                         packages: ["calendar"]
                                     });
                                     google.charts.setOnLoadCallback(drawChart);
-
                                     function drawChart() {
                                         var dataTable = new google.visualization.DataTable();
                                         dataTable.addColumn({
@@ -431,16 +431,19 @@
                                             type: 'number',
                                             id: 'Won/Loss'
                                         });
-                                        dataTable.addRows([
-                                            [new Date(2012, 3, 13), 5],
-                                            [new Date(2012, 3, 14), 1],
-                                            [new Date(2012, 3, 15), 9],
-                                            [new Date(2012, 3, 16), 3],
-                                            [new Date(2012, 3, 17), 4],
-                                            [new Date(2012, 3, 20), 4],
-                                            [new Date(2012, 3, 21), 4],
-                                        ]);
-
+                                        var dailycount = JSON.parse(document.getElementById('dailyCountData').getAttribute('data-dailycount'));
+                                        for (var i = 0; i <dailycount.length; i++) {
+                                            dataTable.addRow([new Date(dailycount[i][0],dailycount[i][1],dailycount[i][2]), dailycount[i][3]]);
+                                        }
+                                        // dataTable.addRows([
+                                        //     [new Date(2012, 3, 13), 5],
+                                        //     [new Date(2012, 3, 14), 1],
+                                        //     [new Date(2012, 3, 15), 9],
+                                        //     [new Date(2012, 3, 16), 3],
+                                        //     [new Date(2012, 3, 17), 4],
+                                        //     [new Date(2012, 3, 20), 4],
+                                        //     [new Date(2012, 3, 21), 4],
+                                        // ]);
                                         var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
 
                                         var options = {
