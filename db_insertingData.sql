@@ -3,7 +3,8 @@ DELETE FROM submissions;
 UPDATE handles SET cf_last_submission = 0, vj_last_submission = 0, spoj_last_submission=0;
 
 INSERT INTO students (id, name, phone, session)
-VALUES ('1810876112','A', '555-1234', '2018-19'),
+VALUES ('1810876114','A', '555-1234', '2018-19'),
+ ('1810876112','A', '555-1234', '2018-19'),
  ('1810876113','A', '555-1234', '2018-19');
 INSERT INTO handles (id, cfhandle, vjhandle, spojhandle, cf_last_submission, spoj_last_submission, vj_last_submission)
 VALUES ('1810876112','Benq', 'zby0327', 'zukow', 0, 0, 0),
