@@ -5,6 +5,7 @@ if (count($argv) < 4) {
     exit(1);
 }
 $handle = $argv[1];
+if(empty($handle))exit();
 $studentId = $argv[2];
 $lastSubmission=$argv[3];
 $uniqueIndexSet = array();
@@ -36,16 +37,78 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
         // var_dump($x['oj']);
         if($lastSubmission<$x['runId']){
 
+            $language = $x['language'];
+
+            if (strpos($language, "++") !== false) {
+                $language = "C++";
+            } elseif (strpos($language, "C#") !== false) {
+                $language = "C#";
+            } elseif (strpos($language, "DMD") !== false) {
+                $language = "D";
+            } elseif (strpos($language, "Go") !== false) {
+                $language = "Go";
+            } elseif (strpos($language, "Haskell") !== false) {
+                $language = "Haskell";
+            } elseif (strpos($language, "Java") !== false || strpos($language, "java") !== false ||strpos($language, "JAVA") !== false) {
+                $language = "Java";
+            } elseif (strpos($language, "Kotlin") !== false) {
+                $language = "Kotlin";
+            } elseif (strpos($language, "OCaml") !== false) {
+                $language = "OCaml";
+            } elseif (strpos($language, "Delphi") !== false) {
+                $language = "Delphi";
+            } elseif (strpos($language, "Pascal") !== false) {
+                $language = "Pascal";
+            } elseif (strpos($language, "Perl") !== false) {
+                $language = "Perl";
+            } elseif (strpos($language, "PHP") !== false) {
+                $language = "PHP";
+            } elseif (strpos($language, "Py") !== false) {
+                $language = "Python";
+            } elseif (strpos($language, "Ruby") !== false) {
+                $language = "Ruby";
+            } elseif (strpos($language, "Rust") !== false) {
+                $language = "Rust";
+            } elseif (strpos($language, "Scala") !== false) {
+                $language = "Scala";
+            } elseif (strpos($language, "JavaScript") !== false || strpos($language, "javascript") !== false) {
+                $language = "JavaScript";
+            }elseif (strpos($language, "C") !== false || strpos($language, "c") !== false ||strpos($language, "GNU") !== false) {
+                $language = "C";
+            }else {
+                $language = "Miscellaneous".$language;
+            }
+
+
+            $verdict=$x['status'];
+            if ($verdict == 'Happy New Year!' || $verdict == 'Accepted') {
+                $verdict = 'Accepted';
+            } elseif (strpos($$verdict, "Wrong answer") !== false || $verdict == 'Wrong Answer') {
+                $verdict = 'Wrong answer';
+            } elseif ($verdict == 'Time Limit Exceeded' || $verdict == 'Time limit exceeded') {
+                $verdict = 'Time limit exceeded';
+            } elseif ($verdict == 'Memory Limit Exceeded' || $verdict =='Memory limit exceeded') {
+                $verdict = 'Memory limit exceeded';
+            } elseif ($verdict == 'Compile Error' || $verdict == 'Compile error' || $verdict == 'Compilation error' || $verdict == 'Compilation Error') {
+                $verdict = 'Compilation error';
+            } elseif ($verdict == 'CHALLENGED') {
+                $verdict = 'Hacked';
+            } elseif ($verdict == 'PARTIAL') {
+                $verdict = 'Partial';
+            } else {
+                $verdict = 'Runtime error';
+            }
+
             $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
 
 
             if($x['oj']=== 'CodeForces' || $x['oj'] === 'SPOJ'){
-                $listing = array($x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+                $listing = array($x['probNum'], $language, $unixToDatetime, $verdict, $x['runId']);
                 $index = array($x['probNum'], $x['oj'] . $x['probNum'], strtolower($x['oj']),$url);
             }
             else{
                 // echo 'hello';
-                $listing = array($x['oj'].$x['probNum'], $x['language'], $unixToDatetime,$x['status'],$x['runId']);
+                $listing = array($x['oj'].$x['probNum'], $language, $unixToDatetime,$verdict, $x['runId']);
                 $index = array($x['oj'] . $x['probNum'], $x['oj'] . $x['probNum'],'vjudge',$url);
                 
             }
@@ -65,10 +128,12 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
                 $uniqueIndexSet[] = $index;
             }
             array_push($ourdata, $listing);
+            $temp=max($x['runId'], $temp);
         }
-        $temp=max($x['runId'], $temp);
+        else break;
     }
 }
+if(empty($listing)) exit();
 $lastSubmission=$temp;
 // Write the data to a CSV file
 // $filename = 'vjudge.csv';
