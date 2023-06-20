@@ -83,13 +83,69 @@ function scrapeSubmissions($handle, $studentId, $lastSubmission)
                     // print_r($tdata);
                     $data = array_slice($tdata, 0, 3);
                     // echo 'This ONE';
-                    // print_r($data);
                     $data[] = $tdata[4];
                     $data[] = end($tdata);
                     $data[] = $studentId;
 
+                    $language = $data[4];
+                    if ($language == "C" || strpos($language, "OBJECTIVE") !== false || strpos($language, "C99") !== false) {
+                        $language = "C";
+                    } elseif (strpos($language, "++") !== false || strpos($language, "CPP") !== false) {
+                        $language = "C++";
+                    } elseif (strpos($language, "C#") !== false) {
+                        $language = "C#";
+                    } elseif (strpos($language, "DMD") !== false || $language == "D") {
+                        $language = "D";
+                    } elseif (strpos($language, "GO") !== false) {
+                        $language = "Go";
+                    } elseif (strpos($language, "HASKELL") !== false) {
+                        $language = "Haskell";
+                    } elseif (strpos($language, "JAVASCRIPT") !== false || strpos($language, "NODE.JS") !== false) {
+                        $language = "JavaScript";
+                    } elseif (strpos($language, "JAVA")) {
+                        $language = "Java";
+                    } elseif (strpos($language, "KOTLIN") !== false) {
+                        $language = "Kotlin";
+                    } elseif (strpos($language, "OCAML") !== false) {
+                        $language = "OCaml";
+                    } elseif (strpos($language, "PASCAL") !== false) {
+                        $language = "Pascal";
+                    } elseif (strpos($language, "PERL") !== false) {
+                        $language = "Perl";
+                    } elseif (strpos($language, "PHP") !== false) {
+                        $language = "PHP";
+                    } elseif (strpos($language, "PY") !== false) {
+                        $language = "Python";
+                    } elseif (strpos($language, "RUBY") !== false) {
+                        $language = "Ruby";
+                    } elseif (strpos($language, "RUST") !== false) {
+                        $language = "Rust";
+                    } elseif (strpos($language, "SCALA") !== false) {
+                        $language = "Scala";
+                    } else {
+                        $language = "Miscellaneous";
+                    }
+                    $data[4] = $language;
+
+                    $verdict = $data[3];
+                    if ($verdict == 'accepted') {
+                        $verdict = 'Accepted';
+                    } elseif ($verdict == 'wrong answer') {
+                        $verdict = 'Wrong answer';
+                    } elseif ($verdict == 'time limit exceeded') {
+                        $verdict = 'Time limit exceeded';
+                    } elseif ($verdict == 'compilation error') {
+                        $verdict = 'Compilation error';
+                    } elseif (is_numeric($verdict)) {
+                        $verdict = 'Partial';
+                    } else {
+                        $verdict = 'Runtime error';
+                    }
+                    $data[3] = $verdict;
+
                     $submissionId = $data[0];
 
+                    print_r($data);
                     if (!in_array($submissionId, $existingSubmissions) && $submissionId > $lastSubmission) {
                         $stmt->execute($data);
                         $temp = max($temp, $submissionId);
@@ -142,6 +198,7 @@ if (count($argv) < 4) {
 }
 
 $handle = $argv[1]; // Replace with the desired username
+if (empty($handle)) exit();
 $studentId = $argv[2]; // Replace with the student ID
 $lastSubmission = $argv[3]; // Replace with the last submission value
 
