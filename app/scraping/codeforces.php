@@ -106,15 +106,11 @@ foreach ($myjson['result'] as $x) {
 
         $temp=max($x['id'], $temp);
     }
-    else{
-        break;
-    }
+    else break;
     
 }
 
-if (empty($listing)) {
-    exit();
-}
+if (empty($listing)) exit();
 
 $lastSubmission=$temp;
 // print_r($uniqueIndexSet);
@@ -170,7 +166,7 @@ try {
             $unique[3]=$unique[5];
             unset($unique[4]);
             unset($unique[5]);
-            print_r($unique);
+            // print_r($unique);
             $stmt->execute($unique);
         }
     }
