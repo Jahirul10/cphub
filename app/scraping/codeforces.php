@@ -24,13 +24,76 @@ $uniqueIndexSet = array();
 $myjson = json_decode($response, true);
 $ourdata = array();
 $temp=$lastSubmission;
+
 foreach ($myjson['result'] as $x) {
-    $date = date('Y-m-d H:i:s', $x['creationTimeSeconds']);
-    if($x['verdict']=='OK'){
-        $x['verdict']='ACCEPTED';
-    }
+
     if($lastSubmission<$x['id']){
-        $listing = array($x['id'], $x['contestId'].$x['problem']['index'], $x['programmingLanguage'], $date, $x['verdict']);
+
+        $date = date('Y-m-d H:i:s', $x['creationTimeSeconds']);
+        $verdict = $x['verdict'];
+
+        $language = $x['programmingLanguage'];
+
+        if (strpos($language, "GNU GCC") !== false || strpos($language, "C11") !== false) {
+            $language = "C";
+        } elseif (strpos($language, "++") !== false) {
+            $language = "C++";
+        } elseif (strpos($language, "C#") !== false) {
+            $language = "C#";
+        } elseif (strpos($language, "DMD") !== false) {
+            $language = "D";
+        } elseif (strpos($language, "Go") !== false) {
+            $language = "Go";
+        } elseif (strpos($language, "Haskell") !== false) {
+            $language = "Haskell";
+        } elseif (strpos($language, "Java") !== false) {
+            $language = "Java";
+        } elseif (strpos($language, "Kotlin") !== false) {
+            $language = "Kotlin";
+        } elseif (strpos($language, "OCaml") !== false) {
+            $language = "OCaml";
+        } elseif (strpos($language, "Delphi") !== false) {
+            $language = "Delphi";
+        } elseif (strpos($language, "Pascal") !== false) {
+            $language = "Pascal";
+        } elseif (strpos($language, "Perl") !== false) {
+            $language = "Perl";
+        } elseif (strpos($language, "PHP") !== false) {
+            $language = "PHP";
+        } elseif (strpos($language, "Py") !== false) {
+            $language = "Python";
+        } elseif (strpos($language, "Ruby") !== false) {
+            $language = "Ruby";
+        } elseif (strpos($language, "Rust") !== false) {
+            $language = "Rust";
+        } elseif (strpos($language, "Scala") !== false) {
+            $language = "Scala";
+        } elseif (strpos($language, "JavaScript") !== false || strpos($language, "Node.js") !== false) {
+            $language = "JavaScript";
+        } else {
+            $language = "Miscellaneous";
+        }
+
+        if ($verdict == 'OK') {
+            $verdict = 'Accepted';
+        } elseif ($verdict == 'REJECTED' || $verdict == 'WRONG_ANSWER') {
+            $verdict = 'Wrong answer';
+        } elseif ($verdict == 'TIME_LIMIT_EXCEEDED') {
+            $verdict = 'Time limit exceeded';
+        } elseif ($verdict == 'MEMORY_LIMIT_EXCEEDED') {
+            $verdict = 'Memory limit exceeded';
+        } elseif ($verdict == 'COMPILATION_ERROR') {
+            $verdict = 'Compilation error';
+        } elseif ($verdict == 'CHALLENGED') {
+            $verdict = 'Hacked';
+        } elseif ($verdict == 'PARTIAL') {
+            $verdict = 'Partial';
+        } else {
+            $verdict = 'Runtime error';
+        }
+
+        $listing = array($x['id'], $x['contestId'].$x['problem']['index'], $language, $date, $verdict);
+
 
         $index = array($x['contestId'] . $x['problem']['index'], $x['problem']['name'], 'codeforces', $x['contestId'], $x['problem']['index']);
         if (!in_array($index, $uniqueIndexSet)) {
@@ -40,16 +103,25 @@ foreach ($myjson['result'] as $x) {
         // print_r($index);
 
         array_push($ourdata, $listing);
+
+        $temp=max($x['id'], $temp);
     }
-    $temp=max($x['id'], $temp);
+    else{
+        break;
+    }
+    
 }
+
+if (empty($listing)) {
+    exit();
+}
+
 $lastSubmission=$temp;
 // print_r($uniqueIndexSet);
 $host = 'localhost';
 $dbname = 'db';
 $username = 'root';
 $password = '';
-
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
