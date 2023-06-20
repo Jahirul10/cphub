@@ -55,17 +55,13 @@ class StudentController extends Controller
         // Get the current year
         $currentYear = Carbon::now()->year;
 
-        //heatmap  value counting
-        // $submissionsCount = submissions::selectRaw('DATE(submissiontime) as date, COUNT(*) as count')
-        //     ->where('student_id', $id)
-        //     ->whereYear('submissiontime', $currentYear)
-        //     ->groupBy('date')
-        //     ->get();
         $submissionsCount = submissions::where('student_id', $id)
             ->whereYear('submissiontime', $currentYear)
-            ->groupBy('date')
             ->selectRaw('DATE(submissiontime) as date, COUNT(*) as count')
+            ->groupBy('date')
             ->get();
+
+        // print_r(json_encode($submissionsCount));
 
 
     // Prepare the data for the heatmap graph
@@ -76,6 +72,7 @@ class StudentController extends Controller
             $dailycount[] = [(int)date('Y', strtotime($date)), (int)date('n', strtotime($date)) - 1, (int)date('j', strtotime($date)), $count];
         }
         // dd($dailycount);
+        // print_r(json_encode($dailycount));
 
         // Pass the student and their submissions to the view with query param platform
         return view('studentDashboard', compact('student', 'submissions', 'dailycount'));

@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,9 +18,7 @@
             <a class="navbar-brand" href="#">
                 <h4>CSERU</h4>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -32,8 +30,7 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -79,25 +76,21 @@
                         <div class="row mt-4 mb-2">
                             <div class="col-2">
                                 <!-- <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <input class="form-check-input checkbox-filter" id="all-checkbox" type="checkbox"
-                                    value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="all-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <label for="all-checkbox" class="form-label">All</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" type="checkbox"
-                                    value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="codeforces-checkbox" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" type="checkbox"
-                                    value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="vjudge-checkbox" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" type="checkbox"
-                                    value="" aria-label="Checkbox for following text input">
+                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
                                 <!-- <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
                                 <label for="spoj-checkbox" class="form-label">Spoj</label>
                             </div>
@@ -188,9 +181,9 @@
                                     if (item.includes('platform')) return true;
                                 })
                                 platform = platform && platform[0]
-                                
 
-                                    if (platform) {
+
+                                if (platform) {
 
                                     platform = platform.split('=')[1];
                                     // console.log(platform);
@@ -410,60 +403,7 @@
 
 
                             </div>
-                            <hr>
-                            <div class="row mt-3 ms-2">
-                                <div id="calendar_basic" style="width: auto; height: auto;"></div>
 
-                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                <div id="dailyCountData" data-dailycount="{{ json_encode($dailycount) }}"></div>
-                                <script type="text/javascript">
-                                    google.charts.load("current", {
-                                        packages: ["calendar"]
-                                    });
-                                    google.charts.setOnLoadCallback(drawChart);
-                                    function drawChart() {
-                                        var dataTable = new google.visualization.DataTable();
-                                        dataTable.addColumn({
-                                            type: 'date',
-                                            id: 'Date'
-                                        });
-                                        dataTable.addColumn({
-                                            type: 'number',
-                                            id: 'Won/Loss'
-                                        });
-                                        var dailycount = JSON.parse(document.getElementById('dailyCountData').getAttribute('data-dailycount'));
-                                        for (var i = 0; i <dailycount.length; i++) {
-                                            dataTable.addRow([new Date(dailycount[i][0],dailycount[i][1],dailycount[i][2]), dailycount[i][3]]);
-                                        }
-                                        // dataTable.addRows([
-                                        //     [new Date(2012, 3, 13), 5],
-                                        //     [new Date(2012, 3, 14), 1],
-                                        //     [new Date(2012, 3, 15), 9],
-                                        //     [new Date(2012, 3, 16), 3],
-                                        //     [new Date(2012, 3, 17), 4],
-                                        //     [new Date(2012, 3, 20), 4],
-                                        //     [new Date(2012, 3, 21), 4],
-                                        // ]);
-                                        var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
-
-                                        var options = {
-                                            title: "Daily Submission Heatmap",
-                                            noDataPattern: {
-                                                backgroundColor: '#f1f1f1',
-                                                color: '#fefefe'
-                                            },
-                                            colorAxis: {
-                                                minValue: 0,
-                                                maxValue: 5,
-                                                colors: ['#e2fcd3', '#006b05']
-                                            },
-                                            width: 1000
-                                        };
-
-                                        chart.draw(dataTable, options);
-                                    }
-                                </script>
-                            </div>
                             <hr>
                             <div class="mt-3">
                                 <h2 class="p-2">Submission Records</h2>
@@ -480,16 +420,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($submissions as $submission)
-                                            <tr class="submission-row"
-                                                data-oj="{{ optional($submission->problem)->oj }}">
-                                                <td>{{ $submission->submission_id }}</td>
-                                                <td>{{ optional($submission->problem)->title }}</td>
-                                                <td>{{ optional($submission->problem)->oj }}</td>
-                                                <td>{{ $submission->verdict }}</td>
-                                                <td>{{ $submission->language }}</td>
-                                                <td>{{ $submission->submissiontime }}</td>
-                                            </tr>
-                                            <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged ?>
+                                        <tr class="submission-row" data-oj="{{ optional($submission->problem)->oj }}">
+                                            <td>{{ $submission->submission_id }}</td>
+                                            <td>{{ optional($submission->problem)->title }}</td>
+                                            <td>{{ optional($submission->problem)->oj }}</td>
+                                            <td>{{ $submission->verdict }}</td>
+                                            <td>{{ $submission->language }}</td>
+                                            <td>{{ $submission->submissiontime }}</td>
+                                        </tr>
+                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged
+                                        ?>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -530,19 +470,72 @@
                     <h1>Computer</h1>
                     <h1>Computer</h1>
                     <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
                 </div>
             </div>
+        </div>
+        <hr>
+        <div class="row mt-5 ms-2">
+            <div class="col-12">
+                <div class="chart-container" style="width: 100%;">
+                    <div id="calendar_basic" style="height: auto;"></div>
+                </div>
+            </div>
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <div id="dailyCountData" data-dailycount="{{ json_encode($dailycount) }}"></div>
+            <script type="text/javascript">
+                google.charts.load("current", {
+                    packages: ["calendar"]
+                });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn({
+                        type: 'date',
+                        id: 'Date'
+                    });
+                    dataTable.addColumn({
+                        type: 'number',
+                        id: 'Won/Loss'
+                    });
+                    var dailycount = JSON.parse(document.getElementById('dailyCountData').getAttribute('data-dailycount'));
+                    for (var i = 0; i < dailycount.length; i++) {
+                        dataTable.addRow([new Date(dailycount[i][0], dailycount[i][1], dailycount[i][2]), dailycount[i][3]]);
+                    }
+                    // dataTable.addRows([
+                    //     [new Date(2012, 3, 13), 5],
+                    //     [new Date(2012, 3, 14), 1],
+                    //     [new Date(2012, 3, 15), 9],
+                    //     [new Date(2012, 3, 16), 3],
+                    //     [new Date(2012, 3, 17), 4],
+                    //     [new Date(2012, 3, 20), 4],
+                    //     [new Date(2012, 3, 21), 4],
+                    // ]);
+                    var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
+
+                    var options = {
+                        title: "Daily Submission Heatmap",
+                        noDataPattern: {
+                            backgroundColor: '#f1f1f1',
+                            color: '#fefefe'
+                        },
+                        colorAxis: {
+                            minValue: 0,
+                            maxValue: 5,
+                            colors: ['#e2fcd3', '#006b05']
+                        },
+                        width: 1000
+                    };
+
+                    chart.draw(dataTable, options);
+                }
+            </script>
         </div>
     </div>
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 </body>
 
