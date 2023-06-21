@@ -4,8 +4,8 @@ UPDATE handles SET cf_last_submission = 0, vj_last_submission = 0, spoj_last_sub
 
 INSERT INTO students (id, name, phone, session)
 VALUES ('1810876114','A', '555-1234', '2018-19'),
- ('1810876112','A', '555-1234', '2018-19'),
- ('1810876113','A', '555-1234', '2018-19');
+('1810876112','A', '555-1234', '2018-19'),
+('1810876113','A', '555-1234', '2018-19');
 INSERT INTO handles (id, cfhandle, vjhandle, spojhandle, cf_last_submission, spoj_last_submission, vj_last_submission)
 VALUES ('1810876112','Benq', 'zby0327', 'zukow', 0, 0, 0),
 ('1810876113','tourist', 'tigerisland45', 'xilinx', 0, 0, 0);
@@ -28,5 +28,5 @@ VALUES ('191959605','1791e', 'c++', '2023-02-27 15:35:20.311', 'accepted', '1810
 
 INSERT INTO handles (id, cfhandle, vjhandle, spojhandle, cf_last_submission, spoj_last_submission, vj_last_submission)
 VALUES ('1810876124','hasibulfor', 'hasibulfor', 'hasibulfor', 0, 0, 0),
- ('1810876141','ABIR', 'MD_ABIR', 'abuhanif', 0, 0, 0),
- ('1810876145','jahirul', 'jahirul_islam1', 'true_false_0', 0, 0, 0)
+('1810876141','ABIR', 'MD_ABIR', 'abuhanif', 0, 0, 0),
+('1810876145','jahirul', 'jahirul_islam1', 'true_false_0', 0, 0, 0)
