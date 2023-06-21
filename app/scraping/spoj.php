@@ -204,4 +204,3 @@ $lastSubmission = $argv[3]; // Replace with the last submission value
 
 $lastSubmission = scrapeSubmissions($handle, $studentId, $lastSubmission);
 
-// echo "Last Submission: $lastSubmission";

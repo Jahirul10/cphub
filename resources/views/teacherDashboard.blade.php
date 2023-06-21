@@ -25,22 +25,28 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Compare</a>
                     </li>
+                    <!-- Upcoming feature
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contest</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Add Student</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log Out</a>
+                    </li>
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Add Student</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="#">Log Out</a></li>
                         </ul>
-                    </li>
+                    </li> -->
             </div>
         </div>
     </nav>

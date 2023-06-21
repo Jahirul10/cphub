@@ -43,3 +43,7 @@ Route::get('images/{filename}', function ($filename) {
 
 Route::get('/login', [VisitorController::class, 'login']);
 Route::get('/search-page', [VisitorController::class, 'publicSearch']);
+
+Route::get('/signup', function () {
+    return view('signUp');
+});

@@ -26,22 +26,28 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Compare</a>
                     </li>
+                    <!-- Upcoming feature
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contest</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Join</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Log Out</a>
+                    </li>
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Help</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Join Request</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="#">Log Out</a></li>
                         </ul>
-                    </li>
+                    </li> -->
             </div>
         </div>
     </nav>
@@ -341,7 +347,7 @@
                                         datasets: [{
                                             data: data,
                                             backgroundColor: ["#4caf50", "#9966ff", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"], // Customize the colors as needed
-                                            hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40","#c9cbcf"] // Customize the hover colors as needed
+                                            hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"] // Customize the hover colors as needed
                                         }]
                                     };
 
@@ -349,9 +355,9 @@
                                     var data2 = {
                                         labels: labelslanguages,
                                         datasets: [{
-                                            data:datalanguages,
-                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56"],
-                                            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56"]
+                                            data: datalanguages,
+                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"],
+                                            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
                                         }]
                                     };
 
