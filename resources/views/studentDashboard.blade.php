@@ -315,24 +315,43 @@
                                     <canvas id="pie-chart-2"></canvas>
                                 </div>
 
+                                <div id="verdictCountsData" data-verdictCounts="{{ json_encode($verdictCounts) }}"></div>
+                                <div id="languageCountsData" data-languageCounts="{{ json_encode($languageCounts) }}"></div>
                                 <script>
+                                    var verdictCounts = JSON.parse(document.getElementById('verdictCountsData').getAttribute('data-verdictCounts'));
+                                    var languageCounts = JSON.parse(document.getElementById('languageCountsData').getAttribute('data-languageCounts'));
                                     // Pie Chart 1 Data
+                                    // Extract labels and data from the verdictCounts variable
+                                    var labels = [];
+                                    var data = [];
+                                    var labelslanguages = [];
+                                    var datalanguages = [];
+                                    verdictCounts.forEach(function(item) {
+                                        labels.push(item.verdict);
+                                        data.push(item.count);
+                                    });
+                                    languageCounts.forEach(function(item) {
+                                        labelslanguages.push(item.language);
+                                        datalanguages.push(item.count);
+                                    });
+                                    // console.log(languageCounts);
+                                    // Create the chart data object
                                     var data1 = {
-                                        labels: ["Data 1", "Data 2", "Data 3"],
+                                        labels: labels,
                                         datasets: [{
-                                            data: [30, 20, 50],
-                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                                            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                                            data: data,
+                                            backgroundColor: ["#4caf50", "#9966ff", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"], // Customize the colors as needed
+                                            hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40","#c9cbcf"] // Customize the hover colors as needed
                                         }]
                                     };
 
                                     // Pie Chart 2 Data
                                     var data2 = {
-                                        labels: ["Data 4", "Data 5", "Data 6"],
+                                        labels: labelslanguages,
                                         datasets: [{
-                                            data: [60, 40, 20],
-                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                                            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                                            data:datalanguages,
+                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56"],
+                                            hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56","#FF6384", "#36A2EB", "#FFCE56"]
                                         }]
                                     };
 

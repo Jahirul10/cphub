@@ -51,6 +51,7 @@ class StudentController extends Controller
             ->paginate(20)->withQueryString();
 
         }
+        // dd($submissions);
         // dd($platform);
         // Get the current year
         $currentYear = Carbon::now()->year;
@@ -74,7 +75,17 @@ class StudentController extends Controller
         // dd($dailycount);
         // print_r(json_encode($dailycount));
 
+
+        $verdictCounts = submissions::where('student_id', $id)
+            ->selectRaw('verdict,COUNT(*) as count')
+            ->groupBy('verdict')
+            ->get();
+        // print_r(json_encode(($verdictCounts)));
+        $languageCounts = submissions::where('student_id', $id)
+            ->selectRaw('language,COUNT(*) as count')
+            ->groupBy('language')
+            ->get();
         // Pass the student and their submissions to the view with query param platform
-        return view('studentDashboard', compact('student', 'submissions', 'dailycount'));
+        return view('studentDashboard', compact('student', 'submissions', 'dailycount','verdictCounts','languageCounts'));
     }
 }
