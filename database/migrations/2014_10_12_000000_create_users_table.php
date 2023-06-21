@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->integer('user_type')->default(1);
+            $table->string('api_token', 80)->nullable();
         });
     }
 

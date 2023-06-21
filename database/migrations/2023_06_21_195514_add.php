@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
-            $table->bigInteger('id')->unique();
-            $table->string('phone');
-            $table->string('name');
-            $table->string('session');
-            $table->unsignedBigInteger('user_id')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('api_token', 80)->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -33,7 +33,7 @@
                         <a class="nav-link" href="#">Add Student</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log Out</a>
+                        <a class="nav-link" href="{{ url('logout') }}">Log Out</a>
                     </li>
                     <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
