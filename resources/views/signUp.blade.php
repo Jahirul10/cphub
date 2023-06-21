@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
+    <title>Sign up</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
@@ -18,6 +18,10 @@
                             <form class="mb-3 mt-md-4">
                                 <h2 class="fw-bold mb-2 text-uppercase">University Of Rajshahi</h2>
                                 <div class="mb-3 mt-4">
+                                    <label for="full-name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="full-name" placeholder="Full Name">
+                                </div>
+                                <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
                                     <input type="email" class="form-control" id="email" placeholder="Email">
                                 </div>
@@ -25,12 +29,12 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" placeholder="Password">
                                 </div>
-                                <p class="small"><a class="text-primary" href="forget-password.html">Forgot password?</a></p>
-                                <div class="d-grid">
-                                    <button class="btn btn-outline-dark" type="submit">Login</button>
+                                <div class="d-grid mt-4">
+                                    <button class="btn btn-outline-dark" type="submit">Sign up</button>
                                 </div>
                             </form>
-                            <p class="small text-center">No account? <a class="text-primary" href="{{ url('/signup') }}">Create one</a></p>
+
+                            <p class="small text-center">Already have an account? <a class="text-primary" href="{{ url('/login') }}">Login</a></p>
                         </div>
                     </div>
                 </div>
