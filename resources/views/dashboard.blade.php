@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Public Search</title>
+    <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/publicSearch-style.css">
 </head>
@@ -25,11 +25,9 @@
                         <a class="nav-link" aria-current="page" href="#">Compare</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/signup') }}">Sign Up</a>
+                        <a class="nav-link" href="{{ url('join-request') }}">Join</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/login') }}">Log In</a>
-                    </li>
+                    <a class="nav-link" href="{{ url('logout') }}">Log Out</a>
             </div>
         </div>
 

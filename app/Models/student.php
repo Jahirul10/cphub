@@ -14,4 +14,9 @@ class student extends Model
     {
         return $this->hasMany(submissions::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

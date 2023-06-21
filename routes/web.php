@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +17,22 @@ use App\Http\Controllers\VisitorController;
 |
 */
 
-// Route::get('/student-dashboard',  'StudentController@index');
-// Route::get('/student-dashboard', [StudentController::class, 'showStudent']);
+Route::get('/signup', function () {
+    return view('signUp');
+});
+Route::post('/signup', [VisitorController::class, 'signup']);
+
+Route::get('/login', [AuthController::class, 'showLoginForm']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/home', [VisitorController::class, 'home']);
+Route::get('/dashboard', [VisitorController::class, 'dashboard']);
+
+Route::get('/join-request', [VisitorController::class, 'joinRequest']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
-// Route::post('/teacher-table-update/{session}', function($session) {
-//     print_r($session);
-// });
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
 
@@ -40,10 +49,3 @@ Route::get('images/{filename}', function ($filename) {
         abort(404);
     }
 })->where('filename', '.*');
-
-Route::get('/login', [VisitorController::class, 'login']);
-Route::get('/search-page', [VisitorController::class, 'publicSearch']);
-
-Route::get('/signup', function () {
-    return view('signUp');
-});

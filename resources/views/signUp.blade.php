@@ -15,20 +15,35 @@
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="card bg-white">
                         <div class="card-body p-5">
-                            <form class="mb-3 mt-md-4">
+                            <form class="mb-3 mt-md-4" action="{{ url('/signup') }}" method="POST">
+                                @csrf
                                 <h2 class="fw-bold mb-2 text-uppercase">University Of Rajshahi</h2>
+
                                 <div class="mb-3 mt-4">
                                     <label for="full-name" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="full-name" placeholder="Full Name">
+                                    <input type="text" class="form-control" id="full-name" name="name" placeholder="Full Name" value="{{ old('name') }}">
+                                    @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                                    @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                    @error('password')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
+
+
                                 <div class="d-grid mt-4">
                                     <button class="btn btn-outline-dark" type="submit">Sign up</button>
                                 </div>
