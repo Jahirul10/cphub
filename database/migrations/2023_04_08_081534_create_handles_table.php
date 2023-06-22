@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('handles', function (Blueprint $table) {
-            $table->bigInteger('id')->unique();
+            $table->bigInteger('id')->primary();
             $table->string('cfhandle');
             $table->string('vjhandle');
             $table->string('spojhandle');
