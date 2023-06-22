@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('verdict');
             $table->string('student_id');
             $table->bigInteger('submission_id');
-
         });
 
 
