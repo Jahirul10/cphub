@@ -29,6 +29,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [VisitorController::class, 'home']);
 Route::get('/dashboard', [VisitorController::class, 'dashboard']);
 
+Route::post('/searchdata', [VisitorController::class, 'searchdata']);
+
 Route::get('/join-request', [VisitorController::class, 'joinRequest']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
