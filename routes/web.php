@@ -31,7 +31,11 @@ Route::get('/dashboard', [VisitorController::class, 'dashboard']);
 
 Route::post('/searchdata', [VisitorController::class, 'searchingData']);
 
-Route::get('/join-request', [VisitorController::class, 'joinRequest']);
+Route::get('/join-request', [VisitorController::class, 'showJoinRequestForm']);
+Route::post('/join-request', [VisitorController::class, 'joinRequest']);
+
+Route::get('/successful-request', [VisitorController::class, 'successfulRequest']);
+Route::post('/searchdata', [VisitorController::class, 'searchdata']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
