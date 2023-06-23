@@ -48,7 +48,7 @@
                     <div class="card bg-white">
                         <div class="card-body p-5">
                             <h2 class="fw-bold mb-2 text-uppercase text-center">University Of Rajshahi</h2>
-                            <div class="row mt-5">
+                            <!-- <div class="row mt-5">
                                 <div class="col-md mb-4">
                                     <label for="text" class="form-label">Codeforces Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Codeforces" aria-label="Codeforces">
@@ -65,7 +65,59 @@
                             <div class="row justify-content-center mt-4">
                                 <button type="button" class="btn btn-primary btn-md w-50">Submit</button>
 
+                            </div> -->
+                            <div class="row mt-5">
+                                <div class="col-md mb-4">
+                                    <label for="codeforces" class="form-label">Codeforces Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                </div>
+                                <div class="col-md mb-4">
+                                    <label for="vjudge" class="form-label">Vjudge Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge">
+                                </div>
+                                <div class="col-md">
+                                    <label for="spoj" class="form-label">Spoj Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj">
+                                </div>
                             </div>
+                            <div class="row justify-content-center mt-4">
+                                <button type="button" class="btn btn-primary btn-md w-50" id="submitBtn">Submit</button>
+                            </div>
+
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                            $(document).ready(function() {
+                                $('#submitBtn').click(function() {
+                                    var codeforcesHandle = $('#codeforces').val();
+                                    var vjudgeHandle = $('#vjudge').val();
+                                    var spojHandle = $('#spoj').val();
+                                    
+                                    // Create the data object to be sent in the POST request
+                                    var data = {
+                                        codeforces: codeforcesHandle,
+                                        vjudge: vjudgeHandle,
+                                        spoj: spojHandle
+                                    };
+                                    
+                                    // Send the POST request to the desired endpoint
+                                    $.post('/searchdata', data, function(response) {
+                                        // Handle the response from the server
+                                        console.log(response);
+                                    });
+                                });
+                            });
+                            function sanitizeInput(input) {
+                                // Remove leading and trailing whitespace
+                                input = input.trim();
+                                
+                                // Remove any potentially harmful characters or HTML tags
+                                input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                
+                                // Return the sanitized input
+                                return input;
+                            }
+                            </script>
+
                         </div>
                     </div>
                 </div>

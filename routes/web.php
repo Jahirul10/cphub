@@ -29,10 +29,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/home', [VisitorController::class, 'home']);
 Route::get('/dashboard', [VisitorController::class, 'dashboard']);
 
+
 Route::get('/join-request', [VisitorController::class, 'showJoinRequestForm']);
 Route::post('/join-request', [VisitorController::class, 'joinRequest']);
 
 Route::get('/successful-request', [VisitorController::class, 'successfulRequest']);
+Route::post('/searchdata', [VisitorController::class, 'searchdata']);
 
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
