@@ -57,7 +57,27 @@ class VisitorController extends Controller
     {
         return view('publicSearch');
     }
+    public function searchingData(Request $request) {
+        $codeforcesHandle = $request->input('codeforces');
+        $vjudgeHandle = $request->input('vjudge');
+        $spojHandle = $request->input('spoj');
 
+        // print_r($codeforcesHandle);
+        // print_r($vjudgeHandle);
+        // print_r($spojHandle);
+    
+        // Process the received data or perform any necessary operations
+
+        $path = base_path('app/scraping/publicCodeforces.php');
+
+        exec("php \"$path\" \"$codeforcesHandle\"", $output);
+        $jsonResponse = end($output);
+        $data = json_decode($jsonResponse, true);
+        // print_r($data);
+        $paginatedData = collect($data)->paginate(10);
+        return view('searchResultDashboard', compact('paginatedData')); 
+        // return view('searchResultDashboard', compact('data'));
+    }
     public function dashboard()
     {
         if (Auth::check()) {
