@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VisitorController extends Controller
 {
@@ -31,12 +33,18 @@ class VisitorController extends Controller
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'user_type' => 1, // Assuming 1 represents a regular user
+                'user_type' => 4, // Assuming 4 represents a regular user
             ]);
+
+            if ($user) {
+                $apiToken = Str::random(80);
+                User::where('id', $user->id)->update(['api_token' => $apiToken]);
+            }
 
             // Perform any additional actions or redirects here
 
             return redirect('/dashboard')->with('success', 'Sign up successful!');
+
         } catch (\Illuminate\Database\QueryException $exception) {
             $errorCode = $exception->errorInfo[1];
             if ($errorCode === 1062) { // Duplicate entry error code
@@ -62,17 +70,102 @@ class VisitorController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->user_type == 1) {
+            if ($user->user_type == 3 || $user->user_type == 4) {
                 return view('dashboard');
-            } else if ($user->user_type == 3) {
+            } else if ($user->user_type == 1) {
                 return redirect('/teacher-dashboard');
             }
         } else {
             return redirect('/login');
         }
     }
-    public function joinRequest()
+    public function showJoinRequestForm()
     {
-        return view('joinRequest');
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->user_type == 1) {
+                return redirect('/teacher-dashboard');
+            } else if ($user->user_type == 3) {
+                return view('successfulRequest');
+            } else if ($user->user_type == 4) {
+                return view('joinRequest');
+            }
+        } else {
+            return redirect('/login');
+        }
+    }
+
+    public function joinRequest(Request $request)
+    {
+        // Validate the form data
+        $validatedData = $request->validate([
+            'studentId' => 'required',
+            'phone' => 'required',
+            'session' => 'required',
+            'codeforcesHandle' => 'required',
+            'vjudgeHandle' => 'required',
+            'spojHandle' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        $studentId = $validatedData['studentId'];
+
+        // Check if the student ID already exists in the students table
+        $studentExists = DB::table('students')->where('id', $studentId)->exists();
+
+        if ($studentExists) {
+            // Student ID already exists in the students table
+            // Handle the error or return a response indicating the conflict
+            return response()->json(['error' => 'student_exists']);
+        }
+
+        // Check if the student ID already exists in the requested_students table
+        $requestedStudentExists = DB::table('requested_students')->where('id', $studentId)->exists();
+
+        if ($requestedStudentExists) {
+            // Student ID already exists in the requested_students table
+            // Handle the error or return a response indicating the conflict
+            return response()->json(['error' => 'join_request_exists']);
+        }
+
+        // Get the logged-in user's name and ID
+        $user = Auth::user();
+        $name = $user->name;
+        $userId = $user->id;
+
+        // Insert the data into the requested_students table using a query
+        DB::table('requested_students')->insert([
+            'id' => $studentId,
+            'phone' => $validatedData['phone'],
+            'name' => $name,
+            'session' => $validatedData['session'],
+            'cfhandle' => $validatedData['codeforcesHandle'],
+            'vjhandle' => $validatedData['vjudgeHandle'],
+            'spojhandle' => $validatedData['spojHandle'],
+            'created_at' => now(),
+            'updated_at' => now(),
+            'user_id' => $userId,
+        ]);
+
+        // Set the user type to 3 (assuming user type 3 represents joined students)
+        User::where('id', $userId)->update(['user_type' => 3]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function successfulRequest()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->user_type == 1) {
+                return redirect('/teacher-dashboard');
+            } else if ($user->user_type == 3) {
+                return view('successfulRequest');
+            } else if ($user->user_type == 4) {
+                return redirect('/join-request');
+            }
+        } else {
+            return redirect('/login');
+        }
     }
 }

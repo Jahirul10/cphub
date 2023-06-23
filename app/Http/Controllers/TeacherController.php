@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Problem;
 use App\Models\Student;
 use App\Models\Submissions;
-use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
