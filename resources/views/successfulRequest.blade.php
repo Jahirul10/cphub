@@ -37,11 +37,9 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-12 col-md-8 col-lg-10">
                     <!-- Success message -->
-                    @if (session('success'))
                     <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
+                        Joining request sent successfully!
                     </div>
-                    @endif
                 </div>
             </div>
         </div>

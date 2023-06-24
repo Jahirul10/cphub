@@ -31,10 +31,10 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Join</a>
+                        <a class="nav-link" href="{{url ('successful-request')}}">Join</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log Out</a>
+                        <a class="nav-link" href="{{ url('logout') }}">Log Out</a>
                     </li>
                     <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -30,11 +30,7 @@ class AuthController extends Controller
                 $apiToken = Str::random(80);
                 User::where('id', $user->id)->update(['api_token' => $apiToken]);
             }
-
-            // if($user->api_token)
-            // {
-            //     dd($apiToken);
-            // }
+            
             if ($user->user_type == 3) {
                 return redirect('/teacher-dashboard')->with('success', 'Login successful!');
             } else {

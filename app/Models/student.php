@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class student extends Model
 {
     // use HasFactory;
+    public $timestamps = false;
 
     public function submission(): HasMany
     {
