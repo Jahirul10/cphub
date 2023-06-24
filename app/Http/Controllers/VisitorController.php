@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\student;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,8 +28,6 @@ class VisitorController extends Controller
                 'password.min' => 'The password must be at least 1 characters.',
             ]);
 
-
-
             $user = User::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
@@ -36,15 +35,26 @@ class VisitorController extends Controller
                 'user_type' => 4, // Assuming 4 represents a regular user
             ]);
 
-            if ($user) {
-                $apiToken = Str::random(80);
-                User::where('id', $user->id)->update(['api_token' => $apiToken]);
-            }
-
             // Perform any additional actions or redirects here
+            if (Auth::attempt(['email' => $validatedData['email'], 'password' => $validatedData['password']])) {
+                $user = Auth::user();
 
-            return redirect('/dashboard')->with('success', 'Sign up successful!');
+                // Generate and save API token if needed
+                if ($user) {
+                    $apiToken = Str::random(80);
+                    User::where('id', $user->id)->update(['api_token' => $apiToken]);
+                }
 
+                if ($user->user_type == 3) {
+                    return redirect('/teacher-dashboard')->with('success', 'Login successful!');
+                } else {
+                    return redirect('/dashboard')->with('success', 'Login successful!');
+                }
+            } else {
+                return redirect('/login')->withErrors([
+                    'email' => 'Sign up failed. Please log in.',
+                ]);
+            }
         } catch (\Illuminate\Database\QueryException $exception) {
             $errorCode = $exception->errorInfo[1];
             if ($errorCode === 1062) { // Duplicate entry error code
@@ -53,6 +63,29 @@ class VisitorController extends Controller
 
             // Handle other database errors if needed
             return back()->withInput()->withErrors(['unexpected_error' => 'An unexpected error occurred.']);
+        }
+    }
+    public function dashboard()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            // print_r($user->user_type);
+            if ($user->user_type == 3 || $user->user_type == 4) {
+                return view('dashboard');
+            } else if ($user->user_type == 1) {
+                return redirect('/teacher-dashboard');
+            } else if ($user->user_type == 2) {
+                $student = Student::where('user_id', $user->id)->first();
+                if ($student) {
+                    $studentId = $student->id;
+                    return redirect("/students/{$studentId}");
+                } else {
+                    // Handle the case where the student record is not found
+                    // You can redirect to an appropriate error page or handle it as per your requirements
+                }
+            }
+        } else {
+            return redirect('/login');
         }
     }
 
@@ -65,7 +98,9 @@ class VisitorController extends Controller
     {
         return view('publicSearch');
     }
-    public function searchingData(Request $request) {
+
+    public function searchingData(Request $request)
+    {
         $codeforcesHandle = $request->input('codeforces');
         $vjudgeHandle = $request->input('vjudge');
         $spojHandle = $request->input('spoj');
@@ -73,7 +108,7 @@ class VisitorController extends Controller
         // print_r($codeforcesHandle);
         // print_r($vjudgeHandle);
         // print_r($spojHandle);
-    
+
         // Process the received data or perform any necessary operations
 
         $path = base_path('app/scraping/publicCodeforces.php');
@@ -83,22 +118,10 @@ class VisitorController extends Controller
         $data = json_decode($jsonResponse, true);
         // print_r($data);
         $paginatedData = collect($data)->paginate(10);
-        return view('searchResultDashboard', compact('paginatedData')); 
+        return view('searchResultDashboard', compact('paginatedData'));
         // return view('searchResultDashboard', compact('data'));
     }
-    public function dashboard()
-    {
-        if (Auth::check()) {
-            $user = Auth::user();
-            if ($user->user_type == 3 || $user->user_type == 4) {
-                return view('dashboard');
-            } else if ($user->user_type == 1) {
-                return redirect('/teacher-dashboard');
-            }
-        } else {
-            return redirect('/login');
-        }
-    }
+
     public function showJoinRequestForm()
     {
         if (Auth::check()) {
@@ -165,6 +188,7 @@ class VisitorController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
             'user_id' => $userId,
+            'receiver' => $validatedData['email'],
         ]);
 
         // Set the user type to 3 (assuming user type 3 represents joined students)
@@ -179,6 +203,8 @@ class VisitorController extends Controller
             $user = Auth::user();
             if ($user->user_type == 1) {
                 return redirect('/teacher-dashboard');
+            } else if ($user->user_type == 2) {
+                return view('successfulRequest');
             } else if ($user->user_type == 3) {
                 return view('successfulRequest');
             } else if ($user->user_type == 4) {

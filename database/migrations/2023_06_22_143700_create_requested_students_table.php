@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('spojhandle');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('receiver');
         });
     }
 

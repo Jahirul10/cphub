@@ -30,7 +30,7 @@
                         <a class="nav-link" href="#">Contest</a>
                     </li> -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Add Student</a>
+                        <a class="nav-link" href="{{ url('add-student') }}">Add Student</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('logout') }}">Log Out</a>

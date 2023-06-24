@@ -37,7 +37,12 @@ Route::post('/join-request', [VisitorController::class, 'joinRequest']);
 Route::get('/successful-request', [VisitorController::class, 'successfulRequest']);
 Route::post('/searchdata', [VisitorController::class, 'searchdata']);
 
+Route::get('/add-student', [TeacherController::class, 'addStudent']);
+Route::delete('/delete-request/{studentId}', [TeacherController::class, 'deleteRequest']);
+Route::post('/accept-request/{studentId}', [TeacherController::class, 'acceptRequest']);
+
 Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
+
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
 
 Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
