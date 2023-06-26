@@ -98,6 +98,10 @@ class VisitorController extends Controller
     {
         return view('publicSearch');
     }
+    public function searchResult()
+    {
+        return view('publicSearchResult');
+    }
 
     public function searchingData(Request $request)
     {
