@@ -45,8 +45,7 @@ Route::get('/teacher-dashboard', [TeacherController::class, 'dashboard']);
 
 Route::post('/teacher-table-update/{session}', [TeacherController::class, 'updateTable']);
 
-Route::get('/students/{id}', [StudentController::class, 'showSubmissionHistory']);
-Route::get('/student/{id}', [StudentController::class, 'showSubmissionHistory2']);
+Route::get('/student/{id}', [StudentController::class, 'showSubmissionHistory'])->name('student.show');
 Route::post('/filter-submissions', [StudentController::class, 'filterSubmissions']);
 
 Route::get('images/{filename}', function ($filename) {
