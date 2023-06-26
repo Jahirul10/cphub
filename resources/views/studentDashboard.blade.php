@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="utf-8">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -58,261 +59,46 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-2">
-                            <img class="rounded-circle shadow ms-4 mt-4 mb-4" alt="avatar2" src="42-.png" />
+                            <img class="rounded-circle shadow ms-4 mt-4 mb-4" src="{{ asset('images/') }}/pp{{ $student->id }}.png" alt="avatar2" />
                         </div>
                         <div class="col ps-5">
-                            <ul class=" mt-5">
-                                <ul class="">
-                                    <h4>{{ $student->name }}</h4>
-                                    <h4>{{ $student->id }}</h4>
-                                    <h4>{{ $student->phone }}</h4>
-                                    <h4>{{ $student->session }}</h4>
-                                </ul>
-                                <ul class="">
-                                </ul>
-                                <ul class="">
-                                </ul>
+                            <ul class=" mt-5 ms-5">
+                                <h4>{{ $student->name }}</h4>
+                                <p><em>{{ $student->id }}</em></p>
+                                <p>Phone: {{ $student->phone }}</p>
+                                <p>Session: {{ $student->session }}</p>
                             </ul>
                         </div>
 
                     </div>
                 </div>
+
+
                 <div class="row">
                     <div class="col">
-                        <div class="row mt-4 mb-2">
+                        <div class="row mt-4 mb-3 align-items-center">
+                            <!-- Checkbox inputs -->
                             <div class="col-2">
-                                <!-- <input class="form-check-input" id="all-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <input class="form-check-input checkbox-filter" id="all-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <label for="all-checkbox" class="form-label">All</label>
+                                <input class="form-check-input checkbox-filter" id="codeforces" type="checkbox" value="" aria-label="Checkbox for following text input" checked>
+                                <label for="codeforces" class="form-label">Codeforces</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="codeforces-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <!-- <input class="form-check-input" id="codeforces-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <label for="codeforces-checkbox" class="form-label">Codeforces</label>
+                                <input class="form-check-input checkbox-filter" id="vjudge" type="checkbox" value="" aria-label="Checkbox for following text input" checked>
+                                <label for="vjudge" class="form-label">Vjudge</label>
                             </div>
                             <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="vjudge-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <!-- <input class="form-check-input" id="vjudge-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <label for="vjudge-checkbox" class="form-label">Vjudge</label>
+                                <input class="form-check-input checkbox-filter" id="spoj" type="checkbox" value="" aria-label="Checkbox for following text input" checked>
+                                <label for="spoj" class="form-label">Spoj</label>
                             </div>
-                            <div class="col-2">
-                                <input class="form-check-input checkbox-filter" id="spoj-checkbox" type="checkbox" value="" aria-label="Checkbox for following text input">
-                                <!-- <input class="form-check-input" id="spoj-checkbox" checked type="checkbox" value="" aria-label="Checkbox for following text input"> -->
-                                <label for="spoj-checkbox" class="form-label">Spoj</label>
-                            </div>
+
+                            <!-- Filter button -->
                             <div class="col-2">
                                 <button class="btn btn-success" id="filter_button">Filter</button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- <script>
-                        function handleCheckboxChange() {
-                            const allCheckbox = document.querySelector('#all-checkbox');
-                            const codeforcesCheckbox = document.querySelector('#codeforces-checkbox');
-                            const vjudgeCheckbox = document.querySelector('#vjudge-checkbox');
-                            const spojCheckbox = document.querySelector('#spoj-checkbox');
-
-                            var selectedJudgesCount = allCheckbox.checked + codeforcesCheckbox.checked + vjudgeCheckbox.checked +
-                                spojCheckbox.checked;
-                            console.log(selectedJudgesCount);
-
-                            if (selectedJudgesCount > 0 && selectedJudgesCount < 4) {
-
-                            } else if (!allCheckbox.checked) {
-                                codeforcesCheckbox.checked = false;
-                                vjudgeCheckbox.checked = false;
-                                spojCheckbox.checked = false;
-                                selectedJudgesCount = 0;
-                            } else if (allCheckbox.checked) {
-                                codeforcesCheckbox.checked = true;
-                                vjudgeCheckbox.checked = true;
-                                spojCheckbox.checked = true;
-                            } else if (codeforcesCheckbox.checked && vjudgeCheckbox.checked && spojCheckbox.checked) {
-                                allCheckbox.checked = true;
-                            }
-                        }
-
-                        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                        checkboxes.forEach((checkbox) => {
-                            checkbox.addEventListener('change', handleCheckboxChange);
-                        });
-                    </script> -->
-                    <script>
-                        $(document).ready(function() {
-                            // Function to update the checkbox states
-                            function updateCheckboxStates() {
-                                var codeforcesChecked = $('#codeforces-checkbox').prop('checked');
-                                var vjudgeChecked = $('#vjudge-checkbox').prop('checked');
-                                var spojChecked = $('#spoj-checkbox').prop('checked');
-
-                                if (codeforcesChecked && vjudgeChecked && spojChecked) {
-                                    $('#all-checkbox').prop('checked', true);
-                                } else {
-                                    $('#all-checkbox').prop('checked', false);
-                                }
-                            }
-
-                            // Event handler for 'All' checkbox
-                            $('#all-checkbox').change(function() {
-                                var allChecked = $(this).prop('checked');
-                                $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').prop('checked', allChecked);
-                            });
-
-                            // Event handlers for other checkboxes
-                            $('#codeforces-checkbox, #vjudge-checkbox, #spoj-checkbox').change(function() {
-                                updateCheckboxStates();
-                            });
-                        });
-                    </script>
-                    <script>
-                        $(document).ready(function() {
-                            var platform;
-                            // Handle checkbox interactions
-                            $('.checkbox-filter').change(function() {
-                                // console.log('checked')
-                                filterSubmissions();
-                            });
-                            const allChecked_button = document.getElementById('all-checkbox');
-                            const cf_checked_button = document.getElementById('codeforces-checkbox');
-                            const vj_checked_button = document.getElementById('vjudge-checkbox');
-                            const spoj_checked_button = document.getElementById('spoj-checkbox');
-
-                            // check for query params and set checkbox values
-                            const checkboxValuesChange = () => {
-                                const secondPartOfUrl = window.location.href.split('?')[1];
-                                params = secondPartOfUrl && secondPartOfUrl.split('&');
-                                // console.log(params);
-                                var platform = params && params.filter(function(item) {
-                                    if (item.includes('platform')) return true;
-                                })
-                                platform = platform && platform[0]
-
-
-                                if (platform) {
-
-                                    platform = platform.split('=')[1];
-                                    // console.log(platform);
-                                    if (platform.includes('codeforces')) {
-                                        cf_checked_button.checked = true;
-                                    }
-                                    if (platform.includes('vjudge')) {
-                                        vj_checked_button.checked = true;
-                                    }
-                                    if (platform.includes('spoj')) {
-                                        spoj_checked_button.checked = true;
-                                    }
-                                    if (platform.includes('all')) {
-                                        allChecked_button.checked = true;
-                                    }
-                                    if (platform.includes('codeforces') && platform.includes('vjudge') && platform.includes(
-                                            'spoj')) {
-                                        allChecked_button.checked = true;
-                                    }
-                                }
-                            }
-
-                            checkboxValuesChange();
-
-
-
-
-                            // Filter submissions based on checkbox states
-                            function filterSubmissions() {
-                                var allChecked = $('#all-checkbox').is(':checked');
-                                var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
-                                var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
-                                var spojChecked = $('#spoj-checkbox').is(':checked');
-
-                                // Show/hide submissions based on checkbox states
-                                // $('.submission-row').each(function() {
-                                // var submissionOJ = $(this).data('oj');
-
-                                // if (allChecked || (codeforcesChecked && submissionOJ === 'codeforces') || (vjudgeChecked && submissionOJ === 'Vjudge') || (spojChecked && submissionOJ === 'spoj')) {
-                                //     $(this).show();
-                                // } else {
-                                //     $(this).hide();
-                                // }
-                                // });
-
-                                platform = generateQueryString();
-
-                                // add the platforms as a query string of the current url and change the href attribute
-                                // console.log(typeof url)
-                                // console.log(url);
-
-
-                                // console.log(url);
-                                // if(allChecked){
-                                // }
-                                //     if(allChecked || codeforcesChecked || vjudgeChecked || spojChecked){
-                                //         console.log(url);
-                                //         // window.location.href = url;
-                                // }
-
-
-                                // console.log(platforms);
-                                // console.log(codeforcesChecked,vjudgeChecked,spojChecked);
-                            }
-
-                            // Initial filtering on page load
-                            filterSubmissions();
-
-                            // filter button listerner
-
-                            document.getElementById('filter_button').addEventListener('click', function() {
-                                // console.log(platform);
-                                var url = window.location.href;
-                                // split url by ? and take the first
-                                url = url.split('?')[0];
-                                // console.log(url);
-                                if (platform != '') {
-                                    url = url + '?platform=' + platform
-                                    window.location.href = url;
-                                }
-                            })
-                        });
-
-                        const generateQueryString = () => {
-                            var allChecked = $('#all-checkbox').is(':checked');
-                            var codeforcesChecked = $('#codeforces-checkbox').is(':checked');
-                            var vjudgeChecked = $('#vjudge-checkbox').is(':checked');
-                            var spojChecked = $('#spoj-checkbox').is(':checked');
-
-                            var q = '';
-                            if (allChecked) {
-                                q = 'codeforces*vjudge*spoj'
-                            } else {
-                                if (codeforcesChecked) {
-                                    if (q != '') {
-                                        q = q + '*codeforces';
-                                    } else {
-                                        q = 'codeforces';
-                                    }
-                                }
-                                if (vjudgeChecked) {
-                                    if (q != '') {
-                                        q = q + '*vjudge';
-                                    } else {
-                                        q = 'vjudge';
-                                    }
-                                }
-                                if (spojChecked) {
-                                    if (q != '') {
-                                        q = q + '*spoj';
-                                    } else {
-                                        q = 'spoj';
-                                    }
-                                }
-                            }
-                            return q;
-                        }
-                    </script>
-                </div>
-
-                <div class="row">
-                    <div class="col">
                         <div class="card">
+
+                            <!-- pie-chart -->
                             <div class="row justify-content-evenly mt-3 mb-3">
                                 <div class="" style="display:inline-block; width:30%;">
                                     <canvas id="pie-chart-1"></canvas>
@@ -320,38 +106,119 @@
                                 <div class="" style="display:inline-block; width:30%;">
                                     <canvas id="pie-chart-2"></canvas>
                                 </div>
+                            </div>
 
-                                <div id="verdictCountsData" data-verdictCounts="{{ json_encode($verdictCounts) }}"></div>
-                                <div id="languageCountsData" data-languageCounts="{{ json_encode($languageCounts) }}"></div>
-                                <script>
-                                    var verdictCounts = JSON.parse(document.getElementById('verdictCountsData').getAttribute('data-verdictCounts'));
-                                    var languageCounts = JSON.parse(document.getElementById('languageCountsData').getAttribute('data-languageCounts'));
+                            <hr>
+
+                            <!-- submission-history-table -->
+                            <div class="mt-3">
+                                <h2 class="p-2">Submission Records</h2>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Submission ID</th>
+                                            <th scope="col">Problem name</th>
+                                            <th scope="col">OJ</th>
+                                            <th scope="col">Verdicts</th>
+                                            <th scope="col">Language</th>
+                                            <th scope="col">Submission time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="submission_table">
+                                    </tbody>
+                                </table>
+                                <!-- Pagination -->
+                                <nav>
+                                    <ul class="pagination justify-content-center" id="pagination"></ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    var pieChart1;
+                    var pieChart2;
+
+                    $(document).ready(function() {
+                        // Enable/disable filter button based on checkbox status
+                        $('input.checkbox-filter').on('change', function() {
+                            var checked = $('input.checkbox-filter:checked').length;
+                            $('#filter_button').prop('disabled', checked === 0);
+                        });
+
+                        // Trigger 'change' event on checkboxes to update filter button initially
+                        $('input.checkbox-filter').trigger('change');
+
+                        $('#filter_button').click(function() {
+                            var platforms = [];
+                            $('input.checkbox-filter:checked').each(function() {
+                                platforms.push($(this).attr('id'));
+                            });
+
+                            var url = window.location.href;
+                            var segments = url.split('/');
+                            var studentId = segments[segments.length - 1];
+
+                            $.ajax({
+                                url: '/filter-submissions',
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: {
+                                    platforms: platforms,
+                                    studentId: studentId
+                                },
+                                success: function(response) {
+                                    console.log(response);
+
+                                    var submissions = response.submissions;
+                                    var verdictCounts = response.verdictsCount;
+                                    var languageCounts = response.languagesCount;
+
+                                    // Destroy existing chart instances
+                                    if (pieChart1) {
+                                        pieChart1.destroy();
+                                    }
+
+                                    if (pieChart2) {
+                                        pieChart2.destroy();
+                                    }
+
+
                                     // Pie Chart 1 Data
-                                    // Extract labels and data from the verdictCounts variable
                                     var labels = [];
                                     var data = [];
-                                    var labelslanguages = [];
-                                    var datalanguages = [];
-                                    verdictCounts.forEach(function(item) {
-                                        labels.push(item.verdict);
-                                        data.push(item.count);
-                                    });
-                                    languageCounts.forEach(function(item) {
-                                        labelslanguages.push(item.language);
-                                        datalanguages.push(item.count);
-                                    });
-                                    // console.log(languageCounts);
-                                    // Create the chart data object
+                                    // Convert response.verdictsCount object into an array of objects
+                                    for (var key in response.verdictsCount) {
+                                        if (response.verdictsCount.hasOwnProperty(key)) {
+                                            // Push directly to labels and data arrays
+                                            labels.push(key);
+                                            data.push(response.verdictsCount[key]);
+                                        }
+                                    }
+
                                     var data1 = {
                                         labels: labels,
                                         datasets: [{
                                             data: data,
-                                            backgroundColor: ["#4caf50", "#9966ff", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"], // Customize the colors as needed
-                                            hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"] // Customize the hover colors as needed
+                                            backgroundColor: ["#4caf50", "#9966ff", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"],
+                                            hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"]
                                         }]
                                     };
 
                                     // Pie Chart 2 Data
+                                    var labelslanguages = [];
+                                    var datalanguages = [];
+                                    for (var key in response.languagesCount) {
+                                        if (response.languagesCount.hasOwnProperty(key)) {
+                                            // Push directly to labelslanguages and datalanguages arrays
+                                            labelslanguages.push(key);
+                                            datalanguages.push(response.languagesCount[key]);
+                                        }
+                                    }
+
                                     var data2 = {
                                         labels: labelslanguages,
                                         datasets: [{
@@ -368,7 +235,7 @@
                                     var ctx2 = document.getElementById("pie-chart-2").getContext("2d");
 
                                     // Create Pie Chart 1
-                                    var pieChart1 = new Chart(ctx1, {
+                                    pieChart1 = new Chart(ctx1, {
                                         type: 'pie',
                                         data: data1,
                                         options: {
@@ -397,7 +264,7 @@
                                     });
 
                                     // Create Pie Chart 2
-                                    var pieChart2 = new Chart(ctx2, {
+                                    pieChart2 = new Chart(ctx2, {
                                         type: 'pie',
                                         data: data2,
                                         options: {
@@ -424,47 +291,140 @@
                                             }
                                         }
                                     });
-                                </script>
 
 
-                            </div>
 
-                            <hr>
-                            <div class="mt-3">
-                                <h2 class="p-2">Submission Records</h2>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Submission ID</th>
-                                            <th scope="col">Problem name</th>
-                                            <th scope="col">OJ</th>
-                                            <th scope="col">Verdicts</th>
-                                            <th scope="col">Language</th>
-                                            <th scope="col">Submission time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($submissions as $submission)
-                                        <tr class="submission-row" data-oj="{{ optional($submission->problem)->oj }}">
-                                            <td>{{ $submission->submission_id }}</td>
-                                            <td>{{ optional($submission->problem)->title }}</td>
-                                            <td>{{ optional($submission->problem)->oj }}</td>
-                                            <td>{{ $submission->verdict }}</td>
-                                            <td>{{ $submission->language }}</td>
-                                            <td>{{ $submission->submissiontime }}</td>
-                                        </tr>
-                                        <?php $problem = $submission->problem; // Call problem() function here to ensure it gets logged
-                                        ?>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <div class="pagination justify-content-center">
-                                    {{ $submissions->links('pagination::bootstrap-5') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    var tableBody = $('#submission_table');
+                                    tableBody.empty();
+
+                                    var currentPage = 1;
+                                    var rowsPerPage = 50;
+                                    var totalPages = Math.ceil(submissions.length / rowsPerPage);
+
+                                    function showRows() {
+                                        var start = (currentPage - 1) * rowsPerPage;
+                                        var end = start + rowsPerPage;
+
+                                        tableBody.empty();
+
+                                        for (var i = start; i < end; i++) {
+                                            if (i >= submissions.length) {
+                                                break;
+                                            }
+
+                                            var submission = submissions[i];
+                                            var row = $('<tr>');
+
+                                            $('<td>').text(submission.submission_id).appendTo(row);
+                                            $('<td>').text(submission.problem_title).appendTo(row);
+                                            $('<td>').text(submission.problem_oj).appendTo(row);
+                                            $('<td>').text(submission.verdict).appendTo(row);
+                                            $('<td>').text(submission.language).appendTo(row);
+                                            $('<td>').text(submission.submissiontime).appendTo(row);
+
+                                            tableBody.append(row);
+                                        }
+                                    }
+
+                                    function updatePagination() {
+                                        var pagination = $('#pagination');
+                                        pagination.empty();
+
+                                        var firstButton = $('<li class="page-item"><a class="page-link" href="#">1</a></li>');
+                                        var prevButton = $('<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+                                        var nextButton = $('<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+                                        var lastButton = $('<li class="page-item"><a class="page-link" href="#">' + totalPages + '</a></li>');
+
+                                        firstButton.click(function(e) {
+                                            e.preventDefault(); // Prevent the default behavior of the anchor tag
+                                            if (currentPage !== 1) {
+                                                currentPage = 1;
+                                                showRows();
+                                                updatePagination();
+                                            }
+                                        });
+
+                                        prevButton.click(function(e) {
+                                            e.preventDefault(); // Prevent the default behavior of the anchor tag
+                                            if (currentPage > 1) {
+                                                currentPage--;
+                                                showRows();
+                                                updatePagination();
+                                            }
+                                        });
+
+                                        nextButton.click(function(e) {
+                                            e.preventDefault(); // Prevent the default behavior of the anchor tag
+                                            if (currentPage < totalPages) {
+                                                currentPage++;
+                                                showRows();
+                                                updatePagination();
+                                            }
+                                        });
+
+                                        lastButton.click(function(e) {
+                                            e.preventDefault(); // Prevent the default behavior of the anchor tag
+                                            if (currentPage !== totalPages) {
+                                                currentPage = totalPages;
+                                                showRows();
+                                                updatePagination();
+                                            }
+                                        });
+
+                                        pagination.append(firstButton);
+                                        pagination.append(prevButton);
+
+                                        var maxVisiblePages = 5; // Set the maximum number of visible page buttons
+                                        var startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
+                                        var endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+                                        // Adjust startPage when it is not within the valid range
+                                        if (endPage === totalPages && startPage > 1) {
+                                            startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+                                        }
+
+                                        if (startPage > 1) {
+                                            pagination.append('<li class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+                                        }
+
+                                        for (var i = startPage; i <= endPage; i++) {
+                                            var pageButton = $('<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>');
+                                            pageButton.click(function(e) {
+                                                e.preventDefault(); // Prevent the default behavior of the anchor tag
+                                                currentPage = parseInt($(this).text());
+                                                showRows();
+                                                updatePagination();
+                                            });
+
+                                            // Add 'active' class to the current page button
+                                            if (i === currentPage) {
+                                                pageButton.addClass('active');
+                                            }
+
+                                            pagination.append(pageButton);
+                                        }
+
+                                        if (endPage < totalPages) {
+                                            pagination.append('<li class="page-item disabled"><a class="page-link" href="#">...</a></li>');
+                                        }
+
+                                        pagination.append(nextButton);
+                                        pagination.append(lastButton);
+                                    }
+
+                                    showRows();
+                                    updatePagination();
+                                },
+                                error: function(xhr, status, error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+
+                        // Trigger click event on filter button to simulate initial AJAX request
+                        $('#filter_button').trigger('click');
+                    });
+                </script>
             </div>
             <div class="col-3">
                 <div class="card">
@@ -498,7 +458,11 @@
                 </div>
             </div>
         </div>
+
+
         <hr>
+
+        <!-- heat map -->
         <div class="row mt-5 ms-2">
             <div class="col-12">
                 <div class="chart-container" style="width: 100%;">
@@ -507,7 +471,7 @@
             </div>
 
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-            <div id="dailyCountData" data-dailycount="{{ json_encode($dailycount) }}"></div>
+            <div id="submissionsCountData" data-submissionsCount="{{ json_encode($submissionsCount) }}"></div>
             <script type="text/javascript">
                 google.charts.load("current", {
                     packages: ["calendar"]
@@ -524,19 +488,11 @@
                         type: 'number',
                         id: 'Won/Loss'
                     });
-                    var dailycount = JSON.parse(document.getElementById('dailyCountData').getAttribute('data-dailycount'));
-                    for (var i = 0; i < dailycount.length; i++) {
-                        dataTable.addRow([new Date(dailycount[i][0], dailycount[i][1], dailycount[i][2]), dailycount[i][3]]);
+                    var submissionsCount = JSON.parse(document.getElementById('submissionsCountData').getAttribute('data-submissionsCount'));
+                    console.log(submissionsCount);
+                    for (var i = 0; i < submissionsCount.length; i++) {
+                        dataTable.addRow([new Date(submissionsCount[i][0], submissionsCount[i][1], submissionsCount[i][2]), submissionsCount[i][3]]);
                     }
-                    // dataTable.addRows([
-                    //     [new Date(2012, 3, 13), 5],
-                    //     [new Date(2012, 3, 14), 1],
-                    //     [new Date(2012, 3, 15), 9],
-                    //     [new Date(2012, 3, 16), 3],
-                    //     [new Date(2012, 3, 17), 4],
-                    //     [new Date(2012, 3, 20), 4],
-                    //     [new Date(2012, 3, 21), 4],
-                    // ]);
                     var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
 
                     var options = {
@@ -557,6 +513,8 @@
                 }
             </script>
         </div>
+
+
     </div>
 
     </div>
