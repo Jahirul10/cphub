@@ -12,7 +12,7 @@
     <!--Navbar Design start -->
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ url('dashboard') }}">
                 <h4>CSERU</h4>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
                 <div class="col-12 col-md-8 col-lg-10">
                     <!-- Success message -->
                     <div class="alert alert-success" role="alert">
-                        Joining request sent successfully!
+                        {{ $message }}
                     </div>
                 </div>
             </div>
