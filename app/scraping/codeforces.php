@@ -34,10 +34,10 @@ foreach ($myjson['result'] as $x) {
 
         $language = $x['programmingLanguage'];
 
-        if (strpos($language, "GNU GCC") !== false || strpos($language, "C11") !== false) {
-            $language = "C";
-        } elseif (strpos($language, "++") !== false) {
+        if (strpos($language, "++") !== false) {
             $language = "C++";
+        } elseif (strpos($language, "GNU GCC") !== false || strpos($language, "C11") !== false ||strpos($language, "GNU C") !== false) {
+            $language = "C";
         } elseif (strpos($language, "C#") !== false) {
             $language = "C#";
         } elseif (strpos($language, "DMD") !== false) {
