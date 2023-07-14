@@ -65,6 +65,7 @@ class VisitorController extends Controller
             return back()->withInput()->withErrors(['unexpected_error' => 'An unexpected error occurred.']);
         }
     }
+
     public function dashboard()
     {
         if (Auth::check()) {
@@ -78,14 +79,14 @@ class VisitorController extends Controller
                 $student = Student::where('user_id', $user->id)->first();
                 if ($student) {
                     $studentId = $student->id;
-                    return redirect("/students/{$studentId}");
+                    return redirect("/student/{$studentId}");
                 } else {
                     // Handle the case where the student record is not found
                     // You can redirect to an appropriate error page or handle it as per your requirements
                 }
             }
         } else {
-            return redirect('/login');
+            return redirect('/home');
         }
     }
 
@@ -222,17 +223,36 @@ class VisitorController extends Controller
 
     public function successfulRequest()
     {
+        // if (Auth::check()) {
+        //     $user = Auth::user();
+        //     if ($user->user_type == 1) {
+        //         return redirect('/teacher-dashboard');
+        //     } else if ($user->user_type == 2) {
+        //         return view('successfulRequest');
+        //     } else if ($user->user_type == 3) {
+        //         return view('successfulRequest');
+        //     } else if ($user->user_type == 4) {
+        //         return redirect('/join-request');
+        //     }
+        // } else {
+        //     return redirect('/login');
+        // }
+
         if (Auth::check()) {
             $user = Auth::user();
+            $message = ''; // Set a default value for the message
+
             if ($user->user_type == 1) {
                 return redirect('/teacher-dashboard');
             } else if ($user->user_type == 2) {
-                return view('successfulRequest');
+                $message = 'Your joining request has been accepted.';
             } else if ($user->user_type == 3) {
-                return view('successfulRequest');
+                $message = 'Joining request sent successfully!';
             } else if ($user->user_type == 4) {
-                return redirect('/join-request');
+                return view('joinRequest');
             }
+
+            return view('successfulRequest', compact('message'));
         } else {
             return redirect('/login');
         }

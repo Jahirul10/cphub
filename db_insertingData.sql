@@ -1,6 +1,8 @@
 DELETE FROM problems;
 DELETE FROM submissions;
-UPDATE handles SET cf_last_submission = 0, vj_last_submission = 0, spoj_last_submission=0;
+DELETE FROM handles;
+DELETE FROM students;
+DELETE FROM users;
 
 INSERT INTO students (id, name, phone, session)
 VALUES ('1810876114','A', '555-1234', '2018-19'),

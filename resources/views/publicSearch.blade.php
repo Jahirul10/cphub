@@ -14,7 +14,7 @@
     <!--Navbar Design start -->
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ url('dashboard') }}">
                 <h4>CSERU</h4>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,8 +92,6 @@
                                     var codeforcesHandle = $('#codeforces').val();
                                     var vjudgeHandle = $('#vjudge').val();
                                     var spojHandle = $('#spoj').val();
-                                    
-                                    
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                                     // Create the data object to be sent in the POST request
                                     var data = {
@@ -102,7 +100,7 @@
                                         vjudge: vjudgeHandle,
                                         spoj: spojHandle
                                     };
-                                    
+
                                     // Send the POST request to the desired endpoint
                                     $.post('/searchdata', data, function(response) {
                                         // Handle the response from the server
@@ -114,10 +112,10 @@
                             function sanitizeInput(input) {
                                 // Remove leading and trailing whitespace
                                 input = input.trim();
-                                
+
                                 // Remove any potentially harmful characters or HTML tags
                                 input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                                
+
                                 // Return the sanitized input
                                 return input;
                             }
