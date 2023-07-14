@@ -93,7 +93,7 @@
                                     var vjudgeHandle = $('#vjudge').val();
                                     var spojHandle = $('#spoj').val();
                                     
-
+                                    
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                                     // Create the data object to be sent in the POST request
                                     var data = {

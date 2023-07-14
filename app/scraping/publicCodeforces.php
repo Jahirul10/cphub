@@ -1,5 +1,5 @@
 <?php
-if (count($argv) < 2) {
+if (count($argv) < 1) {
     echo "Usage: php codeforces.php <codeforces_handle> <student_id>\n";
     exit(1);
 }
@@ -85,7 +85,7 @@ foreach ($myjson['result'] as $x) {
             $verdict = 'Runtime error';
         }
 
-        $listing = array($x['id'], $x['contestId'].$x['problem']['index'], $language, $date, $verdict);
+        $listing = array($x['id'],$x['problem']['name'],'Codeforces', $verdict, $language, $date);
         array_push($ourdata, $listing);
 }
 echo json_encode($ourdata);

@@ -52,24 +52,62 @@
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="codeforces" class="form-label">Codeforces Handle</label>
-                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces" value={{$codeforcesHandle}}>
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="vjudge" class="form-label">Vjudge Handle</label>
-                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge">
+                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge" value={{$vjudgeHandle}}>
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label for="spoj" class="form-label">Spoj Handle</label>
-                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj">
+                                            <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj" value={{$spojHandle}}>
                                         </div>
                                     </div>
                                     <div class="col-md mt-4">
                                         <div class="form-group">
                                             <button type="button" class="btn btn-primary btn-md w-100 mt-sm-3" id="submitBtn">Submit</button>
+
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                            <script>
+                                            $(document).ready(function() {
+                                                $('#submitBtn').click(function() {
+                                                    var codeforcesHandle = $('#codeforces').val();
+                                                    var vjudgeHandle = $('#vjudge').val();
+                                                    var spojHandle = $('#spoj').val();
+                                                    
+                                                    
+                                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                                    // Create the data object to be sent in the POST request
+                                                    var data = {
+                                                        _token: csrfToken,
+                                                        codeforces: codeforcesHandle,
+                                                        vjudge: vjudgeHandle,
+                                                        spoj: spojHandle
+                                                    };
+                                                    
+                                                    // Send the POST request to the desired endpoint
+                                                    $.post('/searchdata', data, function(response) {
+                                                        // Handle the response from the server
+                                                        // console.log(response);
+                                                        $('body').html(response);
+                                                    });
+                                                });
+                                            });
+                                            function sanitizeInput(input) {
+                                                // Remove leading and trailing whitespace
+                                                input = input.trim();
+                                                
+                                                // Remove any potentially harmful characters or HTML tags
+                                                input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                                
+                                                // Return the sanitized input
+                                                return input;
+                                            }
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
@@ -109,14 +147,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach ($mergedData as $item)
                                         <tr class="submission-row">
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
+                                            <td>{{ $item[0] }}</td>
+                                            <td>{{ $item[1] }}</td>
+                                            <td>{{ $item[2] }}</td>
+                                            <td>{{ $item[3] }}</td>
+                                            <td>{{ $item[4] }}</td>
+                                            <td>{{ $item[5] }}</td>
                                         </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>

@@ -31,12 +31,12 @@ Route::get('/search-result', [VisitorController::class, 'searchResult']);
 Route::get('/dashboard', [VisitorController::class, 'dashboard']);
 
 Route::post('/searchdata', [VisitorController::class, 'searchingData']);
+Route::get('/searchdata', [VisitorController::class, 'searchingData']);
 
 Route::get('/join-request', [VisitorController::class, 'showJoinRequestForm']);
 Route::post('/join-request', [VisitorController::class, 'joinRequest']);
 
 Route::get('/successful-request', [VisitorController::class, 'successfulRequest']);
-Route::post('/searchdata', [VisitorController::class, 'searchdata']);
 
 Route::get('/add-student', [TeacherController::class, 'addStudent']);
 Route::delete('/delete-request/{studentId}', [TeacherController::class, 'deleteRequest']);

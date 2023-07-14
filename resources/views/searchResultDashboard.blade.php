@@ -288,7 +288,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($data as $item)
+                                            @foreach ($mergedData as $item)
                                                 <tr>
                                                     <td>{{ $item[0] }}</td>
                                                     <td>{{ $item[1] }}</td>
