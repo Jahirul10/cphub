@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ url('dashboard') }}">
                 <h4>CSERU</h4>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +65,7 @@
                                 <ul class="">
                                     <h4>name</h4>
                                     <h4>student/h4>
-                                    <h4>session</h4>
+                                        <h4>session</h4>
                                 </ul>
                                 <ul class="">
                                 </ul>
@@ -273,40 +273,40 @@
                     </script>
                 </div>
 
-                            <div class="mt-3">
-                                <h2 class="p-2">Submission Records</h2>
-                                <div class="container">
-                                    <h2>Search Results</h2>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Problem</th>
-                                                <th>Language</th>
-                                                <th>Date</th>
-                                                <th>Verdict</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($data as $item)
-                                                <tr>
-                                                    <td>{{ $item[0] }}</td>
-                                                    <td>{{ $item[1] }}</td>
-                                                    <td>{{ $item[2] }}</td>
-                                                    <td>{{ $item[3] }}</td>
-                                                    <td>{{ $item[4] }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="d-flex justify-content-center">
-                                        {{ $data->links() }}
-                                    </div>
-                                </div>
-                            </div>
+                <div class="mt-3">
+                    <h2 class="p-2">Submission Records</h2>
+                    <div class="container">
+                        <h2>Search Results</h2>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Problem</th>
+                                    <th>Language</th>
+                                    <th>Date</th>
+                                    <th>Verdict</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $item[0] }}</td>
+                                    <td>{{ $item[1] }}</td>
+                                    <td>{{ $item[2] }}</td>
+                                    <td>{{ $item[3] }}</td>
+                                    <td>{{ $item[4] }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center">
+                            {{ $data->links() }}
                         </div>
-    <div class="col-3">
-        <div class="card">
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
                     <h1>Computer</h1>
                     <h1>Computer</h1>
                     <h1>Computer</h1>
@@ -339,7 +339,7 @@
         </div>
     </div>
 
-</div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 </body>
