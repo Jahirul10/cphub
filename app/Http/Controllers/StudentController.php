@@ -27,6 +27,7 @@ class StudentController extends Controller
                     ->where('student_id', $studentId)
                     ->get();
 
+                // dd($studentId);
                 // Get the submission count for dates of the current year
                 $currentYear = date('Y');
                 $submissionsCount = collect($submissions)
