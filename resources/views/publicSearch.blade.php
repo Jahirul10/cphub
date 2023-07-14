@@ -87,41 +87,38 @@
 
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <script>
-                                $(document).ready(function() {
-                                    $('#submitBtn').click(function() {
-                                        var codeforcesHandle = $('#codeforces').val();
-                                        var vjudgeHandle = $('#vjudge').val();
-                                        var spojHandle = $('#spoj').val();
+                            $(document).ready(function() {
+                                $('#submitBtn').click(function() {
+                                    var codeforcesHandle = $('#codeforces').val();
+                                    var vjudgeHandle = $('#vjudge').val();
+                                    var spojHandle = $('#spoj').val();
+                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                    // Create the data object to be sent in the POST request
+                                    var data = {
+                                        _token: csrfToken,
+                                        codeforces: codeforcesHandle,
+                                        vjudge: vjudgeHandle,
+                                        spoj: spojHandle
+                                    };
 
-
-                                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                        // Create the data object to be sent in the POST request
-                                        var data = {
-                                            _token: csrfToken,
-                                            codeforces: codeforcesHandle,
-                                            vjudge: vjudgeHandle,
-                                            spoj: spojHandle
-                                        };
-
-                                        // Send the POST request to the desired endpoint
-                                        $.post('/searchdata', data, function(response) {
-                                            // Handle the response from the server
-                                            // console.log(response);
-                                            $('body').html(response);
-                                        });
+                                    // Send the POST request to the desired endpoint
+                                    $.post('/searchdata', data, function(response) {
+                                        // Handle the response from the server
+                                        // console.log(response);
+                                        $('body').html(response);
                                     });
                                 });
+                            });
+                            function sanitizeInput(input) {
+                                // Remove leading and trailing whitespace
+                                input = input.trim();
 
-                                function sanitizeInput(input) {
-                                    // Remove leading and trailing whitespace
-                                    input = input.trim();
+                                // Remove any potentially harmful characters or HTML tags
+                                input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-                                    // Remove any potentially harmful characters or HTML tags
-                                    input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-                                    // Return the sanitized input
-                                    return input;
-                                }
+                                // Return the sanitized input
+                                return input;
+                            }
                             </script>
 
                         </div>

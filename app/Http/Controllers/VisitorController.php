@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\student;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class VisitorController extends Controller
 {
@@ -109,22 +109,41 @@ class VisitorController extends Controller
         $codeforcesHandle = $request->input('codeforces');
         $vjudgeHandle = $request->input('vjudge');
         $spojHandle = $request->input('spoj');
-
-        // print_r($codeforcesHandle);
-        // print_r($vjudgeHandle);
-        // print_r($spojHandle);
-
-        // Process the received data or perform any necessary operations
-
+        //getting data from Codeforces server
         $path = base_path('app/scraping/publicCodeforces.php');
 
         exec("php \"$path\" \"$codeforcesHandle\"", $output);
-        $jsonResponse = end($output);
-        $data = json_decode($jsonResponse, true);
-        // print_r($data);
-        $paginatedData = collect($data)->paginate(10);
-        return view('searchResultDashboard', compact('paginatedData'));
-        // return view('searchResultDashboard', compact('data'));
+        $jsonResponseCodeforces = end($output);
+        $dataArrayOfCodeforces = json_decode($jsonResponseCodeforces, true);
+        // get all data from Vjude
+
+        $path = base_path('app/scraping/publicVjudge.php');
+
+        exec("php \"$path\" \"$vjudgeHandle\"", $dataVjudge);
+        $jsonResponseVjudge = end($dataVjudge);
+        $dataArrayOfVjudge = json_decode($jsonResponseVjudge, true);
+
+        //get all data from  spoj data
+
+        $path = base_path('app/scraping/publicSpoj.php');
+        exec("php \"$path\" \"$spojHandle\"", $dataSpoj);
+        $jsonResponseSpoj = end($dataSpoj);
+        $dataArrayOfSpoj = json_decode($jsonResponseSpoj, true);
+
+        $mergedData = [];
+
+        if (!empty($dataArrayOfCodeforces)) {
+            $mergedData = array_merge($mergedData, $dataArrayOfCodeforces);
+        }
+
+        if (!empty($dataArrayOfVjudge)) {
+            $mergedData = array_merge($mergedData, $dataArrayOfVjudge);
+        }
+
+        if (!empty($dataArrayOfSpoj)) {
+            $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
+        }
+        return  view ('publicSearchResult',compact('mergedData','codeforcesHandle','vjudgeHandle','spojHandle'));
     }
 
     public function showJoinRequestForm()
