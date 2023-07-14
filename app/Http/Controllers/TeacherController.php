@@ -141,7 +141,7 @@ class TeacherController extends Controller
 
         // Insert details into the handles table
         $handle = new Handle();
-        $handle->id = $studentRequest->user_id;
+        $handle->id = $studentRequest->id;
         $handle->cfhandle = $studentRequest->cfhandle;
         $handle->vjhandle = $studentRequest->vjhandle;
         $handle->spojhandle = $studentRequest->spojhandle;
