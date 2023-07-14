@@ -102,7 +102,7 @@ function scrapeSubmissions($handle, $studentId, $lastSubmission)
                         $language = "Haskell";
                     } elseif (strpos($language, "JAVASCRIPT") !== false || strpos($language, "NODE.JS") !== false) {
                         $language = "JavaScript";
-                    } elseif (strpos($language, "JAVA")) {
+                    } elseif (strpos($language, "JAVA" !== false)) {
                         $language = "Java";
                     } elseif (strpos($language, "KOTLIN") !== false) {
                         $language = "Kotlin";
@@ -203,4 +203,3 @@ $studentId = $argv[2]; // Replace with the student ID
 $lastSubmission = $argv[3]; // Replace with the last submission value
 
 $lastSubmission = scrapeSubmissions($handle, $studentId, $lastSubmission);
-
