@@ -315,7 +315,59 @@ class VisitorController extends Controller
         // return $totalSpojSolved_User_2;
         // return $totalCodeforcesSolved_User_2;
         // return $totalVjudgeSolved_User_2;
-        return view('comparisonResult',compact('totalCodeforcesSolved_User_1','totalVjudgeSolved_User_1','totalSpojSolved_User_1','totalCodeforcesSolved_User_2','totalVjudgeSolved_User_2','totalSpojSolved_User_2'));
+
+        //language data retrieving functions
+        $language_User_1 = array();
+        foreach ($mergedData_User_1 as $lanitem) {
+            if (isset($language_User_1[$lanitem[4]])) {
+                $language_User_1[$lanitem[4]]++;
+            } else {
+                $language_User_1[$lanitem[4]] = 1;
+            }
+        }
+        $language_User_2 = array();
+        foreach ($mergedData_User_2 as $lanitem) {
+            if (isset($language_User_2[$lanitem[4]])) {
+                $language_User_2[$lanitem[4]]++;
+            } else {
+                $language_User_2[$lanitem[4]] = 1;
+            }
+        }
+
+        //veerdict count
+
+        $verdict_User_1 = array();
+        foreach ($mergedData_User_1 as $lanitem) {
+            if (isset($verdict_User_1[$lanitem[3]])) {
+                $verdict_User_1[$lanitem[3]]++;
+            } else {
+                $verdict_User_1[$lanitem[3]] = 1;
+            }
+        }
+
+        $verdict_User_2 = array();
+        foreach ($mergedData_User_2 as $lanitem) {
+            if (isset($verdict_User_2[$lanitem[3]])) {
+                $verdict_User_2[$lanitem[3]]++;
+            } else {
+                $verdict_User_2[$lanitem[3]] = 1;
+            }
+        }
+
+        // print_r($verdict_User_1);
+        // print_r($verdict_User_2);
+        // $language_User_2 = array();
+        // foreach ($mergedData_User_2 as $lanitem) {
+        //     if (isset($language_User_2[$lanitem[4]])) {
+        //         $language_User_2[$lanitem[4]]++;
+        //     } else {
+        //         $language_User_2[$lanitem[4]] = 1;
+        //     }
+        // }
+
+        // print_r($language_User_1);
+        // print_r($language_User_2);
+        return view('comparisonResult',compact('totalCodeforcesSolved_User_1','totalVjudgeSolved_User_1','totalSpojSolved_User_1','totalCodeforcesSolved_User_2','totalVjudgeSolved_User_2','totalSpojSolved_User_2','language_User_1', 'language_User_2','verdict_User_1','verdict_User_2'));
 
 
 
