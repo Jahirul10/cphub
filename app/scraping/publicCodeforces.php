@@ -84,7 +84,7 @@ foreach ($myjson['result'] as $x) {
             $verdict = 'Runtime error';
         }
 
-        $listing = array($x['id'],$x['problem']['name'],'Codeforces', $verdict, $language, $date);
+        $listing = array($x['id'],$x['problem']['name'],'codeforces', $verdict, $language, $date);
         array_push($ourdata, $listing);
 }
 echo json_encode($ourdata);

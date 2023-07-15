@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url('/comparison-form') }}">Compare</a>
+                        <a class="nav-link" aria-current="page" href="#">Compare</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/signup') }}">Sign Up</a>
@@ -69,18 +69,34 @@
                             </div> -->
                             <div class="row mt-5">
                                 <div class="col-md mb-4">
-                                    <label for="codeforces" class="form-label">Codeforces Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                    <label for="codeforces" class="form-label">User-1 Codeforces Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_1_codeforces" placeholder="Codeforces" aria-label="Codeforces">
                                 </div>
                                 <div class="col-md mb-4">
-                                    <label for="vjudge" class="form-label">Vjudge Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge">
+                                    <label for="vjudge" class="form-label">User-1 Vjudge Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_1_vjudge" placeholder="Vjudge" aria-label="Vjudge">
                                 </div>
                                 <div class="col-md">
-                                    <label for="spoj" class="form-label">Spoj Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj">
+                                    <label for="spoj" class="form-label">User-1 Spoj Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_1_spoj" placeholder="Spoj" aria-label="Spoj">
                                 </div>
                             </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md mb-4">
+                                    <label for="codeforces" class="form-label">User-2 Codeforces Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_2_codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                </div>
+                                <div class="col-md mb-4">
+                                    <label for="vjudge" class="form-label">User-2 Vjudge Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_2_vjudge" placeholder="Vjudge" aria-label="Vjudge">
+                                </div>
+                                <div class="col-md">
+                                    <label for="spoj" class="form-label">User-2 Spoj Handle</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_2_spoj" placeholder="Spoj" aria-label="Spoj">
+                                </div>
+                            </div>
+
                             <div class="row justify-content-center mt-4">
                                 <button type="button" class="btn btn-primary btn-md w-50" id="submitBtn">Submit</button>
                             </div>
@@ -89,20 +105,26 @@
                             <script>
                             $(document).ready(function() {
                                 $('#submitBtn').click(function() {
-                                    var codeforcesHandle = $('#codeforces').val();
-                                    var vjudgeHandle = $('#vjudge').val();
-                                    var spojHandle = $('#spoj').val();
+                                    var user_1_codeforcesHandle = $('#user_1_codeforces').val();
+                                    var user_1_vjudgeHandle = $('#user_1_vjudge').val();
+                                    var user_1_spojHandle = $('#user_1_spoj').val();
+                                    var user_2_codeforcesHandle = $('#user_2_codeforces').val();
+                                    var user_2_vjudgeHandle = $('#user_2_vjudge').val();
+                                    var user_2_spojHandle = $('#user_2_spoj').val();
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                                     // Create the data object to be sent in the POST request
                                     var data = {
                                         _token: csrfToken,
-                                        codeforces: codeforcesHandle,
-                                        vjudge: vjudgeHandle,
-                                        spoj: spojHandle
+                                        user_1_codeforcesHandle: user_1_codeforcesHandle,
+                                        user_1_vjudgeHandle: user_1_vjudgeHandle,
+                                        user_1_spojHandle: user_1_spojHandle,
+                                        user_2_codeforcesHandle: user_2_codeforcesHandle,
+                                        user_2_vjudgeHandle: user_2_vjudgeHandle,
+                                        user_2_spojHandle: user_2_spojHandle,
                                     };
 
                                     // Send the POST request to the desired endpoint
-                                    $.post('/searchdata', data, function(response) {
+                                    $.post('/showcomparison', data, function(response) {
                                         // Handle the response from the server
                                         // console.log(response);
                                         $('body').html(response);
