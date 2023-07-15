@@ -148,7 +148,6 @@ class VisitorController extends Controller
         if (!empty($dataArrayOfSpoj)) {
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
         }
-        return $mergedData;
 
         return response()->json([
             'message' => 'Filtering submissions...',
