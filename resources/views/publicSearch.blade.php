@@ -8,6 +8,7 @@
     <title>Public Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -76,6 +77,18 @@
 
                             <div id="submissionHistory" class="d-none">
                                 <hr>
+                                <!-- pie-chart -->
+                                <div class="row justify-content-evenly mt-3 mb-3">
+                                    <div class="" style="display:inline-block; width:30%;">
+                                        <canvas id="pie-chart-1"></canvas>
+                                    </div>
+                                    <div class="" style="display:inline-block; width:30%;">
+                                        <canvas id="pie-chart-2"></canvas>
+                                    </div>
+                                </div>
+
+                                <hr>
+
                                 <h2 class="p-2">Submission Records</h2>
                                 <table class="table table-striped">
                                     <thead>
@@ -98,6 +111,9 @@
                             </div>
 
                             <script>
+                                var pieChart1;
+                                var pieChart2;
+
                                 document.getElementById('submitBtn').addEventListener('click', function(event) {
                                     event.preventDefault(); // Prevent the default form submission
 
@@ -122,6 +138,127 @@
                                         success: function(response) {
                                             console.log(response);
 
+
+                                            var verdictCounts = response.verdictsCount;
+                                            var languageCounts = response.languagesCount;
+
+                                            // Destroy existing chart instances
+                                            if (pieChart1) {
+                                                pieChart1.destroy();
+                                            }
+
+                                            if (pieChart2) {
+                                                pieChart2.destroy();
+                                            }
+
+
+                                            // Pie Chart 1 Data
+                                            var labels = [];
+                                            var data = [];
+                                            // Convert response.verdictsCount object into an array of objects
+                                            for (var key in response.verdictsCount) {
+                                                if (response.verdictsCount.hasOwnProperty(key)) {
+                                                    // Push directly to labels and data arrays
+                                                    labels.push(key);
+                                                    data.push(response.verdictsCount[key]);
+                                                }
+                                            }
+
+                                            var data1 = {
+                                                labels: labels,
+                                                datasets: [{
+                                                    data: data,
+                                                    backgroundColor: ["#4caf50", "#9966ff", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"],
+                                                    hoverBackgroundColor: ["#4caf50", "#36A2EB", "#FFCE56", "#4bc0c0", '#FF6384', "#ff9f40", "#c9cbcf"]
+                                                }]
+                                            };
+
+                                            // Pie Chart 2 Data
+                                            var labelslanguages = [];
+                                            var datalanguages = [];
+                                            for (var key in response.languagesCount) {
+                                                if (response.languagesCount.hasOwnProperty(key)) {
+                                                    // Push directly to labelslanguages and datalanguages arrays
+                                                    labelslanguages.push(key);
+                                                    datalanguages.push(response.languagesCount[key]);
+                                                }
+                                            }
+
+                                            var data2 = {
+                                                labels: labelslanguages,
+                                                datasets: [{
+                                                    data: datalanguages,
+                                                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"],
+                                                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56", "#FF6384", "#36A2EB", "#FFCE56"]
+                                                }]
+                                            };
+
+                                            // Get Pie Chart 1 Context
+                                            var ctx1 = document.getElementById("pie-chart-1").getContext("2d");
+
+                                            // Get Pie Chart 2 Context
+                                            var ctx2 = document.getElementById("pie-chart-2").getContext("2d");
+
+                                            // Create Pie Chart 1
+                                            pieChart1 = new Chart(ctx1, {
+                                                type: 'pie',
+                                                data: data1,
+                                                options: {
+                                                    tooltips: {
+                                                        callbacks: {
+                                                            label: function(tooltipItem, data) {
+                                                                var label = data.labels[tooltipItem.index] || '';
+                                                                if (label) {
+                                                                    label += ': ';
+                                                                }
+                                                                label += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                                                return label;
+                                                            }
+                                                        }
+                                                    },
+                                                    plugins: {
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        title: {
+                                                            display: true,
+                                                            text: 'Submission Chart'
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+                                            // Create Pie Chart 2
+                                            pieChart2 = new Chart(ctx2, {
+                                                type: 'pie',
+                                                data: data2,
+                                                options: {
+                                                    tooltips: {
+                                                        callbacks: {
+                                                            label: function(tooltipItem, data) {
+                                                                var label = data.labels[tooltipItem.index] || '';
+                                                                if (label) {
+                                                                    label += ': ';
+                                                                }
+                                                                label += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                                                return label;
+                                                            }
+                                                        }
+                                                    },
+                                                    plugins: {
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        title: {
+                                                            display: true,
+                                                            text: 'Language Chart'
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+
+
                                             // Unhide the table
                                             document.getElementById('submissionHistory').classList.remove('d-none');
 
@@ -133,7 +270,7 @@
                                             var rowsPerPage = 50;
                                             var totalPages = Math.ceil(response.submissions.length / rowsPerPage);
 
-                                            console.log("check-before-function");
+                                            // console.log("check-before-function");
 
                                             function showRows() {
                                                 var start = (currentPage - 1) * rowsPerPage;
@@ -250,7 +387,7 @@
 
                                             showRows();
                                             updatePagination();
-                                            console.log("check-last");
+                                            // console.log("check-last");
 
 
                                         },
