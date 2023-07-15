@@ -7,6 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Public Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -22,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Compare</a>
+                        <a class="nav-link" aria-current="page" href="{{ url('comparison-form') }}">Compare</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="signup">Sign Up</a>
@@ -101,28 +103,27 @@
                                     var spojHandle = document.getElementById('spoj').value;
 
                                     // Create the AJAX request
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.open('POST', '/searchdata');
-                                    xhr.setRequestHeader('Content-Type', 'application/json');
-                                    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-
-                                    // Handle the AJAX response
-                                    xhr.onreadystatechange = function() {
-                                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                                            var response = JSON.parse(xhr.responseText);
+                                    $.ajax({
+                                        url: '/searchdata',
+                                        method: 'POST',
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        },
+                                        data: {
+                                            codeforcesHandle: codeforcesHandle,
+                                            vjudgeHandle: vjudgeHandle,
+                                            spojHandle: spojHandle
+                                        },
+                                        success: function(response) {
                                             console.log(response);
                                             // Update the UI with the response data
                                             // For example, update the submission table with response.submissions
                                             // document.getElementById('submission_table').innerHTML = response.submissions;
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.log(error);
                                         }
-                                    };
-
-                                    // Send the AJAX request with the input data
-                                    xhr.send(JSON.stringify({
-                                        codeforcesHandle: codeforcesHandle,
-                                        vjudgeHandle: vjudgeHandle,
-                                        spojHandle: spojHandle
-                                    }));
+                                    });
                                 });
                             </script>
 
