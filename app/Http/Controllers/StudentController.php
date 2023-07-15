@@ -17,7 +17,7 @@ class StudentController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if ($user->user_type == 2) {
+            if ($user->user_type == 1 || $user->user_type == 2) {
                 // Retrieve the student by their ID
                 $student = student::findOrFail($id);
 
@@ -48,7 +48,15 @@ class StudentController extends Controller
                     })
                     ->values();
 
-                return view('studentDashboard', compact('student', 'submissionsCount'));
+                $topSolving = Submissions::where('verdict', 'accepted')
+                    ->select('students.id', 'students.name', DB::raw('COUNT(DISTINCT problem_id) as solved'))
+                    ->groupBy('students.id', 'students.name')
+                    ->orderByRaw('solved DESC')
+                    ->limit(10)
+                    ->join('students', 'submissions.student_id', '=', 'students.id')
+                    ->get();
+
+                return view('studentDashboard', compact('student', 'submissionsCount', 'topSolving'));
             }
         } else {
             return redirect('/login');
@@ -65,9 +73,9 @@ class StudentController extends Controller
         // Retrieve the submissions of the student from the submissions table
         // Filter by platforms and problem table 'oj' using a JOIN operation
         $submissions = DB::table('submissions')
-        ->join('problems', 'submissions.problem_id', '=', 'problems.id')
-        ->whereIn('problems.oj', $platforms)
-        ->where('submissions.student_id', $studentId)
+            ->join('problems', 'submissions.problem_id', '=', 'problems.id')
+            ->whereIn('problems.oj', $platforms)
+            ->where('submissions.student_id', $studentId)
             ->select('submissions.*', 'problems.title AS problem_title', 'problems.url AS problem_url', 'problems.oj AS problem_oj')
             ->orderBy('submissions.submissiontime', 'desc') // Sort by submissiontime in descending order
             ->get();
