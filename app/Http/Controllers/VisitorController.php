@@ -103,22 +103,25 @@ class VisitorController extends Controller
     {
         return view('publicSearchResult');
     }
-
+    public function showComparisonForm(){
+        return view('publicComparison');
+    }
     public function searchingData(Request $request)
     {
         $codeforcesHandle = $request->input('codeforces');
         $vjudgeHandle = $request->input('vjudge');
         $spojHandle = $request->input('spoj');
-        //getting data from Codeforces server
-        $path = base_path('app/scraping/publicCodeforces.php');
 
+        //getting data from Codeforces server
+
+        $path = base_path('app/scraping/publicCodeforces.php');
         exec("php \"$path\" \"$codeforcesHandle\"", $output);
         $jsonResponseCodeforces = end($output);
         $dataArrayOfCodeforces = json_decode($jsonResponseCodeforces, true);
-        // get all data from Vjude
+
+        // getting all data from Vjude
 
         $path = base_path('app/scraping/publicVjudge.php');
-
         exec("php \"$path\" \"$vjudgeHandle\"", $dataVjudge);
         $jsonResponseVjudge = end($dataVjudge);
         $dataArrayOfVjudge = json_decode($jsonResponseVjudge, true);
@@ -144,6 +147,179 @@ class VisitorController extends Controller
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
         }
         return  view ('publicSearchResult',compact('mergedData','codeforcesHandle','vjudgeHandle','spojHandle'));
+    }
+
+    public function showComparison(Request $request){
+        $user_1_codeforcesHandle = $request->input('user_1_codeforcesHandle');
+        $user_1_vjudgeHandle = $request->input('user_1_vjudgeHandle');
+        $user_1_spojHandle = $request->input('user_1_spojHandle');
+        $user_2_codeforcesHandle = $request->input('user_2_codeforcesHandle');
+        $user_2_vjudgeHandle = $request->input('user_2_vjudgeHandle');
+        $user_2_spojHandle = $request->input('user_2_spojHandle');
+
+        //getting data from Codeforces server for User-1
+        // return $user_1_codeforcesHandle;
+        $path = base_path('app/scraping/publicCodeforces.php');
+        exec("php \"$path\" \"$user_1_codeforcesHandle\"", $output);
+        $jsonResponseCodeforces = end($output);
+        $dataArrayOfCodeforces_User_1 = json_decode($jsonResponseCodeforces, true);
+
+        //getting data from Codeforces server for user-2
+
+        $path = base_path('app/scraping/publicCodeforces.php');
+        exec("php \"$path\" \"$user_2_codeforcesHandle\"", $output);
+        $jsonResponseCodeforces = end($output);
+        $dataArrayOfCodeforces_User_2 = json_decode($jsonResponseCodeforces, true);
+
+        // getting all data from Vjude for user-1
+
+        $path = base_path('app/scraping/publicVjudge.php');
+        exec("php \"$path\" \"$user_1_vjudgeHandle\"", $dataVjudge);
+        $jsonResponseVjudge = end($dataVjudge);
+        $dataArrayOfVjudge_User_1 = json_decode($jsonResponseVjudge, true);
+
+        // getting all data from Vjude for user-2
+
+        $path = base_path('app/scraping/publicVjudge.php');
+        exec("php \"$path\" \"$user_2_vjudgeHandle\"", $dataVjudge);
+        $jsonResponseVjudge = end($dataVjudge);
+        $dataArrayOfVjudge_User_2 = json_decode($jsonResponseVjudge, true);
+
+        //get all data from  spoj for user-1
+
+        $path = base_path('app/scraping/publicSpoj.php');
+        exec("php \"$path\" \"$user_1_spojHandle\"", $dataSpoj);
+        $jsonResponseSpoj = end($dataSpoj);
+        $dataArrayOfSpoj_User_1 = json_decode($jsonResponseSpoj, true);
+
+        //get all data from  spoj for user-2
+
+        $path = base_path('app/scraping/publicSpoj.php');
+        exec("php \"$path\" \"$user_2_spojHandle\"", $dataSpoj);
+        $jsonResponseSpoj = end($dataSpoj);
+        $dataArrayOfSpoj_User_2 = json_decode($jsonResponseSpoj, true);
+
+
+        //merging all data of user-1
+        $mergedData_User_1 = [];
+
+        if (!empty($dataArrayOfCodeforces_User_1)) {
+            $mergedData_User_1 = array_merge($mergedData_User_1, $dataArrayOfCodeforces_User_1);
+        }
+
+        // return $dataArrayOfVjudge_User_1;
+        if (!empty($dataArrayOfVjudge_User_1)) {
+
+            foreach ($dataArrayOfVjudge_User_1 as &$item) {
+                if ($item[2] === 'CodeForces') {
+                    $item[2] = 'codeforces';
+                }elseif ($item[2] === 'SPOJ') {
+                    $item[2] = 'spoj';
+                } else{
+                    $item[2] = 'vjudge';
+                }
+            }
+            
+            $mergedData_User_1 = array_merge($mergedData_User_1, $dataArrayOfVjudge_User_1);
+        }
+
+        if (!empty($dataArrayOfSpoj_User_1)) {
+            $mergedData_User_1 = array_merge($mergedData_User_1, $dataArrayOfSpoj_User_1);
+        }
+        
+        //merging all data of user-2
+
+        $mergedData_User_2 = [];
+
+        if (!empty($dataArrayOfCodeforces_User_2)) {
+            $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfCodeforces_User_2);
+        }
+        if (!empty($dataArrayOfVjudge_User_2)) {
+
+            foreach ($dataArrayOfVjudge_User_2 as &$item) {
+                if ($item[2] === 'CodeForces') {
+                    $item[2] = 'codeforces';
+                }elseif ($item[2] === 'SPOJ') {
+                    $item[2] = 'spoj';
+                } else{
+                    $item[2] = 'vjudge';
+                }
+            }
+
+
+            $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfVjudge_User_2);
+        }
+
+        if (!empty($dataArrayOfSpoj_User_2)) {
+            $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfSpoj_User_2);
+        }
+        $codeforcesTotalProblems_User_1=[];
+        $vjudgeTotalProblems_User_1 = [];
+        $spojTotalProblems_User_1 = [];
+
+        foreach ($mergedData_User_1 as $item) {
+            if ($item[2] === 'codeforces' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $codeforcesTotalProblems_User_1[] = $name;
+            }
+            elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $vjudgeTotalProblems_User_1[] = $name;
+            }
+            elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $spojTotalProblems_User_1[] = $name;
+            }
+        }
+        // return $spojTotalProblems_User_1;
+        $uniqueCodeforceProblems_User_1 = array_unique($codeforcesTotalProblems_User_1);
+        $totalCodeforcesSolved_User_1 = count($uniqueCodeforceProblems_User_1);
+
+        $uniqueVjudgeProblems_User_1 = array_unique($vjudgeTotalProblems_User_1);
+        $totalVjudgeSolved_User_1 = count($uniqueVjudgeProblems_User_1);
+
+        $uniqueSpojProblems_User_1 = array_unique($spojTotalProblems_User_1);
+        $totalSpojSolved_User_1 = count($uniqueSpojProblems_User_1);
+
+        //counting for user 2
+
+
+        $codeforcesTotalProblems_User_2=[];
+        $vjudgeTotalProblems_User_2 = [];
+        $spojTotalProblems_User_2 = [];
+
+        foreach ($mergedData_User_2 as $item) {
+            if ($item[2] === 'codeforces' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $codeforcesTotalProblems_User_2[] = $name;
+            }
+            elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $vjudgeTotalProblems_User_2[] = $name;
+            }
+            elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
+                $name = $item[1];
+                $spojTotalProblems_User_2[] = $name;
+            }
+        }
+        // return $spojTotalProblems_User_1;
+        $uniqueCodeforceProblems_User_2 = array_unique($codeforcesTotalProblems_User_2);
+        $totalCodeforcesSolved_User_2 = count($uniqueCodeforceProblems_User_2);
+
+        $uniqueVjudgeProblems_User_2 = array_unique($vjudgeTotalProblems_User_2);
+        $totalVjudgeSolved_User_2 = count($uniqueVjudgeProblems_User_2);
+
+        $uniqueSpojProblems_User_2 = array_unique($spojTotalProblems_User_2);
+        $totalSpojSolved_User_2 = count($uniqueSpojProblems_User_2);
+
+        // return $totalSpojSolved_User_2;
+        // return $totalCodeforcesSolved_User_2;
+        // return $totalVjudgeSolved_User_2;
+        return view('comparisonResult',compact('totalCodeforcesSolved_User_1','totalVjudgeSolved_User_1','totalSpojSolved_User_1','totalCodeforcesSolved_User_2','totalVjudgeSolved_User_2','totalSpojSolved_User_2'));
+
+
+
+
     }
 
     public function showJoinRequestForm()

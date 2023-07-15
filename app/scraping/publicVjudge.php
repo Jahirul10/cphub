@@ -98,7 +98,7 @@ for ($start = 0; $start < $total_entries; $start += $batch_size) {
         $url='https://vjudge.net/problem/'.$x['oj'] . '-' .$x['probNum'];
 
 
-        $listing = array($x['runId'],$x['probNum'],"Vjudge", $verdict, $language, $unixToDatetime);
+        $listing = array($x['runId'],$x['probNum'],$x['oj'], $verdict, $language, $unixToDatetime);
         array_push($ourdata, $listing);
     }
 }
