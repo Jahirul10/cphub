@@ -9,6 +9,8 @@ use App\Models\RequestedStudent;
 use App\Models\User;
 use App\Models\handle;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TeacherController extends Controller
 {
@@ -37,10 +39,18 @@ class TeacherController extends Controller
             // print_r(json_encode($platformCounts));
         }
 
+        $topSolving = Submissions::where('verdict', 'accepted')
+            ->select('students.id', 'students.name', DB::raw('COUNT(DISTINCT problem_id) as solved'))
+            ->groupBy('students.id', 'students.name')
+            ->orderByRaw('solved DESC')
+            ->limit(10)
+            ->join('students', 'submissions.student_id', '=', 'students.id')
+            ->get();
+
         if (Auth::check()) {
             $user = Auth::user();
             if ($user->user_type == 1) {
-                return view('teacherDashboard', compact('students', 'platformCounts'));
+                return view('teacherDashboard', compact('students', 'platformCounts', 'topSolving'));
             } else if ($user->user_type == 3) {
                 return redirect('/dashboard');
             } else if ($user->user_type == 4) {
@@ -49,8 +59,6 @@ class TeacherController extends Controller
         } else {
             return redirect('/login');
         }
-
-
     }
 
     public function updateTable($session)
@@ -87,7 +95,54 @@ class TeacherController extends Controller
         return response()->json($responseData);
     }
 
-    public function addStudent(){
+    public function studentSubmissionHistory($id)
+    {
+        // return response()->json($studentSubmissionHistoryData);
+        // Retrieve the platforms and studentId from the request data
+        $platforms = ["codeforces", "vjudge", "spoj"];
+        $studentId = $id;
+
+        //fastest query to get submissions of a student along with problem information
+        // Retrieve the submissions of the student from the submissions table
+        // Filter by platforms and problem table 'oj' using a JOIN operation
+        $submissions = DB::table('submissions')
+            ->join('problems', 'submissions.problem_id', '=', 'problems.id')
+            ->whereIn('problems.oj', $platforms)
+            ->where('submissions.student_id', $studentId)
+            ->select('submissions.*', 'problems.title AS problem_title', 'problems.url AS problem_url', 'problems.oj AS problem_oj')
+            ->orderBy('submissions.submissiontime', 'desc') // Sort by submissiontime in descending order
+            ->get();
+
+        // Calculate the language count from the submissions
+        $languagesCount = collect($submissions)->groupBy('language')->map->count();
+
+        // Calculate the verdict count from the submissions
+        $verdictsCount = collect($submissions)->groupBy('verdict')->map->count();
+
+        // Calculate the start and end dates for the last 7 days
+        $startOfLast7Days = Carbon::now()->subDays(7)->startOfDay();
+        $endOfLast7Days = Carbon::now()->endOfDay();
+
+        // Retrieve the submissions of the student from the submissions table
+        // Filter by platforms, problem table 'oj', and within the last week using a JOIN operation
+        $lastWeekSubmissions = DB::table('submissions')
+            ->join('problems', 'submissions.problem_id', '=', 'problems.id')
+            ->whereIn('problems.oj', $platforms)
+            ->where('submissions.student_id', $studentId)
+            ->whereBetween('submissions.submissiontime', [$startOfLast7Days, $endOfLast7Days])
+            ->select('submissions.*', 'problems.title AS problem_title', 'problems.url AS problem_url', 'problems.oj AS problem_oj')
+            ->orderBy('submissions.submissiontime', 'desc') // Sort by submissiontime in descending order
+            ->get();
+
+        return response()->json([
+            'lastWeekSubmissions' => $lastWeekSubmissions,
+            'languagesCount' => $languagesCount,
+            'verdictsCount' => $verdictsCount,
+        ]);
+    }
+
+    public function addStudent()
+    {
         $userEmail = Auth::user()->email;
         $requestedStudents = RequestedStudent::where('receiver', $userEmail)->get();
         return view('addStudent', compact('requestedStudents'));

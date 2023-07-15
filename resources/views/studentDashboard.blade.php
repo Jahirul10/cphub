@@ -427,34 +427,37 @@
                 </script>
             </div>
             <div class="col-3">
+
+
                 <div class="card">
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
-                    <h1>Computer</h1>
+                    <div class="member-card pb-2">
+                        <div class="float-right">
+                            <div class="row mt-3 ms-2 me-2">
+                                <h5>Top solvers</h5>
+                                <table class="table table-sm mt-2">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Solved</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($topSolving as $topSolve)
+                                        <tr>
+                                            <td>{{ $topSolve->id }}</td>
+                                            <td>{{ $topSolve->name }}</td>
+                                            <td>{{$topSolve->solved}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
