@@ -149,9 +149,31 @@ class VisitorController extends Controller
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
         }
 
+        $verdictsCount = array();
+        $languagesCount = array();
+
+        foreach ($mergedData as $data) {
+            $verdict = $data[3]; // Index 3 represents the verdict
+            $language = $data[4]; // Index 4 represents the language
+
+            if (isset($verdictsCount[$verdict])) {
+                $verdictsCount[$verdict]++;
+            } else {
+                $verdictsCount[$verdict] = 1;
+            }
+
+            if (isset($languagesCount[$language])) {
+                $languagesCount[$language]++;
+            } else {
+                $languagesCount[$language] = 1;
+            }
+        }
+
         return response()->json([
             'message' => 'Filtering submissions...',
             'submissions' => $mergedData,
+            'verdictsCount' => $verdictsCount,
+            'languagesCount' => $languagesCount
         ]);
     }
 
