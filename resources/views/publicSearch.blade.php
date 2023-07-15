@@ -7,7 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Public Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/publicSearch-style.css">
 </head>
 
 <body>
@@ -23,102 +22,108 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url('/comparison-form') }}">Compare</a>
+                        <a class="nav-link" aria-current="page" href="#">Compare</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/signup') }}">Sign Up</a>
+                        <a class="nav-link" href="signup">Sign Up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/login') }}">Log In</a>
+                        <a class="nav-link" href="login">Log In</a>
                     </li>
+                </ul>
             </div>
         </div>
-
     </nav>
+
     <!-- Content of search-page -->
-    <div class="vh-100 d-flex justify-content-center mt-5">
+    <div class="vh-100 d-flex justify-content-center mt-4">
         <div class="container">
             <div class="row d-flex justify-content-center">
-                <div class="col-12 col-md-8 col-lg-10">
-                    <!-- Success message -->
-                    @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                    <div class="card bg-white">
-                        <div class="card-body p-5">
-                            <h2 class="fw-bold mb-2 text-uppercase text-center">University Of Rajshahi</h2>
-                            <!-- <div class="row mt-5">
-                                <div class="col-md mb-4">
-                                    <label for="text" class="form-label">Codeforces Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Codeforces" aria-label="Codeforces">
-                                </div>
-                                <div class="col-md mb-4">
-                                    <label for="text" class="form-label">Vjudge Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Vjudge" aria-label="Vjudge">
-                                </div>
-                                <div class="col-md">
-                                    <label for="text" class="form-label">Spoj Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Spoj" aria-label="Spoj">
-                                </div>
-                            </div>
-                            <div class="row justify-content-center mt-4">
-                                <button type="button" class="btn btn-primary btn-md w-50">Submit</button>
-
-                            </div> -->
-                            <div class="row mt-5">
-                                <div class="col-md mb-4">
-                                    <label for="codeforces" class="form-label">Codeforces Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces">
-                                </div>
-                                <div class="col-md mb-4">
-                                    <label for="vjudge" class="form-label">Vjudge Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge">
-                                </div>
-                                <div class="col-md">
-                                    <label for="spoj" class="form-label">Spoj Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj">
-                                </div>
-                            </div>
-                            <div class="row justify-content-center mt-4">
-                                <button type="button" class="btn btn-primary btn-md w-50" id="submitBtn">Submit</button>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="card bg-white">
+                            <div class="card-body p-4">
+                                <form id="searchForm"> <!-- Add the form element here -->
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="codeforces" class="form-label">Codeforces Handle</label>
+                                                <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="vjudge" class="form-label">Vjudge Handle</label>
+                                                <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="vjudge" placeholder="Vjudge" aria-label="Vjudge" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label for="spoj" class="form-label">Spoj Handle</label>
+                                                <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="spoj" placeholder="Spoj" aria-label="Spoj" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md mt-4">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary btn-md w-100 mt-sm-3" id="submitBtn">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form> <!-- Close the form element here -->
                             </div>
 
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <div class="d-none">
+                                <hr>
+                                <h2 class="p-2">Submission Records</h2>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Submission ID</th>
+                                            <th scope="col">Problem name</th>
+                                            <th scope="col">OJ</th>
+                                            <th scope="col">Verdicts</th>
+                                            <th scope="col">Language</th>
+                                            <th scope="col">Submission time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="submission_table">
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <script>
-                            $(document).ready(function() {
-                                $('#submitBtn').click(function() {
-                                    var codeforcesHandle = $('#codeforces').val();
-                                    var vjudgeHandle = $('#vjudge').val();
-                                    var spojHandle = $('#spoj').val();
-                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                    // Create the data object to be sent in the POST request
-                                    var data = {
-                                        _token: csrfToken,
-                                        codeforces: codeforcesHandle,
-                                        vjudge: vjudgeHandle,
-                                        spoj: spojHandle
+                                document.getElementById('submitBtn').addEventListener('click', function(event) {
+                                    event.preventDefault(); // Prevent the default form submission
+
+                                    // Get the input values
+                                    var codeforcesHandle = document.getElementById('codeforces').value;
+                                    var vjudgeHandle = document.getElementById('vjudge').value;
+                                    var spojHandle = document.getElementById('spoj').value;
+
+                                    // Create the AJAX request
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open('POST', '/searchdata');
+                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                                    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+
+                                    // Handle the AJAX response
+                                    xhr.onreadystatechange = function() {
+                                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                                            var response = JSON.parse(xhr.responseText);
+                                            console.log(response);
+                                            // Update the UI with the response data
+                                            // For example, update the submission table with response.submissions
+                                            // document.getElementById('submission_table').innerHTML = response.submissions;
+                                        }
                                     };
 
-                                    // Send the POST request to the desired endpoint
-                                    $.post('/searchdata', data, function(response) {
-                                        // Handle the response from the server
-                                        // console.log(response);
-                                        $('body').html(response);
-                                    });
+                                    // Send the AJAX request with the input data
+                                    xhr.send(JSON.stringify({
+                                        codeforcesHandle: codeforcesHandle,
+                                        vjudgeHandle: vjudgeHandle,
+                                        spojHandle: spojHandle
+                                    }));
                                 });
-                            });
-                            function sanitizeInput(input) {
-                                // Remove leading and trailing whitespace
-                                input = input.trim();
-
-                                // Remove any potentially harmful characters or HTML tags
-                                input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-                                // Return the sanitized input
-                                return input;
-                            }
                             </script>
 
                         </div>
@@ -126,8 +131,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 
 </html>

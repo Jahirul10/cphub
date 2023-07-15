@@ -32,8 +32,8 @@ Route::post('/showcomparison', [VisitorController::class, 'showComparison']);
 Route::get('/search-result', [VisitorController::class, 'searchResult']);
 Route::get('/dashboard', [VisitorController::class, 'dashboard']);
 
-Route::post('/searchdata', [VisitorController::class, 'searchingData']);
 Route::get('/searchdata', [VisitorController::class, 'searchingData']);
+Route::post('/searchdata', [VisitorController::class, 'searchingData']);
 
 Route::get('/join-request', [VisitorController::class, 'showJoinRequestForm']);
 Route::post('/join-request', [VisitorController::class, 'joinRequest']);

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VisitorController extends Controller
 {
@@ -146,7 +148,11 @@ class VisitorController extends Controller
         if (!empty($dataArrayOfSpoj)) {
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
         }
-        return  view ('publicSearchResult',compact('mergedData','codeforcesHandle','vjudgeHandle','spojHandle'));
+
+        return response()->json([
+            'message' => 'Filtering submissions...',
+            'submissions' => $mergedData,
+        ]);
     }
 
     public function showComparison(Request $request){
@@ -219,14 +225,14 @@ class VisitorController extends Controller
                     $item[2] = 'vjudge';
                 }
             }
-            
+
             $mergedData_User_1 = array_merge($mergedData_User_1, $dataArrayOfVjudge_User_1);
         }
 
         if (!empty($dataArrayOfSpoj_User_1)) {
             $mergedData_User_1 = array_merge($mergedData_User_1, $dataArrayOfSpoj_User_1);
         }
-        
+
         //merging all data of user-2
 
         $mergedData_User_2 = [];
