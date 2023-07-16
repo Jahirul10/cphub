@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Compare</a>
+                        <a class="nav-link" aria-current="page" href="{{ url('home') }}">Search</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/signup') }}">Sign Up</a>
@@ -49,29 +49,16 @@
                     <div class="card bg-white">
                         <div class="card-body p-5">
                             <h2 class="fw-bold mb-2 text-uppercase text-center">University Of Rajshahi</h2>
-                            <!-- <div class="row mt-5">
-                                <div class="col-md mb-4">
-                                    <label for="text" class="form-label">Codeforces Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Codeforces" aria-label="Codeforces">
-                                </div>
-                                <div class="col-md mb-4">
-                                    <label for="text" class="form-label">Vjudge Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Vjudge" aria-label="Vjudge">
-                                </div>
-                                <div class="col-md">
-                                    <label for="text" class="form-label">Spoj Handle</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Spoj" aria-label="Spoj">
-                                </div>
-                            </div>
-                            <div class="row justify-content-center mt-4">
-                                <button type="button" class="btn btn-primary btn-md w-50">Submit</button>
-
-                            </div> -->
                             <div class="row mt-5">
                                 <div class="col-md mb-4">
                                     <label for="codeforces" class="form-label">User-1 Codeforces Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_1_codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                    <!-- Error message element -->
+                                    <div id="errorMessage1" class="text-danger mt-4"></div>
+                                    <div id="emptyDataMessage1" class="">
+                                    </div>
                                 </div>
+
                                 <div class="col-md mb-4">
                                     <label for="vjudge" class="form-label">User-1 Vjudge Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_1_vjudge" placeholder="Vjudge" aria-label="Vjudge">
@@ -86,6 +73,10 @@
                                 <div class="col-md mb-4">
                                     <label for="codeforces" class="form-label">User-2 Codeforces Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="user_2_codeforces" placeholder="Codeforces" aria-label="Codeforces">
+                                    <!-- Error message element -->
+                                    <div id="errorMessage2" class="text-danger mt-4"></div>
+                                    <div id="emptyDataMessage2" class="">
+                                    </div>
                                 </div>
                                 <div class="col-md mb-4">
                                     <label for="vjudge" class="form-label">User-2 Vjudge Handle</label>
@@ -103,44 +94,63 @@
 
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <script>
-                            $(document).ready(function() {
-                                $('#submitBtn').click(function() {
-                                    var user_1_codeforcesHandle = $('#user_1_codeforces').val();
-                                    var user_1_vjudgeHandle = $('#user_1_vjudge').val();
-                                    var user_1_spojHandle = $('#user_1_spoj').val();
-                                    var user_2_codeforcesHandle = $('#user_2_codeforces').val();
-                                    var user_2_vjudgeHandle = $('#user_2_vjudge').val();
-                                    var user_2_spojHandle = $('#user_2_spoj').val();
-                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                    // Create the data object to be sent in the POST request
-                                    var data = {
-                                        _token: csrfToken,
-                                        user_1_codeforcesHandle: user_1_codeforcesHandle,
-                                        user_1_vjudgeHandle: user_1_vjudgeHandle,
-                                        user_1_spojHandle: user_1_spojHandle,
-                                        user_2_codeforcesHandle: user_2_codeforcesHandle,
-                                        user_2_vjudgeHandle: user_2_vjudgeHandle,
-                                        user_2_spojHandle: user_2_spojHandle,
-                                    };
+                                $(document).ready(function() {
+                                    $('#submitBtn').click(function() {
 
-                                    // Send the POST request to the desired endpoint
-                                    $.post('/showcomparison', data, function(response) {
-                                        // Handle the response from the server
-                                        // console.log(response);
-                                        $('body').html(response);
+                                        var user_1_codeforcesHandle = $('#user_1_codeforces').val();
+                                        var user_1_vjudgeHandle = $('#user_1_vjudge').val();
+                                        var user_1_spojHandle = $('#user_1_spoj').val();
+
+                                        var user_2_codeforcesHandle = $('#user_2_codeforces').val();
+                                        var user_2_vjudgeHandle = $('#user_2_vjudge').val();
+                                        var user_2_spojHandle = $('#user_2_spoj').val();
+                                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                                        // Check if at least one field is filled
+                                        if (user_1_codeforcesHandle === '' && user_1_vjudgeHandle === '' && user_1_spojHandle === '') {
+                                            var errorMessage1 = document.getElementById('errorMessage1');
+                                            errorMessage1.textContent = 'Please fill in at least one field.'; // Set the error message
+                                            // return; // Exit the function
+                                        }
+                                        // Check if at least one field is filled
+                                        if (user_2_codeforcesHandle === '' && user_2_vjudgeHandle === '' && user_2_spojHandle === '') {
+                                            var errorMessage2 = document.getElementById('errorMessage2');
+                                            errorMessage2.textContent = 'Please fill in at least one field.'; // Set the error message
+                                            // return; // Exit the function
+                                        }
+                                        if (errorMessage1.textContent !== '' || errorMessage2.textContent !== '') {
+                                            return;
+                                        }
+                                        // Create the data object to be sent in the POST request
+                                        var data = {
+                                            _token: csrfToken,
+                                            user_1_codeforcesHandle: user_1_codeforcesHandle,
+                                            user_1_vjudgeHandle: user_1_vjudgeHandle,
+                                            user_1_spojHandle: user_1_spojHandle,
+                                            user_2_codeforcesHandle: user_2_codeforcesHandle,
+                                            user_2_vjudgeHandle: user_2_vjudgeHandle,
+                                            user_2_spojHandle: user_2_spojHandle,
+                                        };
+
+                                        // Send the POST request to the desired endpoint
+                                        $.post('/showcomparison', data, function(response) {
+                                            // Handle the response from the server
+                                            // console.log(response);
+                                            $('body').html(response);
+                                        });
                                     });
                                 });
-                            });
-                            function sanitizeInput(input) {
-                                // Remove leading and trailing whitespace
-                                input = input.trim();
 
-                                // Remove any potentially harmful characters or HTML tags
-                                input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                                function sanitizeInput(input) {
+                                    // Remove leading and trailing whitespace
+                                    input = input.trim();
 
-                                // Return the sanitized input
-                                return input;
-                            }
+                                    // Remove any potentially harmful characters or HTML tags
+                                    input = input.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                                    // Return the sanitized input
+                                    return input;
+                                }
                             </script>
 
                         </div>

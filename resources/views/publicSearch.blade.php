@@ -46,12 +46,17 @@
                     <div class="row">
                         <div class="card bg-white">
                             <div class="card-body p-4">
+
                                 <form id="searchForm"> <!-- Add the form element here -->
                                     <div class="row">
                                         <div class="col-md">
                                             <div class="form-group">
                                                 <label for="codeforces" class="form-label">Codeforces Handle</label>
                                                 <input type="text" class="form-control border-dark opacity-50 mt-sm-2" id="codeforces" placeholder="Codeforces" aria-label="Codeforces" value="">
+                                            </div>
+                                            <!-- Error message element -->
+                                            <div id="errorMessage" class="text-danger mt-4"></div>
+                                            <div id="emptyDataMessage" class="mt-4">
                                             </div>
                                         </div>
                                         <div class="col-md">
@@ -67,6 +72,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md mt-4">
+
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-md w-100 mt-sm-3" id="submitBtn">Submit</button>
                                             </div>
@@ -90,7 +96,7 @@
                                 <hr>
 
                                 <h2 class="p-2">Submission Records</h2>
-                                <table class="table table-striped">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th scope="col">Submission ID</th>
@@ -122,6 +128,18 @@
                                     var vjudgeHandle = document.getElementById('vjudge').value;
                                     var spojHandle = document.getElementById('spoj').value;
 
+                                    // Check if at least one field is filled
+                                    if (codeforcesHandle === '' && vjudgeHandle === '' && spojHandle === '') {
+                                        var errorMessage = document.getElementById('errorMessage');
+                                        errorMessage.textContent = 'Please fill in at least one field.'; // Set the error message
+                                        return; // Exit the function
+                                    }
+
+                                    // Clear any previous error message
+                                    var errorMessage = document.getElementById('errorMessage');
+                                    errorMessage.textContent = '';
+
+
                                     // Create the AJAX request
                                     $.ajax({
                                         url: '/searchdata',
@@ -137,6 +155,20 @@
                                         },
                                         success: function(response) {
                                             console.log(response);
+
+
+
+                                            // Print the messages in the view
+                                            var messageArray = response.message;
+                                            var messageElement = document.getElementById('emptyDataMessage');
+
+                                            messageElement.innerHTML = ''; // Clear previous content
+
+                                            for (var i = 0; i < messageArray.length; i++) {
+                                                var messageItem = document.createElement('p');
+                                                messageItem.textContent = messageArray[i];
+                                                messageElement.appendChild(messageItem);
+                                            }
 
 
                                             var verdictCounts = response.verdictsCount;
@@ -259,8 +291,11 @@
 
 
 
-                                            // Unhide the table
-                                            document.getElementById('submissionHistory').classList.remove('d-none');
+                                            console.log(response.submissions.length);
+                                            if (response.submissions && response.submissions.length > 0) {
+                                                // Unhide the table
+                                                document.getElementById('submissionHistory').classList.remove('d-none');
+                                            }
 
 
                                             var tableBody = $('#submission_table');
@@ -392,7 +427,20 @@
 
                                         },
                                         error: function(xhr, status, error) {
-                                            console.log(error);
+                                            document.getElementById('submissionHistory').classList.add('d-none');
+                                            document.getElementById('emptyDataMessage').classList.add('d-none');
+
+                                            var tableBody = $('#submission_table');
+                                            tableBody.empty();
+
+                                            var errorMessage = document.getElementById('errorMessage');
+                                            console.log(xhr.responseJSON);
+
+                                            if (xhr.responseJSON && xhr.responseJSON.errors && xhr.responseJSON.errors.length > 0) {
+                                                errorMessage.textContent = xhr.responseJSON.errors[0]; // Display the first error message in the view
+                                            } else {
+                                                errorMessage.textContent = 'An error occurred. Please try again later.';
+                                            }
                                         }
                                     });
                                 });

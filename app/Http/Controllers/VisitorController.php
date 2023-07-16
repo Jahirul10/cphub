@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\View;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Validator;
 
 class VisitorController extends Controller
 {
@@ -110,6 +109,25 @@ class VisitorController extends Controller
     }
     public function searchingData(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'codeforces' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'vjudge' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'spoj' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+        ], [
+            'codeforces.regex' => 'The codeforces handle contains invalid characters.',
+            'vjudge.regex' => 'The vjudge handle contains invalid characters.',
+            'spoj.regex' => 'The spoj handle contains invalid characters.',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+
+            return response()->json([
+                'error' => 'Validation failed',
+                'errors' => array_values($errors),
+            ], 400);
+        }
+
         $codeforcesHandle = $request->input('codeforces');
         $vjudgeHandle = $request->input('vjudge');
         $spojHandle = $request->input('spoj');
@@ -136,18 +154,30 @@ class VisitorController extends Controller
         $dataArrayOfSpoj = json_decode($jsonResponseSpoj, true);
 
         $mergedData = [];
+        $message = array();
 
         if (!empty($dataArrayOfCodeforces)) {
             $mergedData = array_merge($mergedData, $dataArrayOfCodeforces);
         }
+        else $message[] = "No codeforces data found.";
+
 
         if (!empty($dataArrayOfVjudge)) {
+            foreach ($dataArrayOfVjudge as &$item) {
+                if ($item[2] === 'CodeForces') {
+                    $item[2] = 'codeforces';
+                } elseif ($item[2] === 'SPOJ') {
+                    $item[2] = 'spoj';
+                } else {
+                    $item[2] = 'vjudge';
+                }
+            }
             $mergedData = array_merge($mergedData, $dataArrayOfVjudge);
-        }
+        } else $message[] ="No vjudge data found.";
 
         if (!empty($dataArrayOfSpoj)) {
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
-        }
+        } else $message[] = "No spoj data found.";
 
         $verdictsCount = array();
         $languagesCount = array();
@@ -170,14 +200,54 @@ class VisitorController extends Controller
         }
 
         return response()->json([
-            'message' => 'Filtering submissions...',
+            'message' => $message,
             'submissions' => $mergedData,
             'verdictsCount' => $verdictsCount,
             'languagesCount' => $languagesCount
         ]);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function showComparison(Request $request){
+        $validator = Validator::make($request->all(), [
+            'user_1_codeforcesHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'user_1_vjudgeHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'user_1_spojHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'user_2_codeforcesHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'user_2_vjudgeHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'user_2_spojHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+        ], [
+            'user_1_codeforcesHandle.regex' => 'The user 1 codeforces handle contains invalid characters.',
+            'user_1_vjudgeHandle.regex' => 'The user 1 vjudge handle contains invalid characters.',
+            'user_1_spojHandle.regex' => 'The user 1 spoj handle contains invalid characters.',
+            'user_2_codeforcesHandle.regex' => 'The user 2 codeforces handle contains invalid characters.',
+            'user_2_vjudgeHandle.regex' => 'The user 2 vjudge handle contains invalid characters.',
+            'user_2_spojHandle.regex' => 'The user 2 spoj handle contains invalid characters.',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+
+            return response()->json([
+                'error' => 'Validation failed',
+                'errors' => array_values($errors),
+            ], 400);
+        }
+
+
+
         $user_1_codeforcesHandle = $request->input('user_1_codeforcesHandle');
         $user_1_vjudgeHandle = $request->input('user_1_vjudgeHandle');
         $user_1_spojHandle = $request->input('user_1_spojHandle');
