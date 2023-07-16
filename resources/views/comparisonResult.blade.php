@@ -10,8 +10,8 @@
 </head>
 
 <body>
-        <!--Navbar Design start -->
-        <nav class="navbar navbar-expand-lg bg-light">
+    <!--Navbar Design start -->
+    <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('dashboard') }}">
                 <h4>CSERU</h4>
@@ -39,30 +39,39 @@
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-12 col-md-8 col-lg-10">
-                    <!-- Success message -->
-                    @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
-                    </div>
-                    @endif
                     <div class="card bg-white">
                         <div class="card-body p-5">
-                            <h2 class="fw-bold mb-2 text-uppercase text-center">OJ Solve</h2>
-                            <div class="row mt-5">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-10">
-                                        <canvas id="barChart"></canvas>
-                                    </div>
+                            <h3 class="fw-bold mb-2 text">OJ Solve</h3>
+                            <div class="row justify-content-center mb-5">
+                                <div class="col-md-10">
+                                    <canvas id="barChart"></canvas>
                                 </div>
                             </div>
+
+                            <hr class="mt-5">
+                            <h3 class="fw-bold mb-2 text">Verdict Comparison</h3>
+                            <div class="row justify-content-center mb-5">
+                                <div class="col-md-10">
+                                    <canvas id="verdictChart"></canvas>
+                                </div>
                             </div>
+
+                            <hr class="mt-5">
+                            <h3 class="fw-bold mb-2 text">Submitted Languages</h3>
+                            <div class="row justify-content-center">
+                                <div class="col-md-10">
+                                    <canvas id="barChart1"></canvas>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <script>
         var dataset1 = JSON.parse('{{ json_encode([$totalCodeforcesSolved_User_1, $totalVjudgeSolved_User_1, $totalSpojSolved_User_1]) }}');
         var dataset2 = JSON.parse('{{ json_encode([$totalCodeforcesSolved_User_2, $totalVjudgeSolved_User_2, $totalSpojSolved_User_2]) }}');
@@ -72,20 +81,18 @@
             type: 'bar',
             data: {
                 labels: ['Codeforces', 'Vjudge', 'Spoj'],
-                datasets: [
-                    {
-                        label: 'User-1',
+                datasets: [{
+                        label: '1st User',
                         data: dataset1,
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        
+
                         borderWidth: 2,
-                        borderRadius: Number.MAX_VALUE,
                         borderSkipped: false,
                     },
                     {
-                        label: 'User-2',
+                        label: '2nd User',
                         data: dataset2,
-                        
+
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
                         borderWidth: 2,
                         borderRadius: 5,
@@ -104,134 +111,78 @@
         });
     </script>
 
-<div class="vh-100 d-flex justify-content-center mt-5">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-md-8 col-lg-10">
-                    <!-- Success message -->
-                    @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                    <div class="card bg-white">
-                        <div class="card-body p-5">
-                            <h2 class="fw-bold mb-2 text-uppercase text-center">OJ Language</h2>
-                            <div class="row mt-5">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-10">
-                                        <canvas id="barChart1"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-            var ctx = document.getElementById('barChart1').getContext('2d');
-            var language_User_1 = JSON.parse('{!! json_encode($language_User_1) !!}');
-            var language_User_2 = JSON.parse('{!! json_encode($language_User_2) !!}');
+        var ctx = document.getElementById('verdictChart').getContext('2d');
+        var verdict_User_1 = JSON.parse('{!! json_encode($verdict_User_1) !!}');
+        var verdict_User_2 = JSON.parse('{!! json_encode($verdict_User_2) !!}');
 
-            var labels = Object.keys(language_User_1);
-            var data1 = Object.values(language_User_1);
-            var data2 = Object.values(language_User_2);
+        var labels = Object.keys(verdict_User_1);
+        var data1 = Object.values(verdict_User_1);
+        var data2 = Object.values(verdict_User_2);
 
-            var barChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'User 1',
-                            data: data1,
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        },
-                        {
-                            label: 'User 2',
-                            data: data2,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                        label: '1st User',
+                        data: data1,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    },
+                    {
+                        label: '2nd User',
+                        data: data2,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
-            });
-        </script>
-            <div class="vh-100 d-flex justify-content-center mt-5">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-md-8 col-lg-10">
-                    <!-- Success message -->
-                    @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
-                    </div>
-                    @endif
-                    <div class="card bg-white">
-                        <div class="card-body p-5">
-                            <h2 class="fw-bold mb-2 text-uppercase text-center">OJ Verdict</h2>
-                            <div class="row mt-5">
-                            <div class="container">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-10">
-                                        <canvas id="verdictChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            }
+        });
+    </script>
+
     <script>
-            var ctx = document.getElementById('verdictChart').getContext('2d');
-            var verdict_User_1 = JSON.parse('{!! json_encode($verdict_User_1) !!}');
-            var verdict_User_2 = JSON.parse('{!! json_encode($verdict_User_2) !!}');
+        var ctx = document.getElementById('barChart1').getContext('2d');
+        var language_User_1 = JSON.parse('{!! json_encode($language_User_1) !!}');
+        var language_User_2 = JSON.parse('{!! json_encode($language_User_2) !!}');
 
-            var labels = Object.keys(verdict_User_1);
-            var data1 = Object.values(verdict_User_1);
-            var data2 = Object.values(verdict_User_2);
+        var labels = Object.keys(language_User_1);
+        var data1 = Object.values(language_User_1);
+        var data2 = Object.values(language_User_2);
 
-            var barChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'User 1',
-                            data: data1,
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        },
-                        {
-                            label: 'User 2',
-                            data: data2,
-                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        var barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                        label: '1st User',
+                        data: data1,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    },
+                    {
+                        label: '2nd User',
+                        data: data2,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
-            });
-        </script>
+            }
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 

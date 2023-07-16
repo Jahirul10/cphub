@@ -17,6 +17,11 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+
+Route::get('/', function () {
+    return redirect('/home');
+});
+
 Route::get('/signup', function () {
     return view('signUp');
 });
