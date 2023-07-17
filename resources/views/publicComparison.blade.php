@@ -106,18 +106,30 @@
                                         var user_2_spojHandle = $('#user_2_spoj').val();
                                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+
+                                        var errorMessage1 = document.getElementById('errorMessage1');
+                                        var errorMessage2 = document.getElementById('errorMessage2');
+
+                                        console.log("1-1 ", errorMessage1.textContent);
+                                        console.log("1-2 ", errorMessage2.textContent);
+
                                         // Check if at least one field is filled
                                         if (user_1_codeforcesHandle === '' && user_1_vjudgeHandle === '' && user_1_spojHandle === '') {
-                                            var errorMessage1 = document.getElementById('errorMessage1');
                                             errorMessage1.textContent = 'Please fill in at least one field.'; // Set the error message
+                                            console.log("2-1 ", errorMessage1.textContent);
                                             // return; // Exit the function
-                                        }
+                                        } else errorMessage1.textContent = '';
                                         // Check if at least one field is filled
                                         if (user_2_codeforcesHandle === '' && user_2_vjudgeHandle === '' && user_2_spojHandle === '') {
-                                            var errorMessage2 = document.getElementById('errorMessage2');
                                             errorMessage2.textContent = 'Please fill in at least one field.'; // Set the error message
+                                            console.log("2-2 ", errorMessage2.textContent);
                                             // return; // Exit the function
-                                        }
+                                        } else errorMessage2.textContent = '';
+
+                                        console.log("3-1 ", errorMessage1.textContent);
+                                        console.log("3-2 ", errorMessage2.textContent);
+
+                                        console.log(">");
                                         if (errorMessage1.textContent !== '' || errorMessage2.textContent !== '') {
                                             return;
                                         }
@@ -135,7 +147,7 @@
                                         // Send the POST request to the desired endpoint
                                         $.post('/showcomparison', data, function(response) {
                                             // Handle the response from the server
-                                            // console.log(response);
+                                            console.log(response);
                                             $('body').html(response);
                                         });
                                     });
