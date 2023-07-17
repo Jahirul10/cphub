@@ -348,6 +348,7 @@ class VisitorController extends Controller
             $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfVjudge_User_2);
         }
 
+
         if (!empty($dataArrayOfSpoj_User_2)) {
             $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfSpoj_User_2);
         }
@@ -355,6 +356,7 @@ class VisitorController extends Controller
         $vjudgeTotalProblems_User_1 = [];
         $spojTotalProblems_User_1 = [];
 
+        // return $mergedData_User_1;
         foreach ($mergedData_User_1 as $item) {
             if ($item[2] === 'codeforces' && $item[3] === 'Accepted') {
                 $name = $item[1];
@@ -369,6 +371,7 @@ class VisitorController extends Controller
                 $spojTotalProblems_User_1[] = $name;
             }
         }
+        // return $codeforcesTotalProblems_User_1;
         // return $spojTotalProblems_User_1;
         $uniqueCodeforceProblems_User_1 = array_unique($codeforcesTotalProblems_User_1);
         $totalCodeforcesSolved_User_1 = count($uniqueCodeforceProblems_User_1);
@@ -452,19 +455,9 @@ class VisitorController extends Controller
             }
         }
 
-        // print_r($verdict_User_1);
-        // print_r($verdict_User_2);
-        // $language_User_2 = array();
-        // foreach ($mergedData_User_2 as $lanitem) {
-        //     if (isset($language_User_2[$lanitem[4]])) {
-        //         $language_User_2[$lanitem[4]]++;
-        //     } else {
-        //         $language_User_2[$lanitem[4]] = 1;
-        //     }
-        // }
-
         // print_r($language_User_1);
         // print_r($language_User_2);
+
         return view('comparisonResult',compact('totalCodeforcesSolved_User_1','totalVjudgeSolved_User_1','totalSpojSolved_User_1','totalCodeforcesSolved_User_2','totalVjudgeSolved_User_2','totalSpojSolved_User_2','language_User_1', 'language_User_2','verdict_User_1','verdict_User_2'));
 
 

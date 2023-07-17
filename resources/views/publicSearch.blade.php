@@ -170,6 +170,14 @@
                                                 messageElement.appendChild(messageItem);
                                             }
 
+                                            if (response.submissions.length == 0) {
+                                                document.getElementById('submissionHistory').classList.add('d-none');
+                                                // document.getElementById('emptyDataMessage').classList.add('d-none');
+
+                                                var tableBody = $('#submission_table');
+                                                tableBody.empty();
+                                            }
+
 
                                             var verdictCounts = response.verdictsCount;
                                             var languageCounts = response.languagesCount;
