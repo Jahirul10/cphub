@@ -50,12 +50,13 @@
                         <div class="card-body p-5">
                             <h2 class="fw-bold mb-2 text-uppercase text-start">Join Request</h2>
                             <div class="row mt-5">
-                                <div class="col-md mb-4">
-                                    <label for="studentId" class="form-label">Student ID</label>
-                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Student ID" id="studentId">
-                                    <!-- Error message for student ID -->
-                                    <span id="studentIdError" class="text-danger"></span>
-                                </div>
+                            <div class="col-md mb-4">
+                                <label for="studentId" class="form-label">Student ID</label>
+                                <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Student ID" id="studentId" required>
+                                <!-- Error message for student ID -->
+                                <span id="studentIdError" class="text-danger"></span>
+                            </div>
+
                                 <div class="col-md mb-4">
                                     <label for="phone" class="form-label">Phone</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Phone" id="phone">
@@ -75,20 +76,28 @@
                                 <div class="col-md mb-4">
                                     <label for="codeforcesHandle" class="form-label">Codeforces Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Codeforces Handle" id="codeforcesHandle">
+                                    <!-- Error message for Codeforces Handle -->
+                                    <span id="codeforcesHandleError" class="text-danger"></span>
                                 </div>
                                 <div class="col-md mb-4">
                                     <label for="vjudgeHandle" class="form-label">Vjudge Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Vjudge Handle" id="vjudgeHandle">
+                                    <!-- Error message for Vjudge Handle -->
+                                    <span id="vjudgeHandleError" class="text-danger"></span>
                                 </div>
                                 <div class="col-md mb-4">
                                     <label for="spojHandle" class="form-label">Spoj Handle</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Spoj Handle" id="spojHandle">
+                                    <!-- Error message for Spoj Handle -->
+                                    <span id="spojHandleError" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-md-12">
                                     <label for="email" class="form-label">Requesting to...</label>
-                                    <input type="email" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Email Address" id="email">
+                                    <input type="email" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Email Address" id="email" required>
+                                    <!-- Error message for email -->
+                                    <span id="emailError" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row justify-content-center mt-4">
@@ -124,6 +133,39 @@
             formData.append('vjudgeHandle', vjudgeHandle);
             formData.append('spojHandle', spojHandle);
             formData.append('email', email);
+
+            var studentIdError = document.getElementById('studentIdError');
+            var emailError = document.getElementById('emailError');
+            var codeforcesHandleError = document.getElementById('codeforcesHandleError');
+            var vjudgeHandleError = document.getElementById('vjudgeHandleError');
+            var spojHandleError = document.getElementById('spojHandleError');
+
+            // Reset the error message before validation
+            studentIdError.textContent = '';
+            emailError.textContent = '';
+            codeforcesHandleError.textContent = '';
+            vjudgeHandleError.textContent = '';
+            spojHandleError.textContent = '';
+
+
+            // Check if the Student ID is empty
+            if (studentId.trim() === '') {
+                // If empty, display the required message
+                studentIdError.textContent = 'Student ID is required.';
+                return; // Return to prevent form submission
+            }
+
+            if (codeforcesHandle.trim() === '' && vjudgeHandle.trim() === '' && spojHandle.trim() === '') {
+            // If none of the handle fields are filled, display the error message for handle fields
+            codeforcesHandleError.textContent = 'At least one handle must be provided.';
+            return; // Return to prevent form submission
+            }
+            if (email.trim() === '') {
+            // If empty, display the required message for email
+            emailError.textContent = 'Email is required.';
+            return; // Return to prevent form submission
+            }
+
 
             // Send a POST request to the joinRequest route with the form data
             fetch('/join-request', {
