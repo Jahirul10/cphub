@@ -50,16 +50,18 @@
                         <div class="card-body p-5">
                             <h2 class="fw-bold mb-2 text-uppercase text-start">Join Request</h2>
                             <div class="row mt-5">
-                            <div class="col-md mb-4">
-                                <label for="studentId" class="form-label">Student ID</label>
-                                <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Student ID" id="studentId" required>
-                                <!-- Error message for student ID -->
-                                <span id="studentIdError" class="text-danger"></span>
-                            </div>
+                                <div class="col-md mb-4">
+                                    <label for="studentId" class="form-label">Student ID</label>
+                                    <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Student ID" id="studentId" required>
+                                    <!-- Error message for student ID -->
+                                    <span id="studentIdError" class="text-danger"></span>
+                                </div>
 
                                 <div class="col-md mb-4">
                                     <label for="phone" class="form-label">Phone</label>
                                     <input type="text" class="form-control border-dark opacity-50 mt-sm-2" placeholder="Phone" id="phone">
+                                    <!-- Error message for phone -->
+                                    <span id="phoneError" class="text-danger"></span>
                                 </div>
                                 <div class="col-md mb-4">
                                     <label for="session" class="form-label">Session</label>
@@ -70,6 +72,8 @@
                                         <option value="2019-20">2019-20</option>
                                         <option value="2020-21">2020-21</option>
                                     </select>
+                                    <!-- Error message for session -->
+                                    <span id="sessionError" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row mt-4">
@@ -143,27 +147,48 @@
             // Reset the error message before validation
             studentIdError.textContent = '';
             emailError.textContent = '';
+            phoneError.textContent = '';
+            sessionError.textContent = '';
             codeforcesHandleError.textContent = '';
             vjudgeHandleError.textContent = '';
             spojHandleError.textContent = '';
+
 
 
             // Check if the Student ID is empty
             if (studentId.trim() === '') {
                 // If empty, display the required message
                 studentIdError.textContent = 'Student ID is required.';
-                return; // Return to prevent form submission
             }
 
-            if (codeforcesHandle.trim() === '' && vjudgeHandle.trim() === '' && spojHandle.trim() === '') {
-            // If none of the handle fields are filled, display the error message for handle fields
-            codeforcesHandleError.textContent = 'At least one handle must be provided.';
-            return; // Return to prevent form submission
+            if (codeforcesHandle.trim() === '' || vjudgeHandle.trim() === '' || spojHandle.trim() === '') {
+                // If none of the handle fields are filled, display the error message for handle fields
+                codeforcesHandleError.textContent = 'All handles must be provided.';
             }
             if (email.trim() === '') {
-            // If empty, display the required message for email
-            emailError.textContent = 'Email is required.';
-            return; // Return to prevent form submission
+                // If empty, display the required message for email
+                emailError.textContent = 'Email is required.';
+            }
+            if (phone.trim() === '') {
+                // If empty, display the required message for phone
+                phoneError.textContent = 'Phone is required.';
+            }
+            if (session.trim() === 'Select Session') {
+                // If empty, display the required message for session
+                sessionError.textContent = 'session is required.';
+            }
+
+
+            
+
+            if (studentIdError.textContent != '' ||
+                emailError.textContent != '' ||
+                phoneError.textContent != '' ||
+                sessionError.textContent != '' ||
+                codeforcesHandleError.textContent != '' ||
+                vjudgeHandleError.textContent != '' ||
+                spojHandleError.textContent != '') {
+                return;
             }
 
 
