@@ -134,8 +134,17 @@ class TeacherController extends Controller
             ->orderBy('submissions.submissiontime', 'desc') // Sort by submissiontime in descending order
             ->get();
 
+        $last10Submissions = DB::table('submissions')
+            ->join('problems', 'submissions.problem_id', '=', 'problems.id')
+            ->whereIn('problems.oj', $platforms)
+            ->where('submissions.student_id', $studentId)
+            ->select('submissions.*', 'problems.title AS problem_title', 'problems.url AS problem_url', 'problems.oj AS problem_oj')
+            ->orderBy('submissions.submissiontime', 'desc') // Sort by submissiontime in descending order
+            ->limit(10) // Limit the results to 10 submissions
+            ->get();
+
         return response()->json([
-            'lastWeekSubmissions' => $lastWeekSubmissions,
+            'last10Submissions' => $last10Submissions,
             'languagesCount' => $languagesCount,
             'verdictsCount' => $verdictsCount,
         ]);
