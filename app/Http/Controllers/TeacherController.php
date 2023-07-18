@@ -18,25 +18,30 @@ class TeacherController extends Controller
     {
         $students = Student::where('session', '2020-21')->get();
 
-        // $platforms = ['codeforces', 'vjudge', 'spoj'];
+        $platforms = ['codeforces', 'vjudge', 'spoj'];
         $platformCounts = [];
-        foreach ($students as $student) {
-            // print_r(json_encode($student));
 
+        foreach ($students as $student) {
             $submissions = Submissions::where('student_id', $student->id)
-                ->whereRaw('LOWER(verdict) = ?', ['accepted'])
-                ->select('problem_id')
-                ->distinct()
-                ->get();
+            ->whereRaw('LOWER(verdict) = ?', ['accepted'])
+            ->select('problem_id')
+            ->distinct()
+            ->get();
 
             $problems = $submissions->pluck('problem_id')->toArray();
 
             $problemPlatforms = Problem::whereIn('id', $problems)
-                ->pluck('oj')
-                ->toArray();
+            ->whereIn('oj', $platforms) // Filter by the three specified platforms
+            ->pluck('oj')
+            ->toArray();
+
             $platformCounts[$student->id] = array_count_values($problemPlatforms);
-            // print_r(json_encode(count($problemPlatforms)));
-            // print_r(json_encode($platformCounts));
+
+            // Fill missing platforms with 0 count
+            $platformCounts[$student->id] = array_replace(
+                array_fill_keys($platforms, 0),
+                $platformCounts[$student->id]
+            );
         }
 
         $topSolving = Submissions::where('verdict', 'accepted')
@@ -66,11 +71,10 @@ class TeacherController extends Controller
         $students = Student::where('session', $session)->get();
         // print_r($session);
 
+        $platforms = ['codeforces', 'vjudge', 'spoj'];
         $platformCounts = [];
-        // print_r(json_encode($submissionIds));
-        foreach ($students as $student) {
-            // print_r("lasjkdflkjsalkdfjlk");
 
+        foreach ($students as $student) {
             $submissions = Submissions::where('student_id', $student->id)
                 ->whereRaw('LOWER(verdict) = ?', ['accepted'])
                 ->select('problem_id')
@@ -80,11 +84,17 @@ class TeacherController extends Controller
             $problems = $submissions->pluck('problem_id')->toArray();
 
             $problemPlatforms = Problem::whereIn('id', $problems)
+                ->whereIn('oj', $platforms) // Filter by the three specified platforms
                 ->pluck('oj')
                 ->toArray();
+
             $platformCounts[$student->id] = array_count_values($problemPlatforms);
-            // print_r(json_encode(count($problemPlatforms)));
-            // print_r(json_encode($platformCounts));
+
+            // Fill missing platforms with 0 count
+            $platformCounts[$student->id] = array_replace(
+                array_fill_keys($platforms, 0),
+                $platformCounts[$student->id]
+            );
         }
 
         $responseData = [

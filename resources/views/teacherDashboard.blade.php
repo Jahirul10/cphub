@@ -89,6 +89,8 @@
 
                                     // console.log(session);
                                     $.post('/teacher-table-update/' + session, function(response) {
+                                        // console.log(response);
+
                                         var students = response.students;
                                         var platformCounts = response.platformCounts;
                                         // console.log(students);
@@ -110,14 +112,12 @@
                                             // Check if platformCounts for the student exists
                                             if (platformCounts.hasOwnProperty(student.id)) {
                                                 var counts = platformCounts[student.id];
+                                                // console.log(counts);
 
                                                 // Iterate over platformCounts and add <td> for each platform
                                                 Object.values(counts).forEach(function(count) {
                                                     row.append('<td>' + count + '</td>');
                                                 });
-                                            } else {
-                                                // Add <td> with 0 if platformCounts doesn't exist for the student
-                                                row.append('<td>0</td>');
                                             }
 
                                             tableBody.append(row);
