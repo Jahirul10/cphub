@@ -46,11 +46,9 @@ class VisitorController extends Controller
                     User::where('id', $user->id)->update(['api_token' => $apiToken]);
                 }
 
-                if ($user->user_type == 3) {
-                    return redirect('/teacher-dashboard')->with('success', 'Login successful!');
-                } else {
-                    return redirect('/dashboard')->with('success', 'Login successful!');
-                }
+
+                return redirect('/dashboard')->with('success', 'Login successful!');
+                
             } else {
                 return redirect('/login')->withErrors([
                     'email' => 'Sign up failed. Please log in.',
@@ -104,7 +102,8 @@ class VisitorController extends Controller
     {
         return view('publicSearchResult');
     }
-    public function showComparisonForm(){
+    public function showComparisonForm()
+    {
         return view('publicComparison');
     }
     public function searchingData(Request $request)
@@ -158,8 +157,7 @@ class VisitorController extends Controller
 
         if (!empty($dataArrayOfCodeforces)) {
             $mergedData = array_merge($mergedData, $dataArrayOfCodeforces);
-        }
-        else $message[] = "No codeforces data found.";
+        } else $message[] = "No codeforces data found.";
 
 
         if (!empty($dataArrayOfVjudge)) {
@@ -173,7 +171,7 @@ class VisitorController extends Controller
                 }
             }
             $mergedData = array_merge($mergedData, $dataArrayOfVjudge);
-        } else $message[] ="No vjudge data found.";
+        } else $message[] = "No vjudge data found.";
 
         if (!empty($dataArrayOfSpoj)) {
             $mergedData = array_merge($mergedData, $dataArrayOfSpoj);
@@ -220,7 +218,8 @@ class VisitorController extends Controller
 
 
 
-    public function showComparison(Request $request){
+    public function showComparison(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'user_1_codeforcesHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
             'user_1_vjudgeHandle' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
@@ -311,9 +310,9 @@ class VisitorController extends Controller
             foreach ($dataArrayOfVjudge_User_1 as &$item) {
                 if ($item[2] === 'CodeForces') {
                     $item[2] = 'codeforces';
-                }elseif ($item[2] === 'SPOJ') {
+                } elseif ($item[2] === 'SPOJ') {
                     $item[2] = 'spoj';
-                } else{
+                } else {
                     $item[2] = 'vjudge';
                 }
             }
@@ -337,9 +336,9 @@ class VisitorController extends Controller
             foreach ($dataArrayOfVjudge_User_2 as &$item) {
                 if ($item[2] === 'CodeForces') {
                     $item[2] = 'codeforces';
-                }elseif ($item[2] === 'SPOJ') {
+                } elseif ($item[2] === 'SPOJ') {
                     $item[2] = 'spoj';
-                } else{
+                } else {
                     $item[2] = 'vjudge';
                 }
             }
@@ -352,7 +351,7 @@ class VisitorController extends Controller
         if (!empty($dataArrayOfSpoj_User_2)) {
             $mergedData_User_2 = array_merge($mergedData_User_2, $dataArrayOfSpoj_User_2);
         }
-        $codeforcesTotalProblems_User_1=[];
+        $codeforcesTotalProblems_User_1 = [];
         $vjudgeTotalProblems_User_1 = [];
         $spojTotalProblems_User_1 = [];
 
@@ -361,12 +360,10 @@ class VisitorController extends Controller
             if ($item[2] === 'codeforces' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $codeforcesTotalProblems_User_1[] = $name;
-            }
-            elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
+            } elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $vjudgeTotalProblems_User_1[] = $name;
-            }
-            elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
+            } elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $spojTotalProblems_User_1[] = $name;
             }
@@ -385,7 +382,7 @@ class VisitorController extends Controller
         //counting for user 2
 
 
-        $codeforcesTotalProblems_User_2=[];
+        $codeforcesTotalProblems_User_2 = [];
         $vjudgeTotalProblems_User_2 = [];
         $spojTotalProblems_User_2 = [];
 
@@ -393,12 +390,10 @@ class VisitorController extends Controller
             if ($item[2] === 'codeforces' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $codeforcesTotalProblems_User_2[] = $name;
-            }
-            elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
+            } elseif ($item[2] === 'vjudge' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $vjudgeTotalProblems_User_2[] = $name;
-            }
-            elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
+            } elseif ($item[2] === 'spoj' && $item[3] === 'Accepted') {
                 $name = $item[1];
                 $spojTotalProblems_User_2[] = $name;
             }
@@ -458,11 +453,7 @@ class VisitorController extends Controller
         // print_r($language_User_1);
         // print_r($language_User_2);
 
-        return view('comparisonResult',compact('totalCodeforcesSolved_User_1','totalVjudgeSolved_User_1','totalSpojSolved_User_1','totalCodeforcesSolved_User_2','totalVjudgeSolved_User_2','totalSpojSolved_User_2','language_User_1', 'language_User_2','verdict_User_1','verdict_User_2'));
-
-
-
-
+        return view('comparisonResult', compact('totalCodeforcesSolved_User_1', 'totalVjudgeSolved_User_1', 'totalSpojSolved_User_1', 'totalCodeforcesSolved_User_2', 'totalVjudgeSolved_User_2', 'totalSpojSolved_User_2', 'language_User_1', 'language_User_2', 'verdict_User_1', 'verdict_User_2'));
     }
 
     public function showJoinRequestForm()

@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Compare</a>
+                        <a class="nav-link" aria-current="page" href="{{ url('comparison-form') }}">Compare</a>
                     </li>
                     <!-- Upcoming feature
                     <li class="nav-item">
@@ -299,7 +299,7 @@
                                     </div>
 
                                     <div class="text-start row mt-4 ms-2 me-2">
-                                    <h5>Last 7 days</h5>
+                                    <h5>Last 10 submissions</h5>
                         <table class="table table-sm mt-2">
                         <thead class="table-dark">
                             <tr>
@@ -308,7 +308,7 @@
                                 <th scope="col">Verdict</th>
                             </tr>
                             </thead>
-                            <tbody id="last-week-submissions-table">
+                            <tbody id="last-10-submissions-table">
                             <!-- Submissions will be added dynamically here -->
                             </tbody>
                         </table>
@@ -347,10 +347,10 @@
                             pieChart2.update();
 
                             // Update the last 7 days' submissions table
-                            var lastWeekSubmissionsTable = document.getElementById('last-week-submissions-table');
-                            lastWeekSubmissionsTable.innerHTML = '';
+                            var last10SubmissionsTable = document.getElementById('last-10-submissions-table');
+                            last10SubmissionsTable.innerHTML = '';
 
-                            data.lastWeekSubmissions.forEach(submission => {
+                            data.last10Submissions.forEach(submission => {
                                 var row = document.createElement('tr');
                                 row.innerHTML = `
                                     <td><a href="${submission.problem_url}" target="_blank">${submission.problem_title}</a></td>
@@ -361,7 +361,7 @@
                                         </span>
                                     </td>
                                 `;
-                                lastWeekSubmissionsTable.appendChild(row);
+                                last10SubmissionsTable.appendChild(row);
                             });
 
                             // Add hover functionality to verdicts in the table
