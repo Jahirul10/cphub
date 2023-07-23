@@ -4,7 +4,7 @@ if (count($argv) < 1) {
     exit(1);
 }
 $handle = $argv[1];
-$url = 'https://codeforces.com/api/user.status?handle=' . $handle . '&from=1&count=10000';
+$url = 'https://codeforces.com/api/user.status?handle=' . $handle . '&from=1&count=100';
 $options = array(
     'http' => array(
         'header' => 'Content-type: application/json',

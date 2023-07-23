@@ -59,7 +59,7 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-2">
-                            <img class="rounded-circle shadow ms-4 mt-4 mb-4" src="{{ asset('images/') }}/pp{{ $student->id }}.png" alt="avatar2" />
+                            <img class="rounded-circle shadow ms-4 mt-4 mb-4" src="{{ asset('images/') }}/pp1.png" alt="avatar2" />
                         </div>
                         <div class="col ps-5">
                             <ul class=" mt-5 ms-5">

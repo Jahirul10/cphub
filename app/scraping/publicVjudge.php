@@ -11,7 +11,7 @@ $uniqueIndexSet = array();
 // Make a GET request to the VJudge API to retrieve the user's submissions
 $base_url = 'https://vjudge.net/status/data?draw=1&start=';
 $batch_size = 20;
-$total_entries = 200;
+$total_entries = 20;
 // $csvheader = array('problem_id', 'Language', 'Submission_Time', 'verdict', 'student_id','submission_id');
 $ourdata = array();
 
