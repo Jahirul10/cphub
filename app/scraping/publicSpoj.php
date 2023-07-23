@@ -2,7 +2,7 @@
 function scrapeSubmissions($handle)
 {
     $start = 0;
-    $maxStart = 100;
+    $maxStart = 10;
     $increment = 20;
     $allData = array();
     $submissionsval=0;

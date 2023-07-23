@@ -248,7 +248,7 @@
                     var studentDetails = document.getElementById('student-details');
 
                     // Update the image path with the studentId variable
-                    var imagePath = "{{ asset('images/') }}" + "/pp" + studentId + ".png";
+                    var imagePath = "{{ asset('images/') }}" + "/pp1.png";
 
                     var studentDetailsContainer = document.getElementById('student-details-container');
 
