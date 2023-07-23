@@ -253,7 +253,7 @@
                                                 },
                                                 title: {
                                                     display: true,
-                                                    text: 'Submission Chart'
+                                                    text: 'Verdicts Chart'
                                                 }
                                             }
                                         }
