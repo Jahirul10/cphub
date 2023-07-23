@@ -54,7 +54,7 @@
         <div class="row">
             <div class="col-9">
                 <div class="card">
-                    
+
 
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
@@ -205,6 +205,10 @@
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Verdicts Chart'
                                 }
                             }
                         }
@@ -230,6 +234,10 @@
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Languages Chart'
                                 }
                             }
                         }
@@ -324,6 +332,22 @@
                         .then(data => {
                             // Handle the response data
                             console.log(data);
+
+                            // Update the link for the Facebook icon
+                            var facebookIconLink = document.querySelector('a[data-original-title="Facebook"]');
+                            var codeforcesHandle = data.codeforcesHandle;
+                            facebookIconLink.href = `https://codeforces.com/profile/${codeforcesHandle}`;
+
+                            // Update the link for the Twitter icon
+                            var twitterIconLink = document.querySelector('a[data-original-title="Twitter"]');
+                            var twitterHandle = data.vjudgeHandle; // Replace 'twitterHandle' with the actual key from the response data
+                            twitterIconLink.href = `https://vjudge.net/user/${twitterHandle}`;
+
+                            // Update the link for the GitHub icon
+                            var githubIconLink = document.querySelector('a[data-original-title="Skype"]');
+                            var githubHandle = data.spojHandle; // Replace 'githubHandle' with the actual key from the response data
+                            githubIconLink.href = `https://www.spoj.com/users/${githubHandle}`;
+                            console.log(twitterHandle, githubHandle);
 
                             // Call the initializePieCharts function
                             initializePieCharts();

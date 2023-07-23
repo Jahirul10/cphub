@@ -112,6 +112,14 @@ class TeacherController extends Controller
         $platforms = ["codeforces", "vjudge", "spoj"];
         $studentId = $id;
 
+        // Retrieve the handles for the given student ID
+        $handles = Handle::where('id', $studentId)->first();
+
+        // If the student's handles are found, you can access them using the following:
+        $codeforcesHandle = $handles->cfhandle;
+        $vjudgeHandle = $handles->vjhandle;
+        $spojHandle = $handles->spojhandle;
+
         //fastest query to get submissions of a student along with problem information
         // Retrieve the submissions of the student from the submissions table
         // Filter by platforms and problem table 'oj' using a JOIN operation
@@ -157,6 +165,9 @@ class TeacherController extends Controller
             'last10Submissions' => $last10Submissions,
             'languagesCount' => $languagesCount,
             'verdictsCount' => $verdictsCount,
+            'codeforcesHandle' => $codeforcesHandle,
+            'vjudgeHandle' => $vjudgeHandle,
+            'spojHandle' => $spojHandle,
         ]);
     }
 
