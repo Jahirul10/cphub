@@ -274,12 +274,12 @@
                         </div>
                     </div>
                     <ul class="social-links list-inline">
-                        <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary" href="" data-original-title="Facebook">
+                        <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-sm" href="" data-original-title="Facebook">
                                 Codeforces
                                 </a>
                                 </li>
-                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary" href="" data-original-title="Twitter">Vjudge</a></li>
-                        <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary" href="" data-original-title="Skype">Spoj</a>
+                                <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-sm" href="" data-original-title="Twitter">Vjudge</a></li>
+                        <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="btn btn-primary btn-sm" href="" data-original-title="Skype">Spoj</a>
                                     </li>
                                     </ul>
 
