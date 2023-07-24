@@ -54,14 +54,7 @@
         <div class="row">
             <div class="col-9">
                 <div class="card">
-                    <div class="input-group input-group-lg m-auto p-3 pb-1">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="search">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                            </svg>
-                        </button>
-                    </div>
+
 
                     <!-- <img src="..." class="card-img-top" alt="..."> -->
                     <div class="card-body">
@@ -212,6 +205,10 @@
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Verdicts Chart'
                                 }
                             }
                         }
@@ -237,6 +234,10 @@
                             plugins: {
                                 legend: {
                                     display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Languages Chart'
                                 }
                             }
                         }
@@ -331,6 +332,22 @@
                         .then(data => {
                             // Handle the response data
                             console.log(data);
+
+                            // Update the link for the Facebook icon
+                            var facebookIconLink = document.querySelector('a[data-original-title="Facebook"]');
+                            var codeforcesHandle = data.codeforcesHandle;
+                            facebookIconLink.href = `https://codeforces.com/profile/${codeforcesHandle}`;
+
+                            // Update the link for the Twitter icon
+                            var twitterIconLink = document.querySelector('a[data-original-title="Twitter"]');
+                            var twitterHandle = data.vjudgeHandle; // Replace 'twitterHandle' with the actual key from the response data
+                            twitterIconLink.href = `https://vjudge.net/user/${twitterHandle}`;
+
+                            // Update the link for the GitHub icon
+                            var githubIconLink = document.querySelector('a[data-original-title="Skype"]');
+                            var githubHandle = data.spojHandle; // Replace 'githubHandle' with the actual key from the response data
+                            githubIconLink.href = `https://www.spoj.com/users/${githubHandle}`;
+                            console.log(twitterHandle, githubHandle);
 
                             // Call the initializePieCharts function
                             initializePieCharts();
