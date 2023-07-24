@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class VisitorController extends Controller
 {
@@ -109,7 +109,7 @@ class VisitorController extends Controller
     public function searchingData(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'codeforces' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
+            'codeforces' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_-]+$/'],
             'vjudge' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
             'spoj' => ['nullable', 'string', 'max:20', 'regex:/^[A-Za-z0-9_]+$/'],
         ], [
